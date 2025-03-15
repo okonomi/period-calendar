@@ -36,7 +36,6 @@ export const App: React.FC = () => {
                 <DateCell 
                   key={`date-${serialNumber-1}`} 
                   date={date} 
-                  serialNumber={serialNumber} 
                 />
               );
             })}
