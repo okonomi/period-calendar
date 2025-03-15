@@ -18,26 +18,34 @@ export const formatDateJP = (date: Date): string => {
 };
 
 // 日付を週ごとにグループ化
-export const groupDatesByWeek = (dates: Date[]): Date[][] => {
-  const weeks: Date[][] = [];
-  let currentWeek: Date[] = [];
+export const groupDatesByWeek = (dates: Date[]): (Date | null)[][] => {
+  const weeks: (Date | null)[][] = [];
+  let currentWeek: (Date | null)[] = [];
   
   dates.forEach((date) => {
-    // Get day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-    let dayOfWeek = date.getDay();
-    // Adjust to have Monday as 0, Sunday as 6
-    dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const dayOfWeek = date.getDay();
     
-    // If it's Monday (adjusted to 0) and not the first date, start a new week
-    if (dayOfWeek === 0 && currentWeek.length > 0) {
+    // If it's Monday (1) and not the first date, start a new week
+    if (dayOfWeek === 1 && currentWeek.length > 0) {
+      // Fill remaining slots with null if needed
+      while (currentWeek.length < 7) {
+        currentWeek.push(null);
+      }
       weeks.push([...currentWeek]);
       currentWeek = [];
     }
     
+    // Add padding at the start of the first week if needed
+    if (currentWeek.length === 0 && dayOfWeek !== 1) {
+      for (let i = 1; i < dayOfWeek; i++) {
+        currentWeek.push(null);
+      }
+    }
+    
     currentWeek.push(date);
     
-    // If it's Sunday (adjusted to 6), end the week
-    if (dayOfWeek === 6) {
+    // If it's Sunday (0), end the week
+    if (dayOfWeek === 0) {
       weeks.push([...currentWeek]);
       currentWeek = [];
     }
@@ -45,6 +53,10 @@ export const groupDatesByWeek = (dates: Date[]): Date[][] => {
   
   // Add any remaining dates in the last week
   if (currentWeek.length > 0) {
+    // Fill remaining slots with null
+    while (currentWeek.length < 7) {
+      currentWeek.push(null);
+    }
     weeks.push(currentWeek);
   }
   

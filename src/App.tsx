@@ -27,14 +27,13 @@ export const App: React.FC = () => {
         {weeklyDates.map((week, weekIndex) => (
           <div key={`week-${weekIndex}`} className="grid grid-cols-7 gap-2">
             {week.map((date, dateIndex) => {
-              // Calculate the overall index for the serial number
-              const serialNumber = weeklyDates
-                .slice(0, weekIndex)
-                .reduce((acc, w) => acc + w.length, 0) + dateIndex + 1;
+              if (!date) {
+                return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-16 bg-gray-50" />;
+              }
               
               return (
                 <DateCell 
-                  key={`date-${serialNumber-1}`} 
+                  key={`date-${date.getTime()}`} 
                   date={date} 
                 />
               );
