@@ -25,7 +25,7 @@ export const App: React.FC = () => {
             onNextYear={handleNextYear} 
           />
           
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto bg-white rounded-lg shadow">
             <div className="flex flex-col gap-3 mt-4 w-[600px] mx-auto">
               {weeklyDates.map((week, weekIndex) => (
                 <div key={`week-${weekIndex}`} className="grid grid-cols-7 gap-2">
