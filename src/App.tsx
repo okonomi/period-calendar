@@ -54,10 +54,7 @@ export const App: React.FC = () => {
                   {['月', '火', '水', '木', '金', '土', '日'].map((dayName, index) => (
                     <div 
                       key={`weekday-${index}`} 
-                      className={`h-8 flex items-center justify-center font-medium text-xs
-                        ${index === 5 ? 'text-blue-600' : ''}
-                        ${index === 6 ? 'text-red-600' : ''}
-                        ${index < 5 ? 'text-gray-700' : ''}`}
+                      className="h-8 flex items-center justify-center font-medium text-xs text-gray-700"
                     >
                       {dayName}
                     </div>
