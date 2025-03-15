@@ -1,24 +1,28 @@
-export type Props = {
+interface YearSelectorProps {
   year: number;
   onPrevYear: () => void;
   onNextYear: () => void;
-};
+}
 
-export const YearSelector: React.FC<Props> = ({ year, onPrevYear, onNextYear }) => {
+export const YearSelector: React.FC<YearSelectorProps> = ({
+  year,
+  onPrevYear,
+  onNextYear,
+}) => {
   return (
-    <div className="flex items-center justify-center gap-4 my-6">
-      <button 
+    <div className="flex items-center justify-center space-x-2">
+      <button
         onClick={onPrevYear}
-        className="bg-blue-500 hover:bg-blue-600 text-black py-2 px-4 rounded transition-colors"
+        className="px-2 py-1 rounded bg-white border border-gray-200 text-xs text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 shadow-sm"
       >
-        前年
+        ◀ 前年
       </button>
-      <span className="text-xl font-medium text-black">{year}年</span>
-      <button 
+      <span className="text-base font-medium text-black">{year}年</span>
+      <button
         onClick={onNextYear}
-        className="bg-blue-500 hover:bg-blue-600 text-black py-2 px-4 rounded transition-colors"
+        className="px-2 py-1 rounded bg-white border border-gray-200 text-xs text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 shadow-sm"
       >
-        次年
+        翌年 ▶
       </button>
     </div>
   );
