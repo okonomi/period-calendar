@@ -25,7 +25,7 @@ export const App: React.FC = () => {
             onNextYear={handleNextYear} 
           />
           
-          <div className="bg-white rounded-lg shadow mt-4 p-3">
+          <div className="bg-white rounded-lg shadow mt-4 p-3 w-[296px]">
             <div className="flex flex-row mx-auto">
               {/* 左カラム - 月名表示 */}
               <div className="w-12 flex flex-col">
