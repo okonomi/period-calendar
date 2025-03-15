@@ -1,10 +1,9 @@
 import { useState } from 'react'
 
-function App() {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  
-  // Generate all dates from Jan 1 to Dec 31 for the selected year
-  const generateDates = (year: number) => {
+// 日付関連のユーティリティ関数
+const dateUtils = {
+  // 指定された年の全日付を生成
+  generateDates: (year: number): Date[] => {
     const dates = [];
     for (let month = 0; month < 12; month++) {
       // JavaScript months are 0-indexed (0 = January, 11 = December)
@@ -15,17 +14,15 @@ function App() {
       }
     }
     return dates;
-  };
-  
-  const allDates = generateDates(selectedYear);
+  },
 
-  // Function to format date in Japanese style (M月D日)
-  const formatDateJP = (date: Date) => {
+  // 日付を日本語形式でフォーマット (M月D日)
+  formatDateJP: (date: Date): string => {
     return `${date.getMonth() + 1}月${date.getDate()}日`;
-  };
-  
-  // Group dates by weeks starting from Monday
-  const groupDatesByWeek = (dates: Date[]) => {
+  },
+
+  // 日付を週ごとにグループ化
+  groupDatesByWeek: (dates: Date[]): Date[][] => {
     const weeks: Date[][] = [];
     let currentWeek: Date[] = [];
     
@@ -56,71 +53,112 @@ function App() {
     }
     
     return weeks;
-  };
+  }
+};
+
+// 型定義
+type DateCellProps = {
+  date: Date;
+  serialNumber: number;
+};
+
+type YearSelectorProps = {
+  year: number;
+  onPrevYear: () => void;
+  onNextYear: () => void;
+};
+
+// 日付表示用のコンポーネント
+const DateCell = ({ date, serialNumber }: DateCellProps) => {
+  const dayOfWeek = date.getDay();
+  const isSunday = dayOfWeek === 0;
+  const isSaturday = dayOfWeek === 6;
   
-  const weeklyDates = groupDatesByWeek(allDates);
+  return (
+    <div 
+      className={`border rounded-md p-2 flex items-center gap-2 ${
+        isSunday ? 'bg-red-50 border-red-200' : 
+        isSaturday ? 'bg-blue-50 border-blue-200' : 
+        'bg-white border-gray-200'
+      }`}
+    >
+      <span className="bg-gray-100 rounded-full w-7 h-7 flex items-center justify-center font-bold text-sm">
+        {serialNumber}
+      </span>
+      <span className={`text-sm ${
+        isSunday ? 'text-red-600' : 
+        isSaturday ? 'text-blue-600' : 
+        'text-gray-700'
+      }`}>
+        {dateUtils.formatDateJP(date)}
+      </span>
+    </div>
+  );
+};
+
+// 年選択コンポーネント
+const YearSelector = ({ year, onPrevYear, onNextYear }: YearSelectorProps) => {
+  return (
+    <div className="flex items-center justify-center gap-4 my-6">
+      <button 
+        onClick={onPrevYear}
+        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+      >
+        前年
+      </button>
+      <span className="text-xl font-medium">{year}年</span>
+      <button 
+        onClick={onNextYear}
+        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
+      >
+        次年
+      </button>
+    </div>
+  );
+};
+
+// メインアプリケーションコンポーネント
+function App() {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  
+  const allDates = dateUtils.generateDates(selectedYear);
+  const weeklyDates = dateUtils.groupDatesByWeek(allDates);
+  
+  const handlePrevYear = () => setSelectedYear(selectedYear - 1);
+  const handleNextYear = () => setSelectedYear(selectedYear + 1);
   
   return (
     <div className="max-w-4xl mx-auto p-4 font-sans">
       <h1 className="text-3xl font-bold text-center mb-6">シリアルカレンダー {selectedYear}年</h1>
       
-      <div className="flex items-center justify-center gap-4 my-6">
-        <button 
-          onClick={() => setSelectedYear(selectedYear - 1)}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
-        >
-          前年
-        </button>
-        <span className="text-xl font-medium">{selectedYear}年</span>
-        <button 
-          onClick={() => setSelectedYear(selectedYear + 1)}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
-        >
-          次年
-        </button>
-      </div>
+      <YearSelector 
+        year={selectedYear} 
+        onPrevYear={handlePrevYear} 
+        onNextYear={handleNextYear} 
+      />
       
       <div className="flex flex-col gap-3">
         {weeklyDates.map((week, weekIndex) => (
           <div key={`week-${weekIndex}`} className="grid grid-cols-7 gap-2">
             {week.map((date, dateIndex) => {
               // Calculate the overall index for the serial number
-              const overallIndex = weeklyDates
+              const serialNumber = weeklyDates
                 .slice(0, weekIndex)
-                .reduce((acc, w) => acc + w.length, 0) + dateIndex;
-              
-              // 曜日によって色を変える
-              const dayOfWeek = date.getDay();
-              const isSunday = dayOfWeek === 0;
-              const isSaturday = dayOfWeek === 6;
+                .reduce((acc, w) => acc + w.length, 0) + dateIndex + 1;
               
               return (
-                <div 
-                  key={`date-${overallIndex}`} 
-                  className={`border rounded-md p-2 flex items-center gap-2 ${
-                    isSunday ? 'bg-red-50 border-red-200' : 
-                    isSaturday ? 'bg-blue-50 border-blue-200' : 
-                    'bg-white border-gray-200'
-                  }`}
-                >
-                  <span className="bg-gray-100 rounded-full w-7 h-7 flex items-center justify-center font-bold text-sm">
-                    {overallIndex + 1}
-                  </span>
-                  <span className={`text-sm ${
-                    isSunday ? 'text-red-600' : 
-                    isSaturday ? 'text-blue-600' : 
-                    'text-gray-700'
-                  }`}>
-                    {formatDateJP(date)}
-                  </span>
-                </div>
+                <DateCell 
+                  key={`date-${serialNumber-1}`} 
+                  date={date} 
+                  serialNumber={serialNumber} 
+                />
               );
             })}
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default App
