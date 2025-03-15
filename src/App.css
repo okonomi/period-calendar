@@ -40,3 +40,93 @@
 .read-the-docs {
   color: #888;
 }
+
+.calendar-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.year-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.year-selector button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.week-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.date-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.date-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.date-number {
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.date-text {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .week-row {
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+  }
+  
+  .date-item {
+    padding: 5px;
+    gap: 4px;
+    flex-direction: column;
+  }
+  
+  .date-text {
+    font-size: 0.8rem;
+  }
+  
+  .date-list {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
