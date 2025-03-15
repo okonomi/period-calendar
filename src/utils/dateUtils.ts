@@ -1,5 +1,5 @@
 // 指定された年の全日付を生成
-export const generateDates = (year: number): Date[] => {
+export function generateDates(year: number): Date[] {
   const dates = [];
   for (let month = 0; month < 12; month++) {
     // JavaScript months are 0-indexed (0 = January, 11 = December)
@@ -10,17 +10,17 @@ export const generateDates = (year: number): Date[] => {
     }
   }
   return dates;
-};
+}
 
 // 日付を日本語形式でフォーマット (M月D日)
-export const formatDateJP = (date: Date): string => {
+export function formatDateJP(date: Date): string {
   return `${date.getDate()}`;
-};
+}
 
 const DAYS_IN_WEEK = 7;
 
 // 日付を週ごとにグループ化
-export const groupDatesByWeek = (dates: Date[]): (Date | null)[][] => {
+export function groupDatesByWeek(dates: Date[]): (Date | null)[][] {
   if (dates.length === 0) return [];
 
   // 最初の週に必要なパディングを計算
@@ -47,4 +47,4 @@ export const groupDatesByWeek = (dates: Date[]): (Date | null)[][] => {
   }
 
   return weeks;
-};
+}
