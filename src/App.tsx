@@ -51,7 +51,7 @@ export const App: React.FC = () => {
                   <div key={`week-${weekIndex}`} className="grid grid-cols-7">
                     {week.map((date, dateIndex) => {
                       if (!date) {
-                        return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-12 bg-gray-50" />;
+                        return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-12" />;
                       }
                       
                       return (
