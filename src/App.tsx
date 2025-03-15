@@ -51,7 +51,7 @@ export const App: React.FC = () => {
               <div className="flex flex-col">
                 {/* 曜日の行 */}
                 <div className="grid grid-cols-7">
-                  {['日', '月', '火', '水', '木', '金', '土'].map((dayName, index) => (
+                  {['月', '火', '水', '木', '金', '土', '日'].map((dayName, index) => (
                     <div key={`weekday-${index}`} className="h-12 flex items-center justify-center font-medium text-black">
                       {dayName}
                     </div>
