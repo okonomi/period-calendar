@@ -17,48 +17,34 @@ export const formatDateJP = (date: Date): string => {
   return `${date.getDate()}`;
 };
 
+const DAYS_IN_WEEK = 7;
+
 // 日付を週ごとにグループ化
 export const groupDatesByWeek = (dates: Date[]): (Date | null)[][] => {
+  if (dates.length === 0) return [];
+
+  // 最初の週に必要なパディングを計算
+  const firstDate = dates[0];
+  const firstDayOfWeek = firstDate.getDay();
+  const startPadding = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+
+  // 最後の週に必要なパディングを計算
+  const lastDate = dates[dates.length - 1];
+  const lastDayOfWeek = lastDate.getDay();
+  const endPadding = lastDayOfWeek === 0 ? 0 : DAYS_IN_WEEK - lastDayOfWeek;
+
+  // 前後にパディングを追加
+  const paddedDates = [
+    ...Array(startPadding).fill(null),
+    ...dates,
+    ...Array(endPadding).fill(null)
+  ];
+
+  // 7日ずつグループ化
   const weeks: (Date | null)[][] = [];
-  let currentWeek: (Date | null)[] = [];
-  
-  dates.forEach((date) => {
-    const dayOfWeek = date.getDay();
-    
-    // If it's Monday (1) and not the first date, start a new week
-    if (dayOfWeek === 1 && currentWeek.length > 0) {
-      // Fill remaining slots with null if needed
-      while (currentWeek.length < 7) {
-        currentWeek.push(null);
-      }
-      weeks.push([...currentWeek]);
-      currentWeek = [];
-    }
-    
-    // Add padding at the start of the first week if needed
-    if (currentWeek.length === 0 && dayOfWeek !== 1) {
-      for (let i = 1; i < dayOfWeek; i++) {
-        currentWeek.push(null);
-      }
-    }
-    
-    currentWeek.push(date);
-    
-    // If it's Sunday (0), end the week
-    if (dayOfWeek === 0) {
-      weeks.push([...currentWeek]);
-      currentWeek = [];
-    }
-  });
-  
-  // Add any remaining dates in the last week
-  if (currentWeek.length > 0) {
-    // Fill remaining slots with null
-    while (currentWeek.length < 7) {
-      currentWeek.push(null);
-    }
-    weeks.push(currentWeek);
+  for (let i = 0; i < paddedDates.length; i += DAYS_IN_WEEK) {
+    weeks.push(paddedDates.slice(i, i + DAYS_IN_WEEK));
   }
-  
+
   return weeks;
 };
