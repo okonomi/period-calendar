@@ -28,13 +28,13 @@ export const App: React.FC = () => {
           <div className="overflow-x-auto bg-white rounded-lg shadow">
             <div className="flex flex-row mt-4 mx-auto" style={{ width: "700px" }}>
               {/* 左カラム - 月名表示 */}
-              <div className="w-[100px] flex flex-col gap-3">
+              <div className="w-[100px] flex flex-col">
                 {weeklyDates.map((week, weekIndex) => {
                   const firstDayOfMonth = week.find(d => d?.getDate() === 1);
                   const month = firstDayOfMonth?.getMonth();
 
                   return (
-                    <div key={`month-${weekIndex}`} className="h-16 flex items-center justify-center">
+                    <div key={`month-${weekIndex}`} className="h-12 flex items-center justify-center">
                       {month !== undefined && (
                         <span className="text-lg font-medium text-black">
                           {month + 1}月
@@ -46,12 +46,12 @@ export const App: React.FC = () => {
               </div>
 
               {/* 右カラム - カレンダー本体 */}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col">
                 {weeklyDates.map((week, weekIndex) => (
-                  <div key={`week-${weekIndex}`} className="grid grid-cols-7 gap-2">
+                  <div key={`week-${weekIndex}`} className="grid grid-cols-7">
                     {week.map((date, dateIndex) => {
                       if (!date) {
-                        return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-16 bg-gray-50" />;
+                        return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-12 bg-gray-50" />;
                       }
                       
                       return (

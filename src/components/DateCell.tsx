@@ -6,9 +6,9 @@ export type Props = {
 // 日付表示用のコンポーネント
 export const DateCell: React.FC<Props> = ({ date }) => {
   return (
-    <div className="h-16 w-16 p-2 rounded bg-white shrink-0">
-      <div className="text-center text-black">
-        {date.getMonth() + 1}/{date.getDate()}
+    <div className="h-12 w-12 p-2 rounded bg-white shrink-0 flex items-center justify-center">
+      <div className="text-center text-black text-2xl">
+        {date.getDate()}
       </div>
     </div>
   );
