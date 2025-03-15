@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# pnpm
+.pnpm-store/
+pnpm-lock.yaml
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
