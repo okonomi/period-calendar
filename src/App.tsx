@@ -18,7 +18,7 @@ const dateUtils = {
 
   // 日付を日本語形式でフォーマット (M月D日)
   formatDateJP: (date: Date): string => {
-    return `${date.getMonth() + 1}月${date.getDate()}日`;
+    return `${date.getDate()}`;
   },
 
   // 日付を週ごとにグループ化
