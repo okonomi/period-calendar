@@ -1,5 +1,3 @@
-import { formatDateJP } from '../utils/dateUtils';
-
 // 型定義
 export type Props = {
   date: Date;
@@ -9,7 +7,7 @@ export type Props = {
 // 日付表示用のコンポーネント
 export const DateCell: React.FC<Props> = ({ date, serialNumber }) => {
   return (
-    <div className="p-2 border rounded bg-white">
+    <div className="p-2 rounded bg-white">
       <div className="text-xs text-gray-600">{serialNumber}</div>
       <div className="text-center text-black">
         {date.getMonth() + 1}/{date.getDate()}
