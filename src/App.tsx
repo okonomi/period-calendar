@@ -29,6 +29,8 @@ export const App: React.FC = () => {
             <div className="flex flex-row mt-4 mx-auto" style={{ width: "700px" }}>
               {/* 左カラム - 月名表示 */}
               <div className="w-[100px] flex flex-col">
+                {/* スペーサーセル */}
+                <div className="h-12"></div>
                 {weeklyDates.map((week, weekIndex) => {
                   const firstDayOfMonth = week.find(d => d?.getDate() === 1);
                   const month = firstDayOfMonth?.getMonth();
@@ -47,6 +49,15 @@ export const App: React.FC = () => {
 
               {/* 右カラム - カレンダー本体 */}
               <div className="flex flex-col">
+                {/* 曜日の行 */}
+                <div className="grid grid-cols-7">
+                  {['日', '月', '火', '水', '木', '金', '土'].map((dayName, index) => (
+                    <div key={`weekday-${index}`} className="h-12 flex items-center justify-center font-medium text-black">
+                      {dayName}
+                    </div>
+                  ))}
+                </div>
+
                 {weeklyDates.map((week, weekIndex) => (
                   <div key={`week-${weekIndex}`} className="grid grid-cols-7">
                     {week.map((date, dateIndex) => {
