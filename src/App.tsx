@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { clsx } from 'clsx';
 import { DateCell } from './components/DateCell';
 import { YearSelector } from './components/YearSelector';
 import { generateDates, groupDatesByWeek } from './utils/dateUtils';
@@ -54,7 +55,11 @@ export const App: React.FC = () => {
                   {['月', '火', '水', '木', '金', '土', '日'].map((dayName, index) => (
                     <div 
                       key={`weekday-${index}`} 
-                      className="h-8 flex items-center justify-center font-medium text-xs text-gray-700"
+                      className={clsx(
+                        'h-8',
+                        'flex items-center justify-center',
+                        'font-medium text-xs text-gray-700'
+                      )}
                     >
                       {dayName}
                     </div>
