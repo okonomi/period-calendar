@@ -56,3 +56,8 @@ export function groupDatesByWeek(dates: Date[]): (Date | null)[][] {
   }
   return weeks
 }
+
+// 年月を日本語形式でフォーマット (YYYY年M月)
+export function formatYearMonthJP(year: number, month: number): string {
+  return `${year}年${month}月`
+}

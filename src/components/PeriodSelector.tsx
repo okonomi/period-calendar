@@ -1,4 +1,6 @@
 import { clsx } from "clsx"
+import { formatYearMonthJP } from "../utils/dateUtils"
+import { getPeriodRange } from "../utils/periodUtils"
 
 interface YearSelectorProps {
   period: number
@@ -14,12 +16,18 @@ export const PeriodSelector: React.FC<YearSelectorProps> = ({ period, onPrevPeri
     "transition-colors duration-200 shadow-sm"
   )
 
+  const { startYear, startMonth, endYear, endMonth } = getPeriodRange(period)
+  const periodRange = `${formatYearMonthJP(startYear, startMonth)}～${formatYearMonthJP(endYear, endMonth)}`
+
   return (
     <div className="flex items-center justify-center space-x-2">
       <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
         ◀ 前期
       </button>
-      <span className="text-base font-medium text-black">{period}期</span>
+      <div className="text-center">
+        <div className="text-base font-medium text-black">{period}期</div>
+        <div className="text-xs text-gray-600">{periodRange}</div>
+      </div>
       <button type="button" onClick={onNextPeriod} className={buttonClasses}>
         来期 ▶
       </button>
