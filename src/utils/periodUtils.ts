@@ -1,10 +1,12 @@
-// 期から年月を計算
-export function getPeriodRange(period: number): {
+export type PeriodInfo = {
   startYear: number
   startMonth: number
   endYear: number
   endMonth: number
-} {
+}
+
+// 期から年月を計算
+export function getPeriodRange(period: number): PeriodInfo {
   // 期は8月開始、翌年7月終了
   // 1期は1999年8月開始
   const startYear = 1999 + (period - 1)
