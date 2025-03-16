@@ -1,6 +1,10 @@
 import { clsx } from "clsx"
 import { formatYearMonthJP } from "../utils/dateUtils"
-import { getPeriodRange } from "../utils/periodUtils"
+import { type PeriodRange, getPeriodRange } from "../utils/periodUtils"
+
+function formatPeriodRange(periodInfo: PeriodRange) {
+  return `${formatYearMonthJP(periodInfo.startYear, periodInfo.startMonth)}～${formatYearMonthJP(periodInfo.endYear, periodInfo.endMonth)}`
+}
 
 interface YearSelectorProps {
   period: number
@@ -16,8 +20,7 @@ export const PeriodSelector: React.FC<YearSelectorProps> = ({ period, onPrevPeri
     "transition-colors duration-200 shadow-sm"
   )
 
-  const { startYear, startMonth, endYear, endMonth } = getPeriodRange(period)
-  const periodRange = `${formatYearMonthJP(startYear, startMonth)}～${formatYearMonthJP(endYear, endMonth)}`
+  const periodRange = formatPeriodRange(getPeriodRange(period))
 
   return (
     <div className="flex items-center justify-center space-x-2">
