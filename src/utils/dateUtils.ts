@@ -23,11 +23,6 @@ export function generateDatesForYear(year: number): Date[] {
   return generateDates(year, 1, year, 12)
 }
 
-// 日付を日本語形式でフォーマット (M月D日)
-export function formatDateJP(date: Date): string {
-  return `${date.getDate()}`
-}
-
 const DAYS_IN_WEEK = 7
 
 // 日付を週ごとにグループ化
