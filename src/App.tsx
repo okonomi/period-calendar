@@ -7,7 +7,7 @@ import { generateDates } from "./utils/dateUtils"
 export const App: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
-  const allDates = generateDates(selectedYear, 1, selectedYear, 12)
+  const allDates = generateDates(selectedYear, 8, selectedYear + 1, 7)
 
   const handlePrevYear = () => setSelectedYear(selectedYear - 1)
   const handleNextYear = () => setSelectedYear(selectedYear + 1)
