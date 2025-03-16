@@ -18,11 +18,15 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-2 py-6">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <YearSelector year={selectedYear} onPrevYear={handlePrevYear} onNextYear={handleNextYear} />
-          <Calendar dates={firstHalfDates} />
-          <div className="mt-8">
-            <Calendar dates={secondHalfDates} />
+          <div className="flex gap-8 justify-center">
+            <div className="shrink">
+              <Calendar dates={firstHalfDates} />
+            </div>
+            <div className="shrink">
+              <Calendar dates={secondHalfDates} />
+            </div>
           </div>
         </div>
       </div>
