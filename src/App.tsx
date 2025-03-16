@@ -25,13 +25,16 @@ export const App: React.FC = () => {
               {/* 左カラム - 月名表示 */}
               <div className="w-12 flex flex-col">
                 {/* スペーサーセル */}
-                <div className="h-8"></div>
+                <div className="h-8" />
                 {weeklyDates.map((week, weekIndex) => {
                   const firstDayOfMonth = week.find((d) => d?.getDate() === 1)
                   const month = firstDayOfMonth?.getMonth()
+                  const monthKey = firstDayOfMonth
+                    ? `month-${firstDayOfMonth.getFullYear()}-${firstDayOfMonth.getMonth()}`
+                    : `empty-month-${weekIndex}`
 
                   return (
-                    <div key={`month-${weekIndex}`} className="h-8 flex items-center justify-center">
+                    <div key={monthKey} className="h-8 flex items-center justify-center">
                       {month !== undefined && <span className="text-sm font-medium text-gray-700">{month + 1}月</span>}
                     </div>
                   )
@@ -42,9 +45,9 @@ export const App: React.FC = () => {
               <div className="flex-1 flex flex-col min-w-0">
                 {/* 曜日の行 */}
                 <div className="grid grid-cols-7 border-b border-gray-200">
-                  {["月", "火", "水", "木", "金", "土", "日"].map((dayName, index) => (
+                  {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
                     <div
-                      key={`weekday-${index}`}
+                      key={`weekday-${dayName}`}
                       className={clsx("h-8", "flex items-center justify-center", "font-medium text-xs text-gray-700")}
                     >
                       {dayName}
@@ -52,17 +55,29 @@ export const App: React.FC = () => {
                   ))}
                 </div>
 
-                {weeklyDates.map((week, weekIndex) => (
-                  <div key={`week-${weekIndex}`} className="grid grid-cols-7">
-                    {week.map((date, dateIndex) => {
-                      if (!date) {
-                        return <div key={`spacer-${weekIndex}-${dateIndex}`} className="h-8" />
-                      }
+                {weeklyDates.map((week) => {
+                  // Create a stable identifier for the week based on its first valid date
+                  const firstValidDate = week.find((date) => date !== null)
+                  const weekStart = firstValidDate
+                    ? `${firstValidDate.getFullYear()}-${firstValidDate.getMonth()}-${firstValidDate.getDate()}`
+                    : `empty-${selectedYear}-${week[0]?.toString() || "null"}`
 
-                      return <DateCell key={`date-${date.getTime()}`} date={date} />
-                    })}
-                  </div>
-                ))}
+                  return (
+                    <div key={`week-${weekStart}`} className="grid grid-cols-7">
+                      {week.map((date, dateIndex) => {
+                        if (!date) {
+                          // Create a stable position-based key that doesn't rely on the index itself
+                          // Use absolute day position in the calendar grid for spacers (day of week)
+                          const dayOfWeek = dateIndex
+                          const spacerKey = `spacer-${weekStart}-day${dayOfWeek}`
+                          return <div key={spacerKey} className="h-8" />
+                        }
+
+                        return <DateCell key={`date-${date.getTime()}`} date={date} />
+                      })}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>

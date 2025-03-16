@@ -16,11 +16,11 @@ export const YearSelector: React.FC<YearSelectorProps> = ({ year, onPrevYear, on
 
   return (
     <div className="flex items-center justify-center space-x-2">
-      <button onClick={onPrevYear} className={buttonClasses}>
+      <button type="button" onClick={onPrevYear} className={buttonClasses}>
         ◀ 前年
       </button>
       <span className="text-base font-medium text-black">{year}年</span>
-      <button onClick={onNextYear} className={buttonClasses}>
+      <button type="button" onClick={onNextYear} className={buttonClasses}>
         翌年 ▶
       </button>
     </div>
