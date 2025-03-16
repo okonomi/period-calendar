@@ -6,8 +6,8 @@ export function getPeriodRange(period: number): {
   endMonth: number
 } {
   // 期は8月開始、翌年7月終了
-  // 25期が2023年8月開始なので、25から引いて2023を足す
-  const startYear = 2023 + (period - 25)
+  // 1期は1999年8月開始
+  const startYear = 1999 + (period - 1)
   const startMonth = 8
   const endYear = startYear + 1
   const endMonth = 7
