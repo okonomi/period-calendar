@@ -56,3 +56,27 @@ export function groupDatesByWeek(dates: Date[]): (Date | null)[][] {
 export function formatYearMonthJP(year: number, month: number): string {
   return `${year}年${month}月`
 }
+
+// 同じ日付かどうかを判定
+export function isSameDate(date1: Date, date2: Date): boolean {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  )
+}
+
+// メモ化された今日の日付を返す
+let cachedToday: Date | null = null
+
+export function getToday(): Date {
+  if (!cachedToday) {
+    cachedToday = new Date()
+  }
+
+  return cachedToday
+}
+
+export function isToday(date: Date): boolean {
+  return isSameDate(date, getToday())
+}
