@@ -1,7 +1,7 @@
 import { clsx } from "clsx"
 import { useState } from "react"
 import { useHolidays } from "../hooks/use-holidays"
-import { isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
+import { formatDate, isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
 
 interface DateCellProps {
   date: Date
@@ -13,7 +13,7 @@ export const DateCell: React.FC<DateCellProps> = ({ date }) => {
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null)
 
   const handleMouseEnter = (event: React.MouseEvent) => {
-    const dateString = date.toISOString().split("T")[0]
+    const dateString = formatDate(date)
     if (holidays[dateString]) {
       setTooltip(holidays[dateString].name)
       const rect = event.currentTarget.getBoundingClientRect()

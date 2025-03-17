@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { getDateNum, isFirstDayOfMonth, isPastDate } from "./dateUtils"
+import { formatDate, getDateNum, isFirstDayOfMonth, isPastDate } from "./dateUtils"
 
 describe("getDateNum", () => {
   it("should return the date number", () => {
@@ -43,5 +43,22 @@ describe("isFirstDayOfMonth", () => {
   it("should return false for other days of the month", () => {
     const date = new Date("2022-01-02")
     expect(isFirstDayOfMonth(date)).toBe(false)
+  })
+})
+
+describe("formatDate", () => {
+  it("should format a date with single digit month and day", () => {
+    const date = new Date("2023-01-05")
+    expect(formatDate(date)).toBe("2023-01-05")
+  })
+
+  it("should format a date with double digit month and day", () => {
+    const date = new Date("2023-12-25")
+    expect(formatDate(date)).toBe("2023-12-25")
+  })
+
+  it("should ignore time component and format only the date part", () => {
+    const date = new Date("2023-06-15T14:30:45.123Z")
+    expect(formatDate(date)).toBe("2023-06-15")
   })
 })
