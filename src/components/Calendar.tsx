@@ -8,7 +8,7 @@ function generateMonthKey(firstDayOfMonth: Date | null | undefined, weekIndex: n
     : `empty-month-${weekIndex}`
 }
 
-function generateWeekKey(firstValidDate: Date | undefined) {
+function generateWeekKey(firstValidDate: Date | null | undefined) {
   return firstValidDate
     ? `${firstValidDate.getFullYear()}-${firstValidDate.getMonth()}-${firstValidDate.getDate()}`
     : `empty-${Math.random()}`
@@ -34,12 +34,16 @@ export const Calendar: React.FC<CalendarProps> = ({ dates }) => {
           <div className="h-8" />
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.getDate() === 1)
-            const month = firstDayOfMonth?.getMonth()
+            if (!firstDayOfMonth) {
+              return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-8" />
+            }
+
+            const month = firstDayOfMonth.getMonth()
             const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
 
             return (
               <div key={monthKey} className="h-8 flex items-center justify-center">
-                {month !== undefined && <span className="text-sm font-medium text-gray-700">{month + 1}月</span>}
+                <span className="text-sm font-medium text-gray-700">{month + 1}月</span>
               </div>
             )
           })}
@@ -60,7 +64,7 @@ export const Calendar: React.FC<CalendarProps> = ({ dates }) => {
           </div>
 
           {weeklyDates.map((week) => {
-            const firstValidDate = week.find((date) => date !== null)
+            const firstValidDate = week.find((date) => date !== null) || null
             const weekStart = generateWeekKey(firstValidDate)
 
             return (
