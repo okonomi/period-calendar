@@ -17,7 +17,9 @@ export const DateCell: React.FC<DateCellProps> = ({ date }) => {
     if (holidays[dateString]) {
       setTooltip(holidays[dateString].name)
       const rect = event.currentTarget.getBoundingClientRect()
-      setTooltipPosition({ top: rect.top - 30, left: rect.left + rect.width / 2 })
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
+      setTooltipPosition({ top: rect.top + scrollTop - 30, left: rect.left + scrollLeft + rect.width / 2 })
     }
   }
 
