@@ -38,12 +38,12 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-8" />
             }
 
-            const month = firstDayOfMonth.getMonth()
+            const month = firstDayOfMonth.getMonth() + 1
             const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
 
             return (
               <div key={monthKey} className="h-8 flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">{month + 1}月</span>
+                <span className="text-sm font-medium text-gray-700">{month}月</span>
               </div>
             )
           })}
