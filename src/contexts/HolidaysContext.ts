@@ -1,3 +1,4 @@
 import { createContext } from "react"
+import type { Holiday } from "../types/Holiday"
 
-export const HolidaysContext = createContext<Record<string, { date: Date; name: string }>>({})
+export const HolidaysContext = createContext<Record<string, Holiday>>({})

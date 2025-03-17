@@ -1,3 +1,5 @@
+import type { Holiday } from "../types/Holiday"
+
 // 指定された期間の全日付を生成
 export function generateDates(startYear: number, startMonth: number, endYear: number, endMonth: number): Date[] {
   const dates = []
@@ -93,7 +95,7 @@ export function isFirstDayOfMonth(date: Date): boolean {
   return date.getDate() === 1
 }
 
-export function isHoliday(date: Date, holidays: Record<string, { date: Date; name: string }>): boolean {
+export function isHoliday(date: Date, holidays: Record<string, Holiday>): boolean {
   const dateString = date.toISOString().split("T")[0]
   return dateString in holidays
 }
