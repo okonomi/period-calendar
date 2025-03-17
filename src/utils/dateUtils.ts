@@ -92,3 +92,7 @@ export function isPastDate(date: Date, today: Date | null = null): boolean {
 export function isFirstDayOfMonth(date: Date): boolean {
   return date.getDate() === 1
 }
+
+export function isHoliday(date: Date, holidays: Date[]): boolean {
+  return holidays.some((holiday) => isSameDate(date, holiday))
+}
