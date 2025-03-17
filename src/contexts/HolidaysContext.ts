@@ -1,3 +1,3 @@
 import { createContext } from "react"
 
-export const HolidaysContext = createContext<Date[]>([])
+export const HolidaysContext = createContext<Record<string, Date>>({})
