@@ -2,6 +2,7 @@ import { clsx } from "clsx"
 import { useState } from "react"
 import { useHolidays } from "../hooks/use-holidays"
 import { formatDate, isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
+import { Tooltip } from "./Tooltip"
 
 type Props = {
   date: Date
@@ -46,14 +47,7 @@ export const DateCell: React.FC<Props> = ({ date }) => {
       onMouseLeave={handleMouseLeave}
     >
       {date.getDate()}
-      {tooltip && tooltipPosition && (
-        <div
-          className="absolute bg-black text-white text-xs rounded py-1 px-2"
-          style={{ top: tooltipPosition.top, left: tooltipPosition.left, transform: "translateX(-50%)" }}
-        >
-          {tooltip}
-        </div>
-      )}
+      {tooltip && tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
     </div>
   )
 }
