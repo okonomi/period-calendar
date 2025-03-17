@@ -3,11 +3,11 @@ import { useState } from "react"
 import { useHolidays } from "../hooks/use-holidays"
 import { formatDate, isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
 
-interface DateCellProps {
+type Props = {
   date: Date
 }
 
-export const DateCell: React.FC<DateCellProps> = ({ date }) => {
+export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
   const [tooltip, setTooltip] = useState<string | null>(null)
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null)

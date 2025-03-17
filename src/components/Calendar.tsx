@@ -18,11 +18,11 @@ function generateSpacerKey(weekStart: string, dayOfWeek: number) {
   return `spacer-${weekStart}-day${dayOfWeek}`
 }
 
-interface CalendarProps {
+type Props = {
   dates: Date[]
 }
 
-export const Calendar: React.FC<CalendarProps> = ({ dates }) => {
+export const Calendar: React.FC<Props> = ({ dates }) => {
   const weeklyDates = groupDatesByWeek(dates)
 
   return (

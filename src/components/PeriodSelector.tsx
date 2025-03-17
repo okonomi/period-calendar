@@ -7,13 +7,13 @@ function formatPeriodRange(periodInfo: PeriodRange) {
   return `${formatYearMonthJP(periodInfo.startYear, periodInfo.startMonth)}～${formatYearMonthJP(periodInfo.endYear, periodInfo.endMonth)}`
 }
 
-interface YearSelectorProps {
+type Props = {
   period: number
   onPrevPeriod: () => void
   onNextPeriod: () => void
 }
 
-export const PeriodSelector: React.FC<YearSelectorProps> = ({ period, onPrevPeriod, onNextPeriod }) => {
+export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPeriod }) => {
   const buttonClasses = clsx(
     "px-2 py-1 rounded bg-white",
     "border border-gray-200 text-xs text-gray-600",
