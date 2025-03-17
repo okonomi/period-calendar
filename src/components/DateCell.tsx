@@ -28,7 +28,11 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   )
 
   return (
-    <div className={cellClassName} onMouseEnter={(e) => handleMouseEnter(e, !!tooltip)} onMouseLeave={handleMouseLeave}>
+    <div
+      className={cellClassName}
+      onMouseEnter={(e) => !!tooltip && handleMouseEnter(e)}
+      onMouseLeave={handleMouseLeave}
+    >
       {date.getDate()}
       {tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
     </div>
