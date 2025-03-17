@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { getDateNum, isPastDate } from "./dateUtils"
+import { getDateNum, isFirstDayOfMonth, isPastDate } from "./dateUtils"
 
 describe("getDateNum", () => {
   it("should return the date number", () => {
@@ -31,5 +31,17 @@ describe("isPastDate", () => {
     const today = new Date()
     today.setHours(1, 0, 0, 0)
     expect(isPastDate(date, today)).toBe(false)
+  })
+})
+
+describe("isFirstDayOfMonth", () => {
+  it("should return true for the first day of the month", () => {
+    const date = new Date("2022-01-01")
+    expect(isFirstDayOfMonth(date)).toBe(true)
+  })
+
+  it("should return false for other days of the month", () => {
+    const date = new Date("2022-01-02")
+    expect(isFirstDayOfMonth(date)).toBe(false)
   })
 })

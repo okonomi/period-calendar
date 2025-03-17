@@ -88,3 +88,7 @@ export function getDateNum(date: Date): number {
 export function isPastDate(date: Date, today: Date | null = null): boolean {
   return getDateNum(date) < getDateNum(today ?? getToday())
 }
+
+export function isFirstDayOfMonth(date: Date): boolean {
+  return date.getDate() === 1
+}

@@ -1,13 +1,11 @@
 import { clsx } from "clsx"
-import { isPastDate, isToday } from "../utils/dateUtils"
+import { isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
 
 interface DateCellProps {
   date: Date
 }
 
 export const DateCell: React.FC<DateCellProps> = ({ date }) => {
-  const isFirstDayOfMonth = date.getDate() === 1
-
   return (
     <div
       className={clsx(
@@ -16,7 +14,7 @@ export const DateCell: React.FC<DateCellProps> = ({ date }) => {
         "text-xs text-gray-700",
         "hover:bg-gray-50 transition-colors duration-200",
         {
-          "bg-blue-50": isFirstDayOfMonth,
+          "bg-blue-50": isFirstDayOfMonth(date),
           "bg-green-100 font-bold": isToday(date),
           "opacity-50": isPastDate(date),
         }
