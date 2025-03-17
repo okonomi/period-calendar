@@ -14,8 +14,10 @@ export const HolidaysProvider: React.FC<React.PropsWithChildren<{ period: number
   const [holidays, setHolidays] = useState<Date[]>([])
 
   useEffect(() => {
-    const { startYear } = getPeriodRange(period)
-    fetchHolidays(startYear).then((holidayDates) => setHolidays(holidayDates))
+    const { startYear, endYear } = getPeriodRange(period)
+    Promise.all([fetchHolidays(startYear), fetchHolidays(endYear)]).then(([startYearHolidays, endYearHolidays]) => {
+      setHolidays([...startYearHolidays, ...endYearHolidays])
+    })
   }, [period])
 
   return <HolidaysContext.Provider value={holidays}>{children}</HolidaysContext.Provider>
