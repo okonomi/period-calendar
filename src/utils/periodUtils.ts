@@ -16,3 +16,14 @@ export function getPeriodRange(period: number): PeriodRange {
 
   return { startYear, startMonth, endYear, endMonth }
 }
+
+// 現在の日付から期を計算する
+export function calculateInitialPeriod(today: Date): number {
+  const currentYear = today.getFullYear()
+  const currentMonth = today.getMonth() + 1 // 0-based to 1-based
+
+  // 8月以降は次の期になる
+  // 例: 2024年8月以降は26期（2024年度）
+  //     2024年7月以前は25期（2023年度）
+  return currentMonth >= 8 ? currentYear - 1998 : currentYear - 1999
+}

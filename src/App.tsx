@@ -2,23 +2,12 @@ import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { HolidaysProvider } from "./providers/HolidaysProvider"
-import { generateDates } from "./utils/dateUtils"
-
-// 現在の日付から期を計算する
-function calculateInitialPeriod() {
-  const today = new Date()
-  const currentYear = today.getFullYear()
-  const currentMonth = today.getMonth() + 1 // 0-based to 1-based
-
-  // 8月以降は次の期になる
-  // 例: 2024年8月以降は26期（2024年度）
-  //     2024年7月以前は25期（2023年度）
-  return currentMonth >= 8 ? currentYear - 1998 : currentYear - 1999
-}
+import { generateDates, getToday } from "./utils/dateUtils"
+import { calculateInitialPeriod } from "./utils/periodUtils"
 
 // メインアプリケーションコンポーネント
 export const App: React.FC = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState(calculateInitialPeriod())
+  const [selectedPeriod, setSelectedPeriod] = useState(calculateInitialPeriod(getToday()))
 
   // selectedPeriod から currentYear を計算
   // 例: 26期 (2024年8月〜2025年7月) → 2024年
