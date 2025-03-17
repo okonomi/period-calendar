@@ -2,6 +2,22 @@ import { clsx } from "clsx"
 import { groupDatesByWeek } from "../utils/dateUtils"
 import { DateCell } from "./DateCell"
 
+function generateMonthKey(firstDayOfMonth: Date | null | undefined, weekIndex: number) {
+  return firstDayOfMonth
+    ? `month-${firstDayOfMonth.getFullYear()}-${firstDayOfMonth.getMonth()}`
+    : `empty-month-${weekIndex}`
+}
+
+function generateWeekKey(firstValidDate: Date | undefined) {
+  return firstValidDate
+    ? `${firstValidDate.getFullYear()}-${firstValidDate.getMonth()}-${firstValidDate.getDate()}`
+    : `empty-${Math.random()}`
+}
+
+function generateSpacerKey(weekStart: string, dayOfWeek: number) {
+  return `spacer-${weekStart}-day${dayOfWeek}`
+}
+
 interface CalendarProps {
   dates: Date[]
 }
@@ -19,9 +35,7 @@ export const Calendar: React.FC<CalendarProps> = ({ dates }) => {
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.getDate() === 1)
             const month = firstDayOfMonth?.getMonth()
-            const monthKey = firstDayOfMonth
-              ? `month-${firstDayOfMonth.getFullYear()}-${firstDayOfMonth.getMonth()}`
-              : `empty-month-${weekIndex}`
+            const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
 
             return (
               <div key={monthKey} className="h-8 flex items-center justify-center">
@@ -46,20 +60,15 @@ export const Calendar: React.FC<CalendarProps> = ({ dates }) => {
           </div>
 
           {weeklyDates.map((week) => {
-            // Create a stable identifier for the week based on its first valid date
             const firstValidDate = week.find((date) => date !== null)
-            const weekStart = firstValidDate
-              ? `${firstValidDate.getFullYear()}-${firstValidDate.getMonth()}-${firstValidDate.getDate()}`
-              : `empty-${Math.random()}`
+            const weekStart = generateWeekKey(firstValidDate)
 
             return (
               <div key={`week-${weekStart}`} className="grid grid-cols-7">
                 {week.map((date, dateIndex) => {
                   if (!date) {
-                    // Create a stable position-based key that doesn't rely on the index itself
-                    // Use absolute day position in the calendar grid for spacers (day of week)
                     const dayOfWeek = dateIndex
-                    const spacerKey = `spacer-${weekStart}-day${dayOfWeek}`
+                    const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
                     return <div key={spacerKey} className="h-8" />
                   }
 
