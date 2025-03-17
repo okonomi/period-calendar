@@ -1,6 +1,7 @@
 import { clsx } from "clsx"
+import type { PeriodRange } from "../types/PeriodRange"
 import { formatYearMonthJP } from "../utils/dateUtils"
-import { type PeriodRange, getPeriodRange } from "../utils/periodUtils"
+import { getPeriodRange } from "../utils/periodUtils"
 
 function formatPeriodRange(periodInfo: PeriodRange) {
   return `${formatYearMonthJP(periodInfo.startYear, periodInfo.startMonth)}～${formatYearMonthJP(periodInfo.endYear, periodInfo.endMonth)}`
