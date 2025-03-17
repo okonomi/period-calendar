@@ -1,7 +1,7 @@
 import { clsx } from "clsx"
 import { useState } from "react"
 import { useHolidays } from "../hooks/use-holidays"
-import { formatDate, isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
+import { getHoliday, isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
 import { Tooltip } from "./Tooltip"
 
 type Props = {
@@ -10,13 +10,13 @@ type Props = {
 
 export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
-  const [tooltip, setTooltip] = useState<string | null>(null)
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null)
 
+  const holiday = getHoliday(date, holidays)
+  const tooltip = holiday?.name ?? ""
+
   const handleMouseEnter = (event: React.MouseEvent) => {
-    const dateString = formatDate(date)
-    if (holidays[dateString]) {
-      setTooltip(holidays[dateString].name)
+    if (tooltip) {
       const rect = event.currentTarget.getBoundingClientRect()
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
       const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
@@ -25,7 +25,6 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   }
 
   const handleMouseLeave = () => {
-    setTooltip(null)
     setTooltipPosition(null)
   }
 
@@ -40,14 +39,14 @@ export const DateCell: React.FC<Props> = ({ date }) => {
           "bg-blue-50": isFirstDayOfMonth(date),
           "bg-green-100 font-bold": isToday(date),
           "opacity-50": isPastDate(date),
-          "text-red-500": isHoliday(date, holidays),
+          "text-red-500": !!holiday,
         }
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {date.getDate()}
-      {tooltip && tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
+      {tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
     </div>
   )
 }
