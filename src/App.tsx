@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)
 
   return (
-    <HolidaysProvider>
+    <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-2 py-6">
           <div className="max-w-5xl mx-auto">
