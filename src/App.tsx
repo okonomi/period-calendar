@@ -2,21 +2,20 @@ import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { HolidaysProvider } from "./providers/HolidaysProvider"
+import type { PeriodRange } from "./types/PeriodRange"
 import { generateDates, getToday } from "./utils/dateUtils"
-import { calculateInitialPeriod } from "./utils/periodUtils"
+import { calculateInitialPeriod, getFirstHalfPeriodRange, getSecondHalfPeriodRange } from "./utils/periodUtils"
+
+function generateDatesFromPeriodRange(periodRange: PeriodRange): Date[] {
+  return generateDates(periodRange.startYear, periodRange.startMonth, periodRange.endYear, periodRange.endMonth)
+}
 
 // メインアプリケーションコンポーネント
 export const App: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState(calculateInitialPeriod(getToday()))
 
-  // selectedPeriod から currentYear を計算
-  // 例: 26期 (2024年8月〜2025年7月) → 2024年
-  const currentYear = 1998 + selectedPeriod
-
-  // 前半6か月（8月から1月）のデータ
-  const firstHalfDates = generateDates(currentYear, 8, currentYear + 1, 1)
-  // 後半6か月（2月から7月）のデータ
-  const secondHalfDates = generateDates(currentYear + 1, 2, currentYear + 1, 7)
+  const firstHalfDates = generateDatesFromPeriodRange(getFirstHalfPeriodRange(selectedPeriod))
+  const secondHalfDates = generateDatesFromPeriodRange(getSecondHalfPeriodRange(selectedPeriod))
 
   const handlePrevPeriod = () => setSelectedPeriod(selectedPeriod - 1)
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)
