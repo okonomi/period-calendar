@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Calendar } from "./components/Calendar"
-import { HolidaysProvider } from "./components/DateCell"
 import { PeriodSelector } from "./components/PeriodSelector"
+import { HolidaysProvider } from "./providers/HolidaysProvider"
 import { generateDates } from "./utils/dateUtils"
 
 // 現在の日付から期を計算する

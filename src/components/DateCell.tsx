@@ -1,32 +1,6 @@
 import { clsx } from "clsx"
-import { createContext, useContext, useEffect, useState } from "react"
+import { useHolidays } from "../hooks/use-holidays"
 import { isFirstDayOfMonth, isHoliday, isPastDate, isToday } from "../utils/dateUtils"
-
-// HolidaysContextの作成
-const HolidaysContext = createContext<Date[]>([])
-
-function useHolidays(): Date[] {
-  return useContext(HolidaysContext)
-}
-
-async function fetchHolidays() {
-  const date = new Date()
-  const response = await fetch(`https://holidays-jp.github.io/api/v1/${date.getFullYear()}/date.json`)
-  const data = await response.json()
-  const holidayDates = Object.keys(data).map((dateString) => new Date(dateString))
-  return holidayDates
-}
-
-// HolidaysProviderコンポーネントの作成
-export const HolidaysProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [holidays, setHolidays] = useState<Date[]>([])
-
-  useEffect(() => {
-    fetchHolidays().then((holidayDates) => setHolidays(holidayDates))
-  }, [])
-
-  return <HolidaysContext.Provider value={holidays}>{children}</HolidaysContext.Provider>
-}
 
 interface DateCellProps {
   date: Date
