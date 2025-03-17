@@ -1,9 +1,4 @@
-export type PeriodRange = {
-  startYear: number
-  startMonth: number
-  endYear: number
-  endMonth: number
-}
+import type { PeriodRange } from "../types/PeriodRange"
 
 // 期から年月を計算
 export function getPeriodRange(period: number): PeriodRange {
