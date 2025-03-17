@@ -2,7 +2,7 @@ import { clsx } from "clsx"
 import { useState } from "react"
 import { useHolidays } from "../hooks/use-holidays"
 import { getHoliday, isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
-import { Tooltip } from "./Tooltip"
+import { Tooltip, type TooltipPosition } from "./Tooltip"
 
 type Props = {
   date: Date
@@ -10,7 +10,7 @@ type Props = {
 
 export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
-  const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null)
+  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null)
 
   const holiday = getHoliday(date, holidays)
   const tooltip = holiday?.name ?? ""

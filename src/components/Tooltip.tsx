@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react"
 
+export type TooltipPosition = { top: number; left: number }
+
 type Props = {
   text: string
-  position: { top: number; left: number }
+  position: TooltipPosition
 }
 
 export const Tooltip: React.FC<Props> = ({ text, position }) => {
