@@ -93,7 +93,7 @@ export function isFirstDayOfMonth(date: Date): boolean {
   return date.getDate() === 1
 }
 
-export function isHoliday(date: Date, holidays: Record<string, Date>): boolean {
+export function isHoliday(date: Date, holidays: Record<string, { date: Date; name: string }>): boolean {
   const dateString = date.toISOString().split("T")[0]
   return dateString in holidays
 }
