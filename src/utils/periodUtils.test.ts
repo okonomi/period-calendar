@@ -1,8 +1,15 @@
 import { describe, expect, it } from "vitest"
-import { getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./periodUtils"
+import { type Settings, defaultSettings } from "../types/Settings"
+import {
+  calculateInitialPeriod,
+  getFirstHalfPeriodRange,
+  getPeriodRange,
+  getSecondHalfPeriodRange,
+} from "./periodUtils"
 
 describe("getPeriodRange", () => {
-  it("should return correct date range for period 1", () => {
+  // デフォルト設定でのテスト（従来の動作と互換性があることを確認）
+  it("should return correct date range for period 1 with default settings", () => {
     const result = getPeriodRange(1)
     expect(result).toEqual({
       startYear: 1999,
@@ -12,7 +19,7 @@ describe("getPeriodRange", () => {
     })
   })
 
-  it("should return correct date range for period 25", () => {
+  it("should return correct date range for period 25 with default settings", () => {
     const result = getPeriodRange(25)
     expect(result).toEqual({
       startYear: 2023,
@@ -22,7 +29,7 @@ describe("getPeriodRange", () => {
     })
   })
 
-  it("should return correct date range for period 2", () => {
+  it("should return correct date range for period 2 with default settings", () => {
     const result = getPeriodRange(2)
     expect(result).toEqual({
       startYear: 2000,
@@ -31,10 +38,59 @@ describe("getPeriodRange", () => {
       endMonth: 7,
     })
   })
+
+  // カスタム設定でのテスト
+  it("should return correct date range for period 1 with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 4,
+    }
+
+    const result = getPeriodRange(1, customSettings)
+    expect(result).toEqual({
+      startYear: 2000,
+      startMonth: 4,
+      endYear: 2001,
+      endMonth: 3,
+    })
+  })
+
+  it("should return correct date range for period 10 with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 4,
+    }
+
+    const result = getPeriodRange(10, customSettings)
+    expect(result).toEqual({
+      startYear: 2009,
+      startMonth: 4,
+      endYear: 2010,
+      endMonth: 3,
+    })
+  })
+
+  it("should handle settings with December as first month", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 12,
+    }
+
+    const result = getPeriodRange(1, customSettings)
+    expect(result).toEqual({
+      startYear: 2000,
+      startMonth: 12,
+      endYear: 2001,
+      endMonth: 11,
+    })
+  })
 })
 
 describe("getFirstHalfPeriodRange", () => {
-  it("returns first half range for period 25", () => {
+  it("returns first half range for period 25 with default settings", () => {
     const range = getFirstHalfPeriodRange(25)
     expect(range).toEqual({
       startYear: 2023,
@@ -44,7 +100,7 @@ describe("getFirstHalfPeriodRange", () => {
     })
   })
 
-  it("returns first half range for period 26", () => {
+  it("returns first half range for period 26 with default settings", () => {
     const range = getFirstHalfPeriodRange(26)
     expect(range).toEqual({
       startYear: 2024,
@@ -53,10 +109,42 @@ describe("getFirstHalfPeriodRange", () => {
       endMonth: 1,
     })
   })
+
+  it("returns first half range with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 4,
+    }
+
+    const range = getFirstHalfPeriodRange(5, customSettings)
+    expect(range).toEqual({
+      startYear: 2004,
+      startMonth: 4,
+      endYear: 2004,
+      endMonth: 9,
+    })
+  })
+
+  it("handles month overflow correctly with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 10,
+    }
+
+    const range = getFirstHalfPeriodRange(3, customSettings)
+    expect(range).toEqual({
+      startYear: 2002,
+      startMonth: 10,
+      endYear: 2003,
+      endMonth: 3,
+    })
+  })
 })
 
 describe("getSecondHalfPeriodRange", () => {
-  it("returns second half range for period 25", () => {
+  it("returns second half range for period 25 with default settings", () => {
     const range = getSecondHalfPeriodRange(25)
     expect(range).toEqual({
       startYear: 2024,
@@ -66,7 +154,7 @@ describe("getSecondHalfPeriodRange", () => {
     })
   })
 
-  it("returns second half range for period 26", () => {
+  it("returns second half range for period 26 with default settings", () => {
     const range = getSecondHalfPeriodRange(26)
     expect(range).toEqual({
       startYear: 2025,
@@ -74,5 +162,65 @@ describe("getSecondHalfPeriodRange", () => {
       endYear: 2025,
       endMonth: 7,
     })
+  })
+
+  it("returns second half range with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 4,
+    }
+
+    const range = getSecondHalfPeriodRange(5, customSettings)
+    expect(range).toEqual({
+      startYear: 2004,
+      startMonth: 10,
+      endYear: 2005,
+      endMonth: 3,
+    })
+  })
+
+  it("handles month overflow correctly with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 10,
+    }
+
+    const range = getSecondHalfPeriodRange(3, customSettings)
+    expect(range).toEqual({
+      startYear: 2003,
+      startMonth: 4,
+      endYear: 2003,
+      endMonth: 9,
+    })
+  })
+})
+
+describe("calculateInitialPeriod", () => {
+  it("calculates current period correctly with default settings", () => {
+    // 2023年7月31日は25期
+    const period25 = calculateInitialPeriod(new Date(2023, 6, 31)) // 月は0から始まるため6=7月
+    expect(period25).toBe(25)
+
+    // 2023年8月1日は26期
+    const period26 = calculateInitialPeriod(new Date(2023, 7, 1))
+    expect(period26).toBe(26)
+  })
+
+  it("calculates current period correctly with custom settings", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 4,
+    }
+
+    // 2023年3月31日は23期
+    const period23 = calculateInitialPeriod(new Date(2023, 2, 31), customSettings)
+    expect(period23).toBe(23)
+
+    // 2023年4月1日は24期
+    const period24 = calculateInitialPeriod(new Date(2023, 3, 1), customSettings)
+    expect(period24).toBe(24)
   })
 })
