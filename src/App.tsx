@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { HolidaysProvider } from "./providers/HolidaysProvider"
+import { SettingsProvider } from "./providers/SettingsProvider"
 import type { PeriodRange } from "./types/PeriodRange"
 import { generateDates, getToday } from "./utils/dateUtils"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getSecondHalfPeriodRange } from "./utils/periodUtils"
@@ -21,22 +22,24 @@ export const App: React.FC = () => {
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)
 
   return (
-    <HolidaysProvider period={selectedPeriod}>
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-2 py-6">
-          <div className="max-w-5xl mx-auto">
-            <PeriodSelector period={selectedPeriod} onPrevPeriod={handlePrevPeriod} onNextPeriod={handleNextPeriod} />
-            <div className="flex gap-8 justify-center">
-              <div className="shrink">
-                <Calendar dates={firstHalfDates} />
-              </div>
-              <div className="shrink">
-                <Calendar dates={secondHalfDates} />
+    <SettingsProvider>
+      <HolidaysProvider period={selectedPeriod}>
+        <div className="min-h-screen bg-gray-50">
+          <div className="container mx-auto px-2 py-6">
+            <div className="max-w-5xl mx-auto">
+              <PeriodSelector period={selectedPeriod} onPrevPeriod={handlePrevPeriod} onNextPeriod={handleNextPeriod} />
+              <div className="flex gap-8 justify-center">
+                <div className="shrink">
+                  <Calendar dates={firstHalfDates} />
+                </div>
+                <div className="shrink">
+                  <Calendar dates={secondHalfDates} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </HolidaysProvider>
+      </HolidaysProvider>
+    </SettingsProvider>
   )
 }
