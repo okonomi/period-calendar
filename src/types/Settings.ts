@@ -5,6 +5,9 @@ export interface Settings {
   showHolidays: boolean
   // 週末の表示設定
   highlightWeekends: boolean
+  // 1期目の開始年月設定
+  firstPeriodStartYear: number
+  firstPeriodStartMonth: number
 }
 
 export type SettingsContextType = {
@@ -17,4 +20,6 @@ export const defaultSettings: Settings = {
   displayMode: "normal",
   showHolidays: true,
   highlightWeekends: true,
+  firstPeriodStartYear: 1999,
+  firstPeriodStartMonth: 8,
 }

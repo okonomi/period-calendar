@@ -1,4 +1,5 @@
 import { clsx } from "clsx"
+import { useSettings } from "../hooks/use-settings"
 import type { PeriodRange } from "../types/PeriodRange"
 import { formatYearMonthJP } from "../utils/dateUtils"
 import { getPeriodRange } from "../utils/periodUtils"
@@ -14,6 +15,8 @@ type Props = {
 }
 
 export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPeriod }) => {
+  const { settings } = useSettings()
+
   const buttonClasses = clsx(
     "px-2 py-1 rounded bg-white",
     "border border-gray-200 text-xs text-gray-600",
@@ -21,7 +24,7 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
     "transition-colors duration-200 shadow-sm"
   )
 
-  const periodRange = formatPeriodRange(getPeriodRange(period))
+  const periodRange = formatPeriodRange(getPeriodRange(period, settings))
 
   return (
     <div className="flex items-center justify-center space-x-2">
