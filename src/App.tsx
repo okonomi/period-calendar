@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
-import { SettingsForm } from "./components/SettingsForm"
+import { SettingsDialog } from "./components/SettingsDialog"
 import { useSettings } from "./hooks/use-settings"
 import { HolidaysProvider } from "./providers/HolidaysProvider"
 import { SettingsProvider } from "./providers/SettingsProvider"
@@ -30,7 +30,7 @@ const AppContent: React.FC = () => {
         <div className="container mx-auto px-2 py-6">
           <div className="max-w-5xl mx-auto relative">
             <div className="absolute top-0 right-0 z-10">
-              <SettingsForm />
+              <SettingsDialog />
             </div>
 
             <div className="pt-10 mb-4">
