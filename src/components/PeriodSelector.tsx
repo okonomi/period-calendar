@@ -27,7 +27,7 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   const periodRange = formatPeriodRange(getPeriodRange(period, settings))
 
   return (
-    <div className="flex items-center justify-center space-x-2">
+    <div className="flex items-center justify-center space-x-2 w-full py-2">
       <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
         ◀ 前期
       </button>

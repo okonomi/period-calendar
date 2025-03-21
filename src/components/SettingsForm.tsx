@@ -4,7 +4,6 @@ import { useSettings } from "../hooks/use-settings"
 export const SettingsForm: React.FC = () => {
   const { settings, updateSettings } = useSettings()
   const [isOpen, setIsOpen] = useState(false)
-
   const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
   const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
 
@@ -33,7 +32,7 @@ export const SettingsForm: React.FC = () => {
   }
 
   return (
-    <div className="mt-4 mb-8">
+    <div>
       <button
         type="button"
         onClick={toggleSettings}
@@ -43,7 +42,7 @@ export const SettingsForm: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="mt-4 p-4 bg-white rounded-lg shadow border border-gray-200">
+        <div className="mt-2 p-4 bg-white rounded-lg shadow border border-gray-200 absolute right-0 z-10 w-72">
           <h3 className="text-lg font-medium mb-4">カレンダー設定</h3>
 
           <div className="mb-4">

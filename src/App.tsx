@@ -28,11 +28,21 @@ const AppContent: React.FC = () => {
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-2 py-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-between items-center">
-              <PeriodSelector period={selectedPeriod} onPrevPeriod={handlePrevPeriod} onNextPeriod={handleNextPeriod} />
+          <div className="max-w-5xl mx-auto relative">
+            <div className="absolute top-0 right-0 z-10">
               <SettingsForm />
             </div>
+
+            <div className="pt-10 mb-4">
+              <div className="mx-auto max-w-md">
+                <PeriodSelector
+                  period={selectedPeriod}
+                  onPrevPeriod={handlePrevPeriod}
+                  onNextPeriod={handleNextPeriod}
+                />
+              </div>
+            </div>
+
             <div className="flex gap-8 justify-center mt-4">
               <div className="shrink">
                 <Calendar dates={firstHalfDates} />
