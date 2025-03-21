@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSettings } from "../hooks/use-settings"
 
 export const SettingsForm: React.FC = () => {
@@ -6,6 +6,8 @@ export const SettingsForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
   const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
+  const formRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const toggleSettings = () => setIsOpen(!isOpen)
 
@@ -31,9 +33,44 @@ export const SettingsForm: React.FC = () => {
     setIsOpen(false)
   }
 
+  // ESCキー押下でフォームを閉じる
+  useEffect(() => {
+    const handleEscKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        setIsOpen(false)
+      }
+    }
+
+    window.addEventListener("keydown", handleEscKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleEscKeyDown)
+    }
+  }, [isOpen])
+
+  // フォーム外クリックでフォームを閉じる
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        formRef.current &&
+        buttonRef.current &&
+        !formRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick)
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick)
+    }
+  }, [isOpen])
+
   return (
     <div>
       <button
+        ref={buttonRef}
         type="button"
         onClick={toggleSettings}
         className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 transition-colors"
@@ -42,7 +79,10 @@ export const SettingsForm: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="mt-2 p-4 bg-white rounded-lg shadow border border-gray-200 absolute right-0 z-10 w-72">
+        <div
+          ref={formRef}
+          className="mt-2 p-4 bg-white rounded-lg shadow border border-gray-200 absolute right-0 z-10 w-72"
+        >
           <h3 className="text-lg font-medium text-gray-800 mb-4">カレンダー設定</h3>
 
           <div className="mb-4">
