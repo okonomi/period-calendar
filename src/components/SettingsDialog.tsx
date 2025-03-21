@@ -15,6 +15,12 @@ export const SettingsDialog: React.FC = () => {
     closeSettings()
   }
 
+  const handleDialogClick = (e: React.MouseEvent) => {
+    if (e.target === dialogRef.current) {
+      closeSettings()
+    }
+  }
+
   return (
     <>
       <button
@@ -28,7 +34,7 @@ export const SettingsDialog: React.FC = () => {
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <dialog
         ref={dialogRef}
-        onClick={closeSettings}
+        onClick={handleDialogClick}
         className="p-0 rounded-lg shadow-xl border border-gray-200 fixed m-auto inset-0 backdrop:bg-black/50"
       >
         <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
