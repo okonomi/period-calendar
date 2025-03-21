@@ -35,9 +35,9 @@ export function calculateInitialPeriod(today: Date, settings: Settings = default
   // カスタム設定の場合の一般的な計算ロジック
   if (currentMonth < firstPeriodStartMonth) {
     return currentYear - firstPeriodStartYear
-  } else {
-    return currentYear - firstPeriodStartYear + 1
   }
+
+  return currentYear - firstPeriodStartYear + 1
 }
 
 // 上期の範囲（firstPeriodStartMonthから6ヶ月間）を取得する
