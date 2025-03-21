@@ -8,16 +8,17 @@ type Props = {
 }
 
 export const Tooltip: React.FC<Props> = ({ text, position }) => {
+  // top, leftは動的な値なのでstyleとして残す
   const style: CSSProperties = {
-    position: "absolute",
     top: position.top,
     left: position.left,
-    transform: "translateX(-50%)",
-    whiteSpace: "nowrap",
   }
 
   return (
-    <div className="bg-black text-white text-xs rounded py-1 px-2" style={style}>
+    <div
+      className="absolute -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs rounded py-1 px-2"
+      style={style}
+    >
       {text}
     </div>
   )
