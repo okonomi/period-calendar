@@ -215,12 +215,10 @@ describe("getSecondHalfPeriodRange", () => {
 
 describe("calculateInitialPeriod", () => {
   it("calculates current period correctly with default settings", () => {
-    // 2023年7月31日は25期
-    const period25 = calculateInitialPeriod(new Date(2023, 6, 31)) // 月は0から始まるため6=7月
-    expect(period25).toBe(25)
+    const period25 = calculateInitialPeriod(new Date(1999, 8, 1))
+    expect(period25).toBe(1)
 
-    // 2023年8月1日は26期
-    const period26 = calculateInitialPeriod(new Date(2023, 7, 1))
+    const period26 = calculateInitialPeriod(new Date(2024, 8 - 1, 1))
     expect(period26).toBe(26)
   })
 

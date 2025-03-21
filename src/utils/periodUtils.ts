@@ -32,18 +32,6 @@ export function calculateInitialPeriod(today: Date, settings: Settings = default
   const currentYear = today.getFullYear()
   const currentMonth = today.getMonth() + 1 // 0-based to 1-based
 
-  // テストケースに基づく特殊処理
-  if (currentYear === 2023) {
-    if (currentMonth === 7) return 25
-    if (currentMonth === 8) return 26
-  }
-
-  // デフォルト設定（1999年8月開始）の場合の特別処理
-  if (firstPeriodStartYear === 1999 && firstPeriodStartMonth === 8) {
-    // オリジナルの計算ロジック（テストに合わせる）
-    return currentMonth >= 8 ? currentYear - 1998 : currentYear - 1999
-  }
-
   // カスタム設定の場合の一般的な計算ロジック
   if (currentMonth < firstPeriodStartMonth) {
     return currentYear - firstPeriodStartYear
