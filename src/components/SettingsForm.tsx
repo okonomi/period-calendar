@@ -6,10 +6,9 @@ type SettingsFormProps = {
   settings: Settings
   onSave: (newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth">) => void
   onCancel: () => void
-  formRef: React.RefObject<HTMLDivElement>
 }
 
-export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel, formRef }) => {
+export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
   const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
 
@@ -34,10 +33,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <div
-      ref={formRef}
-      className="mt-2 p-4 bg-white rounded-lg shadow border border-gray-200 absolute right-0 z-10 w-72"
-    >
+    <div className="p-4 bg-white w-72">
       <h3 className="text-lg font-medium text-gray-800 mb-4">カレンダー設定</h3>
 
       <div className="mb-4">
