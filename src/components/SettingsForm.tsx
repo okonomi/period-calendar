@@ -43,13 +43,13 @@ export const SettingsForm: React.FC = () => {
 
       {isOpen && (
         <div className="mt-2 p-4 bg-white rounded-lg shadow border border-gray-200 absolute right-0 z-10 w-72">
-          <h3 className="text-lg font-medium mb-4">カレンダー設定</h3>
+          <h3 className="text-lg font-medium text-gray-800 mb-4">カレンダー設定</h3>
 
           <div className="mb-4">
-            <h4 className="text-sm font-medium mb-2">1期目の開始年月</h4>
+            <h4 className="text-sm font-medium text-gray-800 mb-2">1期目の開始年月</h4>
             <div className="flex items-center gap-3">
               <div>
-                <label htmlFor="firstPeriodYear" className="block text-xs text-gray-600 mb-1">
+                <label htmlFor="firstPeriodYear" className="block text-xs text-gray-700 mb-1 font-medium">
                   年
                 </label>
                 <input
@@ -59,11 +59,11 @@ export const SettingsForm: React.FC = () => {
                   onChange={(e) => setYear(e.target.value)}
                   min="1900"
                   max="2100"
-                  className="px-2 py-1 border border-gray-300 rounded text-sm w-24"
+                  className="px-2 py-1 border border-gray-300 rounded text-sm w-24 text-gray-800"
                 />
               </div>
               <div>
-                <label htmlFor="firstPeriodMonth" className="block text-xs text-gray-600 mb-1">
+                <label htmlFor="firstPeriodMonth" className="block text-xs text-gray-700 mb-1 font-medium">
                   月
                 </label>
                 <input
@@ -73,18 +73,18 @@ export const SettingsForm: React.FC = () => {
                   onChange={(e) => setMonth(e.target.value)}
                   min="1"
                   max="12"
-                  className="px-2 py-1 border border-gray-300 rounded text-sm w-16"
+                  className="px-2 py-1 border border-gray-300 rounded text-sm w-16 text-gray-800"
                 />
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+            <p className="text-xs text-gray-700 mt-1">例：1期が1999年8月から始まる場合、1999と8を設定</p>
           </div>
 
           <div className="flex justify-end space-x-2">
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50"
+              className="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50"
             >
               キャンセル
             </button>
