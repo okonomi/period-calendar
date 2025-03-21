@@ -87,6 +87,22 @@ describe("getPeriodRange", () => {
       endMonth: 11,
     })
   })
+
+  it("should handle settings with January as first month", () => {
+    const customSettings: Settings = {
+      ...defaultSettings,
+      firstPeriodStartYear: 2000,
+      firstPeriodStartMonth: 1,
+    }
+
+    const result = getPeriodRange(1, customSettings)
+    expect(result).toEqual({
+      startYear: 2000,
+      startMonth: 1,
+      endYear: 2000,
+      endMonth: 12,
+    })
+  })
 })
 
 describe("getFirstHalfPeriodRange", () => {

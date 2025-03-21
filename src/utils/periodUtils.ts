@@ -17,7 +17,7 @@ export function getPeriodRange(period: number, settings: Settings = defaultSetti
 
   if (endMonth <= 0) {
     endMonth += 12
-    endYear = startYear + 1
+    endYear = startYear
   } else {
     endYear = startYear + 1
   }
