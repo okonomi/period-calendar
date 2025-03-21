@@ -1,8 +1,6 @@
 import { clsx } from "clsx"
 import { useHolidays } from "../hooks/use-holidays"
-import { useTooltipPosition } from "../hooks/use-tooltip-position"
 import { getHoliday, isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
-import { Tooltip } from "./Tooltip"
 import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {
@@ -12,8 +10,7 @@ type Props = {
 export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
   const holiday = getHoliday(date, holidays)
-  const tooltip = holiday?.name ?? ""
-  const { tooltipPosition, handleMouseEnter, handleMouseLeave } = useTooltipPosition()
+  const tooltip = holiday?.name
 
   const cellClassName = clsx(
     "h-8 px-1 border-b border-gray-100",
@@ -29,11 +26,8 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   )
 
   return (
-    <TooltipContainer onMouseEnter={(e) => !!tooltip && handleMouseEnter(e)} onMouseLeave={handleMouseLeave}>
-      <div className={cellClassName}>
-        {date.getDate()}
-        {tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
-      </div>
+    <TooltipContainer tooltip={tooltip}>
+      <div className={cellClassName}>{date.getDate()}</div>
     </TooltipContainer>
   )
 }
