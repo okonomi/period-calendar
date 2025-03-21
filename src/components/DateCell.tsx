@@ -3,6 +3,7 @@ import { useHolidays } from "../hooks/use-holidays"
 import { useTooltipPosition } from "../hooks/use-tooltip-position"
 import { getHoliday, isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
 import { Tooltip } from "./Tooltip"
+import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {
   date: Date
@@ -19,7 +20,6 @@ export const DateCell: React.FC<Props> = ({ date }) => {
     "flex items-center justify-center",
     "text-xs text-gray-700",
     "hover:bg-gray-50 transition-colors duration-200",
-    "relative", // position relative を追加
     {
       "bg-blue-50": isFirstDayOfMonth(date),
       "bg-green-100 font-bold": isToday(date),
@@ -29,13 +29,11 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   )
 
   return (
-    <div
-      className={cellClassName}
-      onMouseEnter={(e) => !!tooltip && handleMouseEnter(e)}
-      onMouseLeave={handleMouseLeave}
-    >
-      {date.getDate()}
-      {tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
-    </div>
+    <TooltipContainer onMouseEnter={(e) => !!tooltip && handleMouseEnter(e)} onMouseLeave={handleMouseLeave}>
+      <div className={cellClassName}>
+        {date.getDate()}
+        {tooltipPosition && <Tooltip text={tooltip} position={tooltipPosition} />}
+      </div>
+    </TooltipContainer>
   )
 }
