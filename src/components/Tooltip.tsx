@@ -13,6 +13,7 @@ export const Tooltip: React.FC<Props> = ({ text, position }) => {
     top: position.top,
     left: position.left,
     transform: "translateX(-50%)",
+    whiteSpace: "nowrap",
   }
 
   return (
