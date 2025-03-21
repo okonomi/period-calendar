@@ -19,6 +19,7 @@ export const DateCell: React.FC<Props> = ({ date }) => {
     "flex items-center justify-center",
     "text-xs text-gray-700",
     "hover:bg-gray-50 transition-colors duration-200",
+    "relative", // position relative を追加
     {
       "bg-blue-50": isFirstDayOfMonth(date),
       "bg-green-100 font-bold": isToday(date),

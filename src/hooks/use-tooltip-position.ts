@@ -6,9 +6,7 @@ export const useTooltipPosition = () => {
 
   const handleMouseEnter = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect()
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
-    setTooltipPosition({ top: rect.top + scrollTop - 30, left: rect.left + scrollLeft + rect.width / 2 })
+    setTooltipPosition({ top: -30, left: rect.width / 2 })
   }
 
   const handleMouseLeave = () => {

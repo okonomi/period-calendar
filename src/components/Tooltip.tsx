@@ -9,13 +9,14 @@ type Props = {
 
 export const Tooltip: React.FC<Props> = ({ text, position }) => {
   const style: CSSProperties = {
+    position: "absolute",
     top: position.top,
     left: position.left,
     transform: "translateX(-50%)",
   }
 
   return (
-    <div className="absolute bg-black text-white text-xs rounded py-1 px-2" style={style}>
+    <div className="bg-black text-white text-xs rounded py-1 px-2" style={style}>
       {text}
     </div>
   )
