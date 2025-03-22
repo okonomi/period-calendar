@@ -3,6 +3,7 @@ const context = describe
 import {
   createCalendarDate,
   createCalendarDateFromDate,
+  format,
   getDateNum,
   isFirstDayOfMonth,
   isPastDate,
@@ -291,6 +292,42 @@ describe("isFirstDayOfMonth", () => {
     it("returns true for first day of month in leap year February", () => {
       const leapYearFirstDay = createCalendarDate(2024, 2, 1)
       expect(isFirstDayOfMonth(leapYearFirstDay)).toBe(true)
+    })
+  })
+})
+
+describe("format", () => {
+  context("basic cases", () => {
+    it("formats date in YYYY-MM-DD format", () => {
+      const date = createCalendarDate(2025, 3, 22)
+      expect(format(date)).toBe("2025-03-22")
+    })
+
+    it("pads single digit month with zero", () => {
+      const date = createCalendarDate(2025, 1, 15)
+      expect(format(date)).toBe("2025-01-15")
+    })
+
+    it("pads single digit day with zero", () => {
+      const date = createCalendarDate(2025, 12, 5)
+      expect(format(date)).toBe("2025-12-05")
+    })
+
+    it("pads both single digit month and day with zeros", () => {
+      const date = createCalendarDate(2025, 1, 5)
+      expect(format(date)).toBe("2025-01-05")
+    })
+  })
+
+  context("edge cases", () => {
+    it("handles last day of year", () => {
+      const date = createCalendarDate(2025, 12, 31)
+      expect(format(date)).toBe("2025-12-31")
+    })
+
+    it("handles first day of year", () => {
+      const date = createCalendarDate(2025, 1, 1)
+      expect(format(date)).toBe("2025-01-01")
     })
   })
 })

@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/dateUtils"
+import { createCalendarDateFromDate, format } from "../domain/CalendarDate"
 
 export type Holiday = {
   date: Date
@@ -6,12 +6,12 @@ export type Holiday = {
 }
 
 export function isHoliday(date: Date, holidays: Record<string, Holiday>): boolean {
-  const dateString = formatDate(date)
+  const dateString = format(createCalendarDateFromDate(date))
   return dateString in holidays
 }
 
 export function getHoliday(date: Date, holidays: Record<string, Holiday>): Holiday | null {
-  const dateString = formatDate(date)
+  const dateString = format(createCalendarDateFromDate(date))
   if (dateString in holidays) {
     return holidays[dateString]
   }
