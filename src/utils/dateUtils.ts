@@ -26,8 +26,8 @@ export function getDateNum(date: Date): number {
   return date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
 }
 
-export function isPastDate(date: Date, today: Date | null = null): boolean {
-  return getDateNum(date) < getDateNum(today ?? getToday())
+export function isPastDate(date: Date, today: Date = getToday()): boolean {
+  return getDateNum(date) < getDateNum(today)
 }
 
 export function isFirstDayOfMonth(date: Date): boolean {
