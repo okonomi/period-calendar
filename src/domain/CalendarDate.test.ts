@@ -5,6 +5,7 @@ import {
   createCalendarDateFromDate,
   format,
   getDateNum,
+  getToday,
   isFirstDayOfMonth,
   isPastDate,
   isSame,
@@ -148,6 +149,25 @@ describe("isSame", () => {
     const date1 = createCalendarDate(2025, 3, 22)
     const date2 = createCalendarDate(2024, 3, 22)
     expect(isSame(date1, date2)).toBe(false)
+  })
+})
+
+describe("getToday", () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2025, 2, 22)) // 2025-03-22
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it("returns current system date as CalendarDate", () => {
+    expect(getToday()).toEqual({
+      year: 2025,
+      month: 3,
+      day: 22,
+    })
   })
 })
 

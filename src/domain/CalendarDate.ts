@@ -1,5 +1,3 @@
-import { getToday } from "../utils/dateUtils"
-
 export type CalendarDate = {
   year: number
   month: number
@@ -22,9 +20,12 @@ export function isSame(date1: CalendarDate, date2: CalendarDate): boolean {
   return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day
 }
 
+export function getToday(): CalendarDate {
+  return createCalendarDateFromDate(new Date())
+}
+
 export function isToday(date: CalendarDate): boolean {
-  const today = createCalendarDateFromDate(getToday())
-  return isSame(date, today)
+  return isSame(date, getToday())
 }
 
 export function getDateNum(date: CalendarDate): number {
@@ -32,7 +33,7 @@ export function getDateNum(date: CalendarDate): number {
 }
 
 export function isPastDate(date: CalendarDate): boolean {
-  return getDateNum(date) < getDateNum(createCalendarDateFromDate(getToday()))
+  return getDateNum(date) < getDateNum(getToday())
 }
 
 export function isFirstDayOfMonth(date: CalendarDate): boolean {
