@@ -3,7 +3,7 @@ export type Dates = Date[]
 const DAYS_IN_WEEK = 7
 
 // 日付を週ごとにグループ化
-export function groupDatesByWeek(dates: Date[]): (Date | null)[][] {
+export function groupDatesByWeek(dates: Dates): (Date | null)[][] {
   if (dates.length === 0) return []
 
   // 最初の週に必要なパディングを計算（月曜始まり）
