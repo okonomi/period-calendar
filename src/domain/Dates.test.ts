@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest"
+import { createCalendarDateFromDate } from "./CalendarDate"
 import { generateDates, groupDatesByWeek } from "./Dates"
 
 describe("groupDatesByWeek", () => {
   it("should group dates into weeks with Monday start", () => {
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 1 }) // January 2024
-    const weeks = groupDatesByWeek(dates)
+    const weeks = groupDatesByWeek(dates.map((date) => createCalendarDateFromDate(date)))
     expect(weeks.length).toBe(5) // January 2024 spans 5 weeks
     expect(weeks[0].filter((d) => d !== null).length).toBe(7) // First week has 6 days (1st is Monday)
     expect(weeks[4].filter((d) => d !== null).length).toBe(3) // Last week has 3 days

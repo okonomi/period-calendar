@@ -1,5 +1,5 @@
 import { clsx } from "clsx"
-import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
+import { type CalendarDate, createCalendarDateFromDate, getDateNum } from "../domain/CalendarDate"
 import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
@@ -22,7 +22,7 @@ type Props = {
 }
 
 export const Calendar: React.FC<Props> = ({ dates }) => {
-  const weeklyDates = groupDatesByWeek(dates)
+  const weeklyDates = groupDatesByWeek(dates.map((date) => createCalendarDateFromDate(date)))
 
   return (
     <div className="bg-white rounded-lg shadow mt-4 p-3 w-[296px] mx-auto">
