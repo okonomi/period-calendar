@@ -1,7 +1,7 @@
-import { createCalendarDateFromDate, format } from "../domain/CalendarDate"
+import { type CalendarDate, createCalendarDateFromDate, format } from "../domain/CalendarDate"
 
 export type Holiday = {
-  date: Date
+  date: CalendarDate
   name: string
 }
 
