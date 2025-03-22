@@ -23,6 +23,6 @@ export function isSame(date1: CalendarDate, date2: CalendarDate): boolean {
 }
 
 export function isToday(date: CalendarDate): boolean {
-  const today = createCalendarDate(getToday().getFullYear(), getToday().getMonth() + 1, getToday().getDate())
+  const today = createCalendarDateFromDate(getToday())
   return isSame(date, today)
 }
