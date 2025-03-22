@@ -1,7 +1,8 @@
 import { clsx } from "clsx"
+import { createCalendarDateFromDate, isToday } from "../domain/CalendarDate"
 import { getHoliday } from "../domain/Holiday"
 import { useHolidays } from "../hooks/use-holidays"
-import { isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
+import { isFirstDayOfMonth, isPastDate } from "../utils/dateUtils"
 import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {
@@ -20,7 +21,7 @@ export const DateCell: React.FC<Props> = ({ date }) => {
     "hover:bg-gray-50 transition-colors duration-200",
     {
       "bg-blue-50": isFirstDayOfMonth(date),
-      "bg-green-100 font-bold": isToday(date),
+      "bg-green-100 font-bold": isToday(createCalendarDateFromDate(date)),
       "opacity-50": isPastDate(date),
       "text-red-500": !!holiday,
     }
