@@ -10,7 +10,7 @@ import { generateDates, getToday } from "./utils/dateUtils"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getSecondHalfPeriodRange } from "./utils/periodUtils"
 
 function generateDatesFromPeriodRange(periodRange: PeriodRange): Date[] {
-  return generateDates(periodRange.startYear, periodRange.startMonth, periodRange.endYear, periodRange.endMonth)
+  return generateDates(periodRange.start.year, periodRange.start.month, periodRange.end.year, periodRange.end.month)
 }
 
 // アプリケーションのメインコンテンツ

@@ -14,20 +14,16 @@ describe("getPeriodRange", () => {
     it("returns correct date range for period 1", () => {
       const result = getPeriodRange(1)
       expect(result).toEqual({
-        startYear: 1999,
-        startMonth: 8,
-        endYear: 2000,
-        endMonth: 7,
+        start: { year: 1999, month: 8 },
+        end: { year: 2000, month: 7 },
       })
     })
 
     it("returns correct date range for period 25", () => {
       const result = getPeriodRange(25)
       expect(result).toEqual({
-        startYear: 2023,
-        startMonth: 8,
-        endYear: 2024,
-        endMonth: 7,
+        start: { year: 2023, month: 8 },
+        end: { year: 2024, month: 7 },
       })
     })
   })
@@ -41,10 +37,8 @@ describe("getPeriodRange", () => {
 
       const result = getPeriodRange(10, customSettings)
       expect(result).toEqual({
-        startYear: 2009,
-        startMonth: 4,
-        endYear: 2010,
-        endMonth: 3,
+        start: { year: 2009, month: 4 },
+        end: { year: 2010, month: 3 },
       })
     })
 
@@ -57,10 +51,8 @@ describe("getPeriodRange", () => {
 
       const januaryResult = getPeriodRange(1, januarySettings)
       expect(januaryResult).toEqual({
-        startYear: 2000,
-        startMonth: 1,
-        endYear: 2000,
-        endMonth: 12,
+        start: { year: 2000, month: 1 },
+        end: { year: 2000, month: 12 },
       })
 
       // December case (wraps to next year)
@@ -71,10 +63,8 @@ describe("getPeriodRange", () => {
 
       const decemberResult = getPeriodRange(1, decemberSettings)
       expect(decemberResult).toEqual({
-        startYear: 2000,
-        startMonth: 12,
-        endYear: 2001,
-        endMonth: 11,
+        start: { year: 2000, month: 12 },
+        end: { year: 2001, month: 11 },
       })
     })
   })
@@ -84,10 +74,8 @@ describe("getFirstHalfPeriodRange", () => {
   it("returns first half range with default settings", () => {
     const range = getFirstHalfPeriodRange(25)
     expect(range).toEqual({
-      startYear: 2023,
-      startMonth: 8,
-      endYear: 2024,
-      endMonth: 1,
+      start: { year: 2023, month: 8 },
+      end: { year: 2024, month: 1 },
     })
   })
 
@@ -99,10 +87,8 @@ describe("getFirstHalfPeriodRange", () => {
 
     const range = getFirstHalfPeriodRange(3, customSettings)
     expect(range).toEqual({
-      startYear: 2002,
-      startMonth: 10,
-      endYear: 2003,
-      endMonth: 3,
+      start: { year: 2002, month: 10 },
+      end: { year: 2003, month: 3 },
     })
   })
 })
@@ -112,10 +98,8 @@ describe("getSecondHalfPeriodRange", () => {
     it("returns correct second half range for period 25", () => {
       const range = getSecondHalfPeriodRange(25)
       expect(range).toEqual({
-        startYear: 2024,
-        startMonth: 2,
-        endYear: 2024,
-        endMonth: 7,
+        start: { year: 2024, month: 2 },
+        end: { year: 2024, month: 7 },
       })
     })
   })
@@ -129,10 +113,8 @@ describe("getSecondHalfPeriodRange", () => {
 
       const range = getSecondHalfPeriodRange(3, customSettings)
       expect(range).toEqual({
-        startYear: 2003,
-        startMonth: 4,
-        endYear: 2003,
-        endMonth: 9,
+        start: { year: 2003, month: 4 },
+        end: { year: 2003, month: 9 },
       })
     })
 
@@ -145,10 +127,8 @@ describe("getSecondHalfPeriodRange", () => {
 
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
-          startYear: 2000,
-          startMonth: 7,
-          endYear: 2000,
-          endMonth: 12,
+          start: { year: 2000, month: 7 },
+          end: { year: 2000, month: 12 },
         })
       })
 
@@ -160,10 +140,8 @@ describe("getSecondHalfPeriodRange", () => {
 
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
-          startYear: 2000,
-          startMonth: 12,
-          endYear: 2001,
-          endMonth: 5,
+          start: { year: 2000, month: 12 },
+          end: { year: 2001, month: 5 },
         })
       })
     })
@@ -177,10 +155,8 @@ describe("getSecondHalfPeriodRange", () => {
 
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
-          startYear: 2001,
-          startMonth: 1,
-          endYear: 2001,
-          endMonth: 6,
+          start: { year: 2001, month: 1 },
+          end: { year: 2001, month: 6 },
         })
       })
 
@@ -192,10 +168,8 @@ describe("getSecondHalfPeriodRange", () => {
 
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
-          startYear: 2001,
-          startMonth: 5,
-          endYear: 2001,
-          endMonth: 10,
+          start: { year: 2001, month: 5 },
+          end: { year: 2001, month: 10 },
         })
       })
     })
@@ -208,10 +182,8 @@ describe("getSecondHalfPeriodRange", () => {
 
       const range = getSecondHalfPeriodRange(2, customSettings)
       expect(range).toEqual({
-        startYear: 2011,
-        startMonth: 10,
-        endYear: 2012,
-        endMonth: 3,
+        start: { year: 2011, month: 10 },
+        end: { year: 2012, month: 3 },
       })
     })
   })

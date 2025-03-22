@@ -5,7 +5,7 @@ import { formatYearMonthJP } from "../utils/dateUtils"
 import { getPeriodRange } from "../utils/periodUtils"
 
 function formatPeriodRange(periodInfo: PeriodRange) {
-  return `${formatYearMonthJP(periodInfo.startYear, periodInfo.startMonth)}～${formatYearMonthJP(periodInfo.endYear, periodInfo.endMonth)}`
+  return `${formatYearMonthJP(periodInfo.start.year, periodInfo.start.month)}～${formatYearMonthJP(periodInfo.end.year, periodInfo.end.month)}`
 }
 
 type Props = {

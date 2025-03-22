@@ -22,7 +22,10 @@ export function getPeriodRange(period: number, settings: Settings = defaultSetti
     endYear = startYear + 1
   }
 
-  return { startYear, startMonth, endYear, endMonth }
+  return {
+    start: { year: startYear, month: startMonth },
+    end: { year: endYear, month: endMonth },
+  }
 }
 
 // 現在の日付から期を計算する
@@ -56,15 +59,18 @@ export function getFirstHalfPeriodRange(period: number, settings: Settings = def
     endMonth = endMonth - 12
   }
 
-  return { startYear, startMonth, endYear, endMonth }
+  return {
+    start: { year: startYear, month: startMonth },
+    end: { year: endYear, month: endMonth },
+  }
 }
 
 // 下期の範囲（上期の翌月から6ヶ月間）を取得する
 export function getSecondHalfPeriodRange(period: number, settings: Settings = defaultSettings): PeriodRange {
   const firstHalf = getFirstHalfPeriodRange(period, settings)
 
-  let startYear = firstHalf.endYear
-  let startMonth = firstHalf.endMonth + 1
+  let startYear = firstHalf.end.year
+  let startMonth = firstHalf.end.month + 1
 
   if (startMonth > 12) {
     startYear += 1
@@ -79,5 +85,8 @@ export function getSecondHalfPeriodRange(period: number, settings: Settings = de
     endMonth = endMonth - 12
   }
 
-  return { startYear, startMonth, endYear, endMonth }
+  return {
+    start: { year: startYear, month: startMonth },
+    end: { year: endYear, month: endMonth },
+  }
 }

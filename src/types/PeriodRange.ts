@@ -1,6 +1,6 @@
+import type { YearMonth } from "./YearMonth"
+
 export type PeriodRange = {
-  startYear: number
-  startMonth: number
-  endYear: number
-  endMonth: number
+  start: YearMonth
+  end: YearMonth
 }
