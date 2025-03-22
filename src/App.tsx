@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { SettingsDialog } from "./components/SettingsDialog"
-import { getToday } from "./domain/CalendarDate"
+import { type CalendarDate, getToday } from "./domain/CalendarDate"
 import { generateDates } from "./domain/Dates"
 import type { PeriodRange } from "./domain/Period"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getSecondHalfPeriodRange } from "./domain/Period"
@@ -10,7 +10,7 @@ import { useSettings } from "./hooks/use-settings"
 import { HolidaysProvider } from "./providers/HolidaysProvider"
 import { SettingsProvider } from "./providers/SettingsProvider"
 
-function generateDatesFromPeriodRange(periodRange: PeriodRange): Date[] {
+function generateDatesFromPeriodRange(periodRange: PeriodRange): CalendarDate[] {
   return generateDates(periodRange.start, periodRange.end)
 }
 

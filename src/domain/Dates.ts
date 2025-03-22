@@ -1,4 +1,4 @@
-import type { CalendarDate } from "./CalendarDate"
+import { type CalendarDate, createCalendarDateFromDate } from "./CalendarDate"
 import type { YearMonth } from "./YearMonth"
 
 export type Dates = Date[]
@@ -37,8 +37,8 @@ export function groupDatesByWeek(dates: CalendarDate[]): (CalendarDate | null)[]
 }
 
 // 指定された期間の全日付を生成
-export function generateDates(start: YearMonth, end: YearMonth): Dates {
-  const dates = []
+export function generateDates(start: YearMonth, end: YearMonth): CalendarDate[] {
+  const dates: CalendarDate[] = []
 
   // Start and end dates (months are 0-indexed in JavaScript)
   const startDate = new Date(start.year, start.month - 1, 1)
@@ -49,7 +49,7 @@ export function generateDates(start: YearMonth, end: YearMonth): Dates {
 
   // Loop through each day in the range
   while (currentDate <= endDate) {
-    dates.push(new Date(currentDate))
+    dates.push(createCalendarDateFromDate(currentDate))
     currentDate.setDate(currentDate.getDate() + 1)
   }
 

@@ -1,5 +1,5 @@
 import { clsx } from "clsx"
-import { type CalendarDate, createCalendarDateFromDate, getDateNum } from "../domain/CalendarDate"
+import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
 import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
@@ -18,11 +18,11 @@ function generateSpacerKey(weekStart: string, dayOfWeek: number) {
 }
 
 type Props = {
-  dates: Date[]
+  dates: CalendarDate[]
 }
 
 export const Calendar: React.FC<Props> = ({ dates }) => {
-  const weeklyDates = groupDatesByWeek(dates.map((date) => createCalendarDateFromDate(date)))
+  const weeklyDates = groupDatesByWeek(dates)
 
   return (
     <div className="bg-white rounded-lg shadow mt-4 p-3 w-[296px] mx-auto">
