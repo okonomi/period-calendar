@@ -9,10 +9,6 @@ export function getToday(): Date {
   return cachedToday
 }
 
-export function isFirstDayOfMonth(date: Date): boolean {
-  return date.getDate() === 1
-}
-
 export function formatDate(date: Date): string {
   const year = date.getFullYear()
   const month = (date.getMonth() + 1).toString().padStart(2, "0")

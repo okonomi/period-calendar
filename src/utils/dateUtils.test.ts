@@ -1,17 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { formatDate, getToday, isFirstDayOfMonth } from "./dateUtils"
-
-describe("isFirstDayOfMonth", () => {
-  it("should return true for the first day of the month", () => {
-    const date = new Date("2022-01-01")
-    expect(isFirstDayOfMonth(date)).toBe(true)
-  })
-
-  it("should return false for other days of the month", () => {
-    const date = new Date("2022-01-02")
-    expect(isFirstDayOfMonth(date)).toBe(false)
-  })
-})
+import { formatDate, getToday } from "./dateUtils"
 
 describe("formatDate", () => {
   it("should format a date with single digit month and day", () => {

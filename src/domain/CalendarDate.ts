@@ -34,3 +34,7 @@ export function getDateNum(date: CalendarDate): number {
 export function isPastDate(date: CalendarDate): boolean {
   return getDateNum(date) < getDateNum(createCalendarDateFromDate(getToday()))
 }
+
+export function isFirstDayOfMonth(date: CalendarDate): boolean {
+  return date.day === 1
+}

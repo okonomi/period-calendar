@@ -1,6 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 const context = describe
-import { createCalendarDate, createCalendarDateFromDate, getDateNum, isPastDate, isSame, isToday } from "./CalendarDate"
+import {
+  createCalendarDate,
+  createCalendarDateFromDate,
+  getDateNum,
+  isFirstDayOfMonth,
+  isPastDate,
+  isSame,
+  isToday,
+} from "./CalendarDate"
 
 describe("createCalendarDate", () => {
   context("basic functionality", () => {
@@ -240,6 +248,49 @@ describe("isPastDate", () => {
         const futureYear = createCalendarDate(2026, 1, 1)
         expect(isPastDate(futureYear)).toBe(false)
       })
+    })
+  })
+})
+
+describe("isFirstDayOfMonth", () => {
+  context("basic cases", () => {
+    it("returns true for first day of month", () => {
+      const firstDay = createCalendarDate(2025, 3, 1)
+      expect(isFirstDayOfMonth(firstDay)).toBe(true)
+    })
+
+    it("returns false for middle day of month", () => {
+      const middleDay = createCalendarDate(2025, 3, 15)
+      expect(isFirstDayOfMonth(middleDay)).toBe(false)
+    })
+
+    it("returns false for last day of month", () => {
+      const lastDay = createCalendarDate(2025, 3, 31)
+      expect(isFirstDayOfMonth(lastDay)).toBe(false)
+    })
+  })
+
+  context("different months", () => {
+    it("returns true for first day of January", () => {
+      const firstDayOfYear = createCalendarDate(2025, 1, 1)
+      expect(isFirstDayOfMonth(firstDayOfYear)).toBe(true)
+    })
+
+    it("returns true for first day of December", () => {
+      const firstDayOfLastMonth = createCalendarDate(2025, 12, 1)
+      expect(isFirstDayOfMonth(firstDayOfLastMonth)).toBe(true)
+    })
+  })
+
+  context("month boundary cases", () => {
+    it("returns true for first day after month rollover", () => {
+      const date = createCalendarDate(2025, 4, 31) // This will be rolled over to May 1
+      expect(isFirstDayOfMonth(date)).toBe(true)
+    })
+
+    it("returns true for first day of month in leap year February", () => {
+      const leapYearFirstDay = createCalendarDate(2024, 2, 1)
+      expect(isFirstDayOfMonth(leapYearFirstDay)).toBe(true)
     })
   })
 })
