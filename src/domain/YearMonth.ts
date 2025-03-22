@@ -35,20 +35,6 @@ export function addMonths(yearMonth: YearMonth, months: number): YearMonth {
 }
 
 /**
- * YearMonthをDateオブジェクトに変換する
- */
-export function toDate(yearMonth: YearMonth): Date {
-  return new Date(yearMonth.year, yearMonth.month - 1, 1)
-}
-
-/**
- * DateオブジェクトからYearMonthを作成する
- */
-export function fromDate(date: Date): YearMonth {
-  return createYearMonth(date.getFullYear(), date.getMonth() + 1)
-}
-
-/**
  * 年月を日本語形式でフォーマット (YYYY年M月)
  */
 export function format(yearMonth: YearMonth): string {

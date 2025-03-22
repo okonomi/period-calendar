@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 const context = describe
 
-import { addMonths, createYearMonth, format, fromDate, toDate } from "./YearMonth"
+import { addMonths, createYearMonth, format } from "./YearMonth"
 
 describe("createYearMonth", () => {
   context("normal cases", () => {
@@ -93,74 +93,6 @@ describe("addMonths", () => {
       const yearMonth = createYearMonth(2023, 1)
       const result = addMonths(yearMonth, -1200) // 100 years
       expect(result).toEqual({ year: 1923, month: 1 })
-    })
-  })
-})
-
-describe("toDate", () => {
-  context("normal cases", () => {
-    it("converts YearMonth to Date object", () => {
-      const yearMonth = createYearMonth(2023, 4)
-      const date = toDate(yearMonth)
-      expect(date.getFullYear()).toBe(2023)
-      expect(date.getMonth()).toBe(3) // JavaScript Date uses 0-11 for months
-      expect(date.getDate()).toBe(1) // Set to first day of month
-    })
-
-    it("converts December correctly", () => {
-      const yearMonth = createYearMonth(2023, 12)
-      const date = toDate(yearMonth)
-      expect(date.getFullYear()).toBe(2023)
-      expect(date.getMonth()).toBe(11) // December is represented as 11
-      expect(date.getDate()).toBe(1)
-    })
-
-    it("converts January correctly", () => {
-      const yearMonth = createYearMonth(2023, 1)
-      const date = toDate(yearMonth)
-      expect(date.getFullYear()).toBe(2023)
-      expect(date.getMonth()).toBe(0) // January is represented as 0
-      expect(date.getDate()).toBe(1)
-    })
-  })
-
-  context("edge cases", () => {
-    it("interprets month 13 as January of next year", () => {
-      const yearMonth = createYearMonth(2023, 13)
-      const date = toDate(yearMonth)
-      expect(date.getFullYear()).toBe(2024)
-      expect(date.getMonth()).toBe(0) // Month 13 is interpreted as January of next year
-      expect(date.getDate()).toBe(1)
-    })
-  })
-})
-
-describe("fromDate", () => {
-  context("normal cases", () => {
-    it("extracts year and month from Date object", () => {
-      const date = new Date(2023, 3, 15) // April 15, 2023
-      const yearMonth = fromDate(date)
-      expect(yearMonth).toEqual({ year: 2023, month: 4 })
-    })
-
-    it("converts zero-based month index to one-based", () => {
-      const date = new Date(2023, 0, 1) // January 1, 2023
-      const yearMonth = fromDate(date)
-      expect(yearMonth).toEqual({ year: 2023, month: 1 })
-    })
-  })
-
-  context("time component handling", () => {
-    it("ignores time component", () => {
-      const date = new Date(2023, 3, 15, 12, 30, 45) // April 15, 2023 12:30:45
-      const yearMonth = fromDate(date)
-      expect(yearMonth).toEqual({ year: 2023, month: 4 })
-    })
-
-    it("handles end of month dates", () => {
-      const lastDayOfMonth = new Date(2023, 3, 30) // April 30, 2023
-      const yearMonth = fromDate(lastDayOfMonth)
-      expect(yearMonth).toEqual({ year: 2023, month: 4 })
     })
   })
 })
