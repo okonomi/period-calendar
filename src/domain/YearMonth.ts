@@ -10,15 +10,23 @@ export type YearMonth = {
  * 年と月を正規化する
  */
 function normalizeYearMonth(year: number, month: number): { year: number; month: number } {
-  if (month <= 0) {
-    const adjustedYear = Math.floor((month - 1) / 12)
-    year += adjustedYear
-    month = 12 + (((month - 1) % 12) + 1)
-  } else if (month > 12) {
-    year += Math.floor((month - 1) / 12)
-    month = ((month - 1) % 12) + 1
+  let normalizedYear = year
+  let normalizedMonth = month
+
+  if (normalizedMonth > 12) {
+    const overflowYears = Math.floor(normalizedMonth / 12)
+    normalizedYear += overflowYears
+    normalizedMonth -= 12 * overflowYears
+  } else if (normalizedMonth === 0) {
+    normalizedYear -= 1
+    normalizedMonth = 12
+  } else if (normalizedMonth < 0) {
+    const underflowYears = Math.abs(Math.floor(normalizedMonth / 12))
+    normalizedYear -= underflowYears
+    normalizedMonth += 12 * underflowYears
   }
-  return { year, month }
+
+  return { year: normalizedYear, month: normalizedMonth }
 }
 
 /**
