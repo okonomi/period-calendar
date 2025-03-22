@@ -1,10 +1,10 @@
 import { clsx } from "clsx"
 import { type PeriodRange, getPeriodRange } from "../domain/Period"
+import { format } from "../domain/YearMonth"
 import { useSettings } from "../hooks/use-settings"
-import { formatYearMonthJP } from "../utils/dateUtils"
 
 function formatPeriodRange(periodInfo: PeriodRange) {
-  return `${formatYearMonthJP(periodInfo.start.year, periodInfo.start.month)}～${formatYearMonthJP(periodInfo.end.year, periodInfo.end.month)}`
+  return `${format(periodInfo.start)}～${format(periodInfo.end)}`
 }
 
 type Props = {

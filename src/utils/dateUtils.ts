@@ -1,11 +1,3 @@
-import { format } from "../domain/YearMonth"
-
-// 年月を日本語形式でフォーマット (YYYY年M月)
-export function formatYearMonthJP(year: number, month: number): string {
-  const yearMonth = { year, month }
-  return format(yearMonth)
-}
-
 // 同じ日付かどうかを判定
 export function isSameDate(date1: Date, date2: Date): boolean {
   return (

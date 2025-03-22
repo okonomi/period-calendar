@@ -1,14 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import type { Holiday } from "../types/Holiday"
-import {
-  formatDate,
-  formatYearMonthJP,
-  getDateNum,
-  getToday,
-  isFirstDayOfMonth,
-  isPastDate,
-  isSameDate,
-} from "./dateUtils"
+import { formatDate, getDateNum, getToday, isFirstDayOfMonth, isPastDate, isSameDate } from "./dateUtils"
 
 describe("getDateNum", () => {
   it("should return the date number", () => {
@@ -89,13 +80,6 @@ describe("isSameDate", () => {
     const date1 = new Date(2023, 0, 1, 10, 30)
     const date2 = new Date(2023, 0, 1, 15, 45)
     expect(isSameDate(date1, date2)).toBe(true)
-  })
-})
-
-describe("formatYearMonthJP", () => {
-  it("should format year and month in Japanese style", () => {
-    expect(formatYearMonthJP(2023, 4)).toBe("2023年4月")
-    expect(formatYearMonthJP(2023, 12)).toBe("2023年12月")
   })
 })
 
