@@ -1,6 +1,7 @@
 import { clsx } from "clsx"
+import { getHoliday } from "../domain/Holiday"
 import { useHolidays } from "../hooks/use-holidays"
-import { getHoliday, isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
+import { isFirstDayOfMonth, isPastDate, isToday } from "../utils/dateUtils"
 import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {

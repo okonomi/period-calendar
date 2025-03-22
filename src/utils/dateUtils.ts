@@ -1,5 +1,4 @@
 import { format } from "../domain/YearMonth"
-import type { Holiday } from "../types/Holiday"
 
 // 年月を日本語形式でフォーマット (YYYY年M月)
 export function formatYearMonthJP(year: number, month: number): string {
@@ -41,19 +40,6 @@ export function isPastDate(date: Date, today: Date | null = null): boolean {
 
 export function isFirstDayOfMonth(date: Date): boolean {
   return date.getDate() === 1
-}
-
-export function isHoliday(date: Date, holidays: Record<string, Holiday>): boolean {
-  const dateString = formatDate(date)
-  return dateString in holidays
-}
-
-export function getHoliday(date: Date, holidays: Record<string, Holiday>): Holiday | null {
-  const dateString = formatDate(date)
-  if (dateString in holidays) {
-    return holidays[dateString]
-  }
-  return null
 }
 
 export function formatDate(date: Date): string {
