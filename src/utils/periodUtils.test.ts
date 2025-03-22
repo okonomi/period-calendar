@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest"
+const context = describe
+
 import type { Settings } from "../types/Settings"
 import {
   calculateInitialPeriod,
@@ -8,7 +10,7 @@ import {
 } from "./periodUtils"
 
 describe("getPeriodRange", () => {
-  describe("with default settings", () => {
+  context("with default settings", () => {
     it("returns correct date range for period 1", () => {
       const result = getPeriodRange(1)
       expect(result).toEqual({
@@ -30,7 +32,7 @@ describe("getPeriodRange", () => {
     })
   })
 
-  describe("with custom settings", () => {
+  context("with custom settings", () => {
     it("returns correct date range with custom start month", () => {
       const customSettings: Settings = {
         firstPeriodStartYear: 2000,
@@ -106,7 +108,7 @@ describe("getFirstHalfPeriodRange", () => {
 })
 
 describe("getSecondHalfPeriodRange", () => {
-  describe("with default settings", () => {
+  context("with default settings", () => {
     it("returns correct second half range for period 25", () => {
       const range = getSecondHalfPeriodRange(25)
       expect(range).toEqual({
@@ -118,7 +120,7 @@ describe("getSecondHalfPeriodRange", () => {
     })
   })
 
-  describe("with custom settings", () => {
+  context("with custom settings", () => {
     it("handles standard case (no month/year transitions)", () => {
       const customSettings: Settings = {
         firstPeriodStartYear: 2000,
@@ -134,7 +136,7 @@ describe("getSecondHalfPeriodRange", () => {
       })
     })
 
-    describe("month transitions", () => {
+    context("month transitions", () => {
       it("handles case when first half ends in June (second half starts in July)", () => {
         const customSettings: Settings = {
           firstPeriodStartYear: 2000,
@@ -166,7 +168,7 @@ describe("getSecondHalfPeriodRange", () => {
       })
     })
 
-    describe("year transitions", () => {
+    context("year transitions", () => {
       it("handles year transition when first half ends in December", () => {
         const customSettings: Settings = {
           firstPeriodStartYear: 2000,
