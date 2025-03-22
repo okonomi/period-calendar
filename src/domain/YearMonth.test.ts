@@ -24,7 +24,32 @@ describe("createYearMonth", () => {
   context("edge cases", () => {
     it("accepts month greater than 12 as is", () => {
       const yearMonth = createYearMonth(2023, 13)
-      expect(yearMonth).toEqual({ year: 2023, month: 13 })
+      expect(yearMonth).toEqual({ year: 2024, month: 1 })
+    })
+
+    it("handles month greater than 24", () => {
+      const yearMonth = createYearMonth(2023, 25)
+      expect(yearMonth).toEqual({ year: 2025, month: 1 })
+    })
+
+    it("handles very large month number", () => {
+      const yearMonth = createYearMonth(2023, 1234)
+      expect(yearMonth).toEqual({ year: 2125, month: 10 })
+    })
+
+    it("handles zero month", () => {
+      const yearMonth = createYearMonth(2023, 0)
+      expect(yearMonth).toEqual({ year: 2022, month: 12 })
+    })
+
+    it("handles negative month", () => {
+      const yearMonth = createYearMonth(2023, -1)
+      expect(yearMonth).toEqual({ year: 2022, month: 11 })
+    })
+
+    it("handles negative month less than -12", () => {
+      const yearMonth = createYearMonth(2023, -13)
+      expect(yearMonth).toEqual({ year: 2021, month: 11 })
     })
   })
 })

@@ -7,31 +7,34 @@ export type YearMonth = {
 }
 
 /**
+ * 年と月を正規化する
+ */
+function normalizeYearMonth(year: number, month: number): { year: number; month: number } {
+  if (month <= 0) {
+    const adjustedYear = Math.floor((month - 1) / 12)
+    year += adjustedYear
+    month = 12 + (((month - 1) % 12) + 1)
+  } else if (month > 12) {
+    year += Math.floor((month - 1) / 12)
+    month = ((month - 1) % 12) + 1
+  }
+  return { year, month }
+}
+
+/**
  * YearMonthオブジェクトを作成する
  */
 export function createYearMonth(year: number, month: number): YearMonth {
-  return { year, month }
+  const normalized = normalizeYearMonth(year, month)
+  return normalized
 }
 
 /**
  * YearMonthに指定された月数を加算する
  */
 export function addMonths(yearMonth: YearMonth, months: number): YearMonth {
-  let newYear = yearMonth.year
-  let newMonth = yearMonth.month + months
-
-  // 12ヶ月を超える場合の調整
-  if (newMonth > 12) {
-    newYear += Math.floor((newMonth - 1) / 12)
-    newMonth = ((newMonth - 1) % 12) + 1
-  }
-  // 0以下になる場合の調整
-  else if (newMonth <= 0) {
-    newYear += Math.floor((newMonth - 1) / 12)
-    newMonth = 12 - (-newMonth % 12)
-  }
-
-  return createYearMonth(newYear, newMonth)
+  const normalized = normalizeYearMonth(yearMonth.year, yearMonth.month + months)
+  return normalized
 }
 
 /**
