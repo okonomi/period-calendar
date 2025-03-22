@@ -1,10 +1,10 @@
+import { createCalendarDate, isSame } from "../domain/CalendarDate"
+
 // 同じ日付かどうかを判定
 export function isSameDate(date1: Date, date2: Date): boolean {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  )
+  const calDate1 = createCalendarDate(date1.getFullYear(), date1.getMonth() + 1, date1.getDate())
+  const calDate2 = createCalendarDate(date2.getFullYear(), date2.getMonth() + 1, date2.getDate())
+  return isSame(calDate1, calDate2)
 }
 
 // メモ化された今日の日付を返す
