@@ -44,11 +44,11 @@
   }
 
   .calendar-weekday {
-    @apply h-9 flex items-center justify-center font-medium text-sm text-stone-600 mb-1;
+    @apply h-9 flex items-center justify-center font-medium text-sm text-stone-600;
   }
 
   .calendar-month {
-    @apply h-9 flex items-center justify-center mb-1;
+    @apply h-9 flex items-center justify-center;
     @apply text-base font-medium text-stone-700;
   }
 }

@@ -29,12 +29,18 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
       <div className="flex flex-row">
         {/* 左カラム - 月名表示 */}
         <div className="w-14 flex flex-col">
-          {/* スペーサーセル */}
-          <div className="h-9" />
+          {/* 曜日行と同じ高さのスペーサー */}
+          <div className="flex items-center justify-center h-9" />
+
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.day === 1)
             if (!firstDayOfMonth) {
-              return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-9" />
+              return (
+                <div
+                  key={generateMonthKey(firstDayOfMonth, weekIndex)}
+                  className="flex items-center justify-center h-9"
+                />
+              )
             }
 
             const month = firstDayOfMonth.month
@@ -69,7 +75,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                   if (!date) {
                     const dayOfWeek = dateIndex
                     const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                    return <div key={spacerKey} className="h-9" />
+                    return <div key={spacerKey} className="flex items-center justify-center h-9" />
                   }
 
                   return <DateCell key={`date-${getDateNum(date)}`} date={date} />
