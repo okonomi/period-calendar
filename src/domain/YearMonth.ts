@@ -9,7 +9,7 @@ export type YearMonth = {
 /**
  * 年と月を正規化する
  */
-function normalizeYearMonth(year: number, month: number): { year: number; month: number } {
+function normalizeYearMonth(year: number, month: number): YearMonth {
   let normalizedYear = year
   let normalizedMonth = month
 
