@@ -1,5 +1,5 @@
 import { clsx } from "clsx"
-import { groupDatesByWeek } from "../utils/dateUtils"
+import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
 function generateMonthKey(firstDayOfMonth: Date | null | undefined, weekIndex: number) {
