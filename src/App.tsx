@@ -11,7 +11,7 @@ import { SettingsProvider } from "./providers/SettingsProvider"
 import { getToday } from "./utils/dateUtils"
 
 function generateDatesFromPeriodRange(periodRange: PeriodRange): Date[] {
-  return generateDates(periodRange.start.year, periodRange.start.month, periodRange.end.year, periodRange.end.month)
+  return generateDates(periodRange.start, periodRange.end)
 }
 
 // アプリケーションのメインコンテンツ

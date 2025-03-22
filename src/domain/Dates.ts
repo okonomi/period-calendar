@@ -1,3 +1,5 @@
+import type { YearMonth } from "./YearMonth"
+
 export type Dates = Date[]
 
 const DAYS_IN_WEEK = 7
@@ -30,12 +32,12 @@ export function groupDatesByWeek(dates: Dates): (Date | null)[][] {
 }
 
 // 指定された期間の全日付を生成
-export function generateDates(startYear: number, startMonth: number, endYear: number, endMonth: number): Dates {
+export function generateDates(start: YearMonth, end: YearMonth): Dates {
   const dates = []
 
   // Start and end dates (months are 0-indexed in JavaScript)
-  const startDate = new Date(startYear, startMonth - 1, 1)
-  const endDate = new Date(endYear, endMonth, 0) // Last day of end month
+  const startDate = new Date(start.year, start.month - 1, 1)
+  const endDate = new Date(end.year, end.month, 0) // Last day of end month
 
   // Current date pointer
   const currentDate = new Date(startDate)

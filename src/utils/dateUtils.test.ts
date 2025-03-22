@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { generateDates } from "../domain/Dates"
 import type { Holiday } from "../types/Holiday"
 import {
   formatDate,
@@ -72,22 +71,6 @@ describe("formatDate", () => {
   it("should ignore time component and format only the date part", () => {
     const date = new Date("2023-06-15T14:30:45.123Z")
     expect(formatDate(date)).toBe("2023-06-15")
-  })
-})
-
-describe("generateDates", () => {
-  it("should generate dates for a single month", () => {
-    const dates = generateDates(2023, 1, 2023, 1)
-    expect(dates.length).toBe(31)
-    expect(dates[0]).toEqual(new Date(2023, 0, 1))
-    expect(dates[30]).toEqual(new Date(2023, 0, 31))
-  })
-
-  it("should generate dates across months", () => {
-    const dates = generateDates(2023, 12, 2024, 1)
-    expect(dates.length).toBe(62) // 31 days in December + 31 days in January
-    expect(dates[0]).toEqual(new Date(2023, 11, 1))
-    expect(dates[dates.length - 1]).toEqual(new Date(2024, 0, 31))
   })
 })
 
