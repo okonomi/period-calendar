@@ -112,6 +112,18 @@ describe("createCalendarDate", () => {
       })
     })
   })
+
+  describe("weekday", () => {
+    it("日曜日は0を返す", () => {
+      const date = createCalendarDate(2025, 3, 23) // 2025-03-23は日曜日
+      expect(date.weekday).toBe(0)
+    })
+
+    it("土曜日は6を返す", () => {
+      const date = createCalendarDate(2025, 3, 22) // 2025-03-22は土曜日
+      expect(date.weekday).toBe(6)
+    })
+  })
 })
 
 describe("createCalendarDateFromDate", () => {

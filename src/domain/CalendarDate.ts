@@ -2,6 +2,7 @@ export type CalendarDate = {
   year: number
   month: number
   day: number
+  weekday: number
 }
 
 export function createCalendarDate(year: number, month: number, day: number): CalendarDate {
@@ -13,6 +14,7 @@ export function createCalendarDateFromDate(date: Date): CalendarDate {
     year: date.getFullYear(),
     month: date.getMonth() + 1,
     day: date.getDate(),
+    weekday: date.getDay(),
   }
 }
 
