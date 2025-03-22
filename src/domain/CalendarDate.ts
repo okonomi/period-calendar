@@ -12,3 +12,7 @@ export function createCalendarDate(year: number, month: number, day: number): Ca
     day: date.getDate(),
   }
 }
+
+export function isSame(date1: CalendarDate, date2: CalendarDate): boolean {
+  return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day
+}

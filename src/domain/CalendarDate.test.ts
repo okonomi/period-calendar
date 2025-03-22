@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest"
 const context = describe
-
-import { createCalendarDate } from "./CalendarDate"
+import { createCalendarDate, isSame } from "./CalendarDate"
 
 describe("createCalendarDate", () => {
   context("basic functionality", () => {
@@ -102,5 +101,31 @@ describe("createCalendarDate", () => {
         day: 27,
       })
     })
+  })
+})
+
+describe("isSame", () => {
+  it("returns true when comparing the same date", () => {
+    const date1 = createCalendarDate(2025, 3, 22)
+    const date2 = createCalendarDate(2025, 3, 22)
+    expect(isSame(date1, date2)).toBe(true)
+  })
+
+  it("returns false when comparing different dates", () => {
+    const date1 = createCalendarDate(2025, 3, 22)
+    const date2 = createCalendarDate(2025, 3, 23)
+    expect(isSame(date1, date2)).toBe(false)
+  })
+
+  it("returns false when comparing different months", () => {
+    const date1 = createCalendarDate(2025, 3, 22)
+    const date2 = createCalendarDate(2025, 4, 22)
+    expect(isSame(date1, date2)).toBe(false)
+  })
+
+  it("returns false when comparing different years", () => {
+    const date1 = createCalendarDate(2025, 3, 22)
+    const date2 = createCalendarDate(2024, 3, 22)
+    expect(isSame(date1, date2)).toBe(false)
   })
 })
