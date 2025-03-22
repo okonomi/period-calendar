@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { formatDate, getDateNum, getToday, isFirstDayOfMonth, isPastDate, isSameDate } from "./dateUtils"
+import { formatDate, getDateNum, getToday, isFirstDayOfMonth, isPastDate } from "./dateUtils"
 
 describe("getDateNum", () => {
   it("should return the date number", () => {
@@ -60,26 +60,6 @@ describe("formatDate", () => {
   it("should ignore time component and format only the date part", () => {
     const date = new Date("2023-06-15T14:30:45.123Z")
     expect(formatDate(date)).toBe("2023-06-15")
-  })
-})
-
-describe("isSameDate", () => {
-  it("should return true for same dates", () => {
-    const date1 = new Date(2023, 0, 1)
-    const date2 = new Date(2023, 0, 1)
-    expect(isSameDate(date1, date2)).toBe(true)
-  })
-
-  it("should return false for different dates", () => {
-    const date1 = new Date(2023, 0, 1)
-    const date2 = new Date(2023, 0, 2)
-    expect(isSameDate(date1, date2)).toBe(false)
-  })
-
-  it("should ignore time component", () => {
-    const date1 = new Date(2023, 0, 1, 10, 30)
-    const date2 = new Date(2023, 0, 1, 15, 45)
-    expect(isSameDate(date1, date2)).toBe(true)
   })
 })
 

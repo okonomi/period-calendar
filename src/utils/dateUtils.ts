@@ -1,12 +1,5 @@
 import { createCalendarDate, isSame } from "../domain/CalendarDate"
 
-// 同じ日付かどうかを判定
-export function isSameDate(date1: Date, date2: Date): boolean {
-  const calDate1 = createCalendarDate(date1.getFullYear(), date1.getMonth() + 1, date1.getDate())
-  const calDate2 = createCalendarDate(date2.getFullYear(), date2.getMonth() + 1, date2.getDate())
-  return isSame(calDate1, calDate2)
-}
-
 // メモ化された今日の日付を返す
 let cachedToday: Date | null = null
 
@@ -19,7 +12,9 @@ export function getToday(): Date {
 }
 
 export function isToday(date: Date): boolean {
-  return isSameDate(date, getToday())
+  const calDate1 = createCalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+  const calDate2 = createCalendarDate(getToday().getFullYear(), getToday().getMonth() + 1, getToday().getDate())
+  return isSame(calDate1, calDate2)
 }
 
 export function getDateNum(date: Date): number {
