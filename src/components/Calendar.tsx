@@ -1,17 +1,15 @@
 import { clsx } from "clsx"
-import { createCalendarDateFromDate } from "../domain/CalendarDate"
+import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
 import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
-function generateMonthKey(firstDayOfMonth: Date | null | undefined, weekIndex: number) {
-  return firstDayOfMonth
-    ? `month-${firstDayOfMonth.getFullYear()}-${firstDayOfMonth.getMonth()}`
-    : `empty-month-${weekIndex}`
+function generateMonthKey(firstDayOfMonth: CalendarDate | null | undefined, weekIndex: number) {
+  return firstDayOfMonth ? `month-${firstDayOfMonth.year}-${firstDayOfMonth.month}` : `empty-month-${weekIndex}`
 }
 
-function generateWeekKey(firstValidDate: Date | null | undefined) {
+function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
   return firstValidDate
-    ? `${firstValidDate.getFullYear()}-${firstValidDate.getMonth()}-${firstValidDate.getDate()}`
+    ? `${firstValidDate.year}-${firstValidDate.month}-${firstValidDate.day}`
     : `empty-${Math.random()}`
 }
 
@@ -34,12 +32,12 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
           {/* スペーサーセル */}
           <div className="h-8" />
           {weeklyDates.map((week, weekIndex) => {
-            const firstDayOfMonth = week.find((d) => d?.getDate() === 1)
+            const firstDayOfMonth = week.find((d) => d?.day === 1)
             if (!firstDayOfMonth) {
               return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-8" />
             }
 
-            const month = firstDayOfMonth.getMonth() + 1
+            const month = firstDayOfMonth.month
             const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
 
             return (
@@ -77,7 +75,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                     return <div key={spacerKey} className="h-8" />
                   }
 
-                  return <DateCell key={`date-${date.getTime()}`} date={createCalendarDateFromDate(date)} />
+                  return <DateCell key={`date-${getDateNum(date)}`} date={date} />
                 })}
               </div>
             )
