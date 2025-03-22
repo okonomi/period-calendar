@@ -17,22 +17,23 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   const { settings } = useSettings()
 
   const buttonClasses = clsx(
-    "px-2 py-1 rounded bg-white",
-    "border border-gray-200 text-xs text-gray-600",
-    "hover:bg-gray-50 hover:border-gray-300",
-    "transition-colors duration-200 shadow-sm"
+    "px-3 py-1.5 rounded-md",
+    "bg-stone-50 border border-stone-200 text-sm text-stone-600",
+    "hover:bg-stone-100 hover:border-stone-300",
+    "transition-colors duration-200",
+    "shadow-sm"
   )
 
   const periodRange = formatPeriodRange(getPeriodRange(period, settings))
 
   return (
-    <div className="flex items-center justify-center space-x-2 w-full py-2">
+    <div className="calendar-header">
       <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
         ◀ 前期
       </button>
       <div className="text-center">
-        <div className="text-base font-medium text-black">{period}期</div>
-        <div className="text-xs text-gray-600">{periodRange}</div>
+        <div className="text-lg font-medium text-stone-800">{period}期</div>
+        <div className="text-sm text-stone-500">{periodRange}</div>
       </div>
       <button type="button" onClick={onNextPeriod} className={buttonClasses}>
         来期 ▶

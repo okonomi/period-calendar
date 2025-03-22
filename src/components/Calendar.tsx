@@ -25,24 +25,24 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
   const weeklyDates = groupDatesByWeek(dates)
 
   return (
-    <div className="bg-white rounded-lg shadow mt-4 p-3 w-[296px] mx-auto">
+    <div className="calendar-container">
       <div className="flex flex-row">
         {/* 左カラム - 月名表示 */}
-        <div className="w-12 flex flex-col">
+        <div className="w-14 flex flex-col">
           {/* スペーサーセル */}
-          <div className="h-8" />
+          <div className="h-9" />
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.day === 1)
             if (!firstDayOfMonth) {
-              return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-8" />
+              return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="h-9" />
             }
 
             const month = firstDayOfMonth.month
             const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
 
             return (
-              <div key={monthKey} className="h-8 flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">{month}月</span>
+              <div key={monthKey} className="calendar-month">
+                {month}月
               </div>
             )
           })}
@@ -51,12 +51,9 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         {/* 右カラム - カレンダー本体 */}
         <div className="flex-1 flex flex-col min-w-0">
           {/* 曜日の行 */}
-          <div className="grid grid-cols-7 border-b border-gray-200">
+          <div className="grid grid-cols-7">
             {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
-              <div
-                key={`weekday-${dayName}`}
-                className={clsx("h-8", "flex items-center justify-center", "font-medium text-xs text-gray-700")}
-              >
+              <div key={`weekday-${dayName}`} className="calendar-weekday">
                 {dayName}
               </div>
             ))}
@@ -72,7 +69,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                   if (!date) {
                     const dayOfWeek = dateIndex
                     const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                    return <div key={spacerKey} className="h-8" />
+                    return <div key={spacerKey} className="h-9" />
                   }
 
                   return <DateCell key={`date-${getDateNum(date)}`} date={date} />
