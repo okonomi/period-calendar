@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { HolidaysContext } from "../contexts/HolidaysContext"
+import { getPeriodRange } from "../domain/Period"
 import type { Holiday } from "../types/Holiday"
-import { getPeriodRange } from "../utils/periodUtils"
 
 async function fetchHolidays(year: number): Promise<Record<string, Holiday>> {
   const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`)
@@ -18,10 +18,12 @@ export const HolidaysProvider: React.FC<React.PropsWithChildren<{ period: number
   const [holidays, setHolidays] = useState<Record<string, Holiday>>({})
 
   useEffect(() => {
-    const { startYear, endYear } = getPeriodRange(period)
-    Promise.all([fetchHolidays(startYear), fetchHolidays(endYear)]).then(([startYearHolidays, endYearHolidays]) => {
-      setHolidays({ ...startYearHolidays, ...endYearHolidays })
-    })
+    const periodRange = getPeriodRange(period)
+    Promise.all([fetchHolidays(periodRange.start.year), fetchHolidays(periodRange.end.year)]).then(
+      ([startYearHolidays, endYearHolidays]) => {
+        setHolidays({ ...startYearHolidays, ...endYearHolidays })
+      }
+    )
   }, [period])
 
   return <HolidaysContext.Provider value={holidays}>{children}</HolidaysContext.Provider>

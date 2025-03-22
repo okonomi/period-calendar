@@ -2,12 +2,7 @@ import { describe, expect, it } from "vitest"
 const context = describe
 
 import type { Settings } from "../types/Settings"
-import {
-  calculateInitialPeriod,
-  getFirstHalfPeriodRange,
-  getPeriodRange,
-  getSecondHalfPeriodRange,
-} from "./periodUtils"
+import { calculateInitialPeriod, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
 
 describe("getPeriodRange", () => {
   context("with default settings", () => {
