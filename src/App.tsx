@@ -28,9 +28,9 @@ const AppContent: React.FC = () => {
   return (
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-2 py-6">
+        <div className="container mx-auto px-2 py-2">
           <div className="max-w-5xl mx-auto relative">
-            <div className="pt-10 mb-4 flex justify-center">
+            <div className="mb-4 flex justify-center">
               <div className="w-full max-w-2xl flex items-center justify-between">
                 <div className="w-12" />
                 <PeriodSelector
