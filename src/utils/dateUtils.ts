@@ -1,3 +1,4 @@
+import { format } from "../domain/YearMonth"
 import type { Holiday } from "../types/Holiday"
 
 // 指定された期間の全日付を生成
@@ -56,7 +57,8 @@ export function groupDatesByWeek(dates: Date[]): (Date | null)[][] {
 
 // 年月を日本語形式でフォーマット (YYYY年M月)
 export function formatYearMonthJP(year: number, month: number): string {
-  return `${year}年${month}月`
+  const yearMonth = { year, month }
+  return format(yearMonth)
 }
 
 // 同じ日付かどうかを判定

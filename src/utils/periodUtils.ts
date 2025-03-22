@@ -1,30 +1,7 @@
+import { addMonths, createYearMonth } from "../domain/YearMonth"
 import type { PeriodRange } from "../types/PeriodRange"
 import type { Settings } from "../types/Settings"
 import { defaultSettings } from "../types/Settings"
-import type { YearMonth } from "../types/YearMonth"
-
-// YearMonth型のヘルパー関数
-function createYearMonth(year: number, month: number): YearMonth {
-  return { year, month }
-}
-
-function addMonths(yearMonth: YearMonth, months: number): YearMonth {
-  let newYear = yearMonth.year
-  let newMonth = yearMonth.month + months
-
-  // 12ヶ月を超える場合の調整
-  if (newMonth > 12) {
-    newYear += Math.floor((newMonth - 1) / 12)
-    newMonth = ((newMonth - 1) % 12) + 1
-  }
-  // 0以下になる場合の調整
-  else if (newMonth <= 0) {
-    newYear -= Math.floor((11 - newMonth) / 12)
-    newMonth = 12 - (-newMonth % 12)
-  }
-
-  return createYearMonth(newYear, newMonth)
-}
 
 // 期から年月を計算
 export function getPeriodRange(period: number, settings: Settings = defaultSettings): PeriodRange {
