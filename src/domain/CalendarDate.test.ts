@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 const context = describe
-import { createCalendarDate, isSame } from "./CalendarDate"
+import { createCalendarDate, createCalendarDateFromDate, isSame, isToday } from "./CalendarDate"
 
 describe("createCalendarDate", () => {
   context("basic functionality", () => {
@@ -104,6 +104,18 @@ describe("createCalendarDate", () => {
   })
 })
 
+describe("createCalendarDateFromDate", () => {
+  it("creates CalendarDate from Date object", () => {
+    const date = new Date(2025, 2, 22) // month is 0-based in Date constructor
+    const result = createCalendarDateFromDate(date)
+    expect(result).toEqual({
+      year: 2025,
+      month: 3, // month should be 1-based in CalendarDate
+      day: 22,
+    })
+  })
+})
+
 describe("isSame", () => {
   it("returns true when comparing the same date", () => {
     const date1 = createCalendarDate(2025, 3, 22)
@@ -127,5 +139,27 @@ describe("isSame", () => {
     const date1 = createCalendarDate(2025, 3, 22)
     const date2 = createCalendarDate(2024, 3, 22)
     expect(isSame(date1, date2)).toBe(false)
+  })
+})
+
+describe("isToday", () => {
+  beforeEach(() => {
+    // 2025-03-22に日付を固定
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2025, 2, 22))
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it("returns true for today's date", () => {
+    const today = createCalendarDate(2025, 3, 22)
+    expect(isToday(today)).toBe(true)
+  })
+
+  it("returns false for a different date", () => {
+    const otherDay = createCalendarDate(2025, 3, 23)
+    expect(isToday(otherDay)).toBe(false)
   })
 })
