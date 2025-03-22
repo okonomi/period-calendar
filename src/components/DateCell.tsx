@@ -1,16 +1,16 @@
 import { clsx } from "clsx"
-import { createCalendarDateFromDate, isFirstDayOfMonth, isPastDate, isToday } from "../domain/CalendarDate"
+import { type CalendarDate, isFirstDayOfMonth, isPastDate, isToday } from "../domain/CalendarDate"
 import { getHoliday } from "../domain/Holiday"
 import { useHolidays } from "../hooks/use-holidays"
 import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {
-  date: Date
+  date: CalendarDate
 }
 
 export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
-  const holiday = getHoliday(createCalendarDateFromDate(date), holidays)
+  const holiday = getHoliday(date, holidays)
   const tooltip = holiday?.name
 
   const cellClassName = clsx(
@@ -19,16 +19,16 @@ export const DateCell: React.FC<Props> = ({ date }) => {
     "text-xs text-gray-700",
     "hover:bg-gray-50 transition-colors duration-200",
     {
-      "bg-blue-50": isFirstDayOfMonth(createCalendarDateFromDate(date)),
-      "bg-green-100 font-bold": isToday(createCalendarDateFromDate(date)),
-      "opacity-50": isPastDate(createCalendarDateFromDate(date)),
+      "bg-blue-50": isFirstDayOfMonth(date),
+      "bg-green-100 font-bold": isToday(date),
+      "opacity-50": isPastDate(date),
       "text-red-500": !!holiday,
     }
   )
 
   return (
     <TooltipContainer tooltip={tooltip}>
-      <div className={cellClassName}>{date.getDate()}</div>
+      <div className={cellClassName}>{date.day}</div>
     </TooltipContainer>
   )
 }

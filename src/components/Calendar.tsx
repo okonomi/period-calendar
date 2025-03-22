@@ -1,4 +1,5 @@
 import { clsx } from "clsx"
+import { createCalendarDateFromDate } from "../domain/CalendarDate"
 import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
@@ -76,7 +77,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                     return <div key={spacerKey} className="h-8" />
                   }
 
-                  return <DateCell key={`date-${date.getTime()}`} date={date} />
+                  return <DateCell key={`date-${date.getTime()}`} date={createCalendarDateFromDate(date)} />
                 })}
               </div>
             )
