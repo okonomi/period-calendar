@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 const context = describe
-import { createCalendarDate, createCalendarDateFromDate, isSame, isToday } from "./CalendarDate"
+import { createCalendarDate, createCalendarDateFromDate, getDateNum, isPastDate, isSame, isToday } from "./CalendarDate"
 
 describe("createCalendarDate", () => {
   context("basic functionality", () => {
@@ -161,5 +161,85 @@ describe("isToday", () => {
   it("returns false for a different date", () => {
     const otherDay = createCalendarDate(2025, 3, 23)
     expect(isToday(otherDay)).toBe(false)
+  })
+})
+
+describe("getDateNum", () => {
+  context("basic cases", () => {
+    it("converts CalendarDate to number format YYYYMMDD", () => {
+      const date = createCalendarDate(2025, 3, 22)
+      expect(getDateNum(date)).toBe(20250322)
+    })
+
+    it("pads single digit month and day with zeros", () => {
+      const date = createCalendarDate(2025, 1, 5)
+      expect(getDateNum(date)).toBe(20250105)
+    })
+  })
+
+  context("edge cases", () => {
+    it("handles last day of month", () => {
+      const date = createCalendarDate(2025, 12, 31)
+      expect(getDateNum(date)).toBe(20251231)
+    })
+
+    it("handles first day of month", () => {
+      const date = createCalendarDate(2025, 1, 1)
+      expect(getDateNum(date)).toBe(20250101)
+    })
+  })
+})
+
+describe("isPastDate", () => {
+  context("with fixed current date of 2025-03-22", () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date(2025, 2, 22))
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    context("basic cases", () => {
+      it("returns true for yesterday", () => {
+        const pastDate = createCalendarDate(2025, 3, 21)
+        expect(isPastDate(pastDate)).toBe(true)
+      })
+
+      it("returns false for today", () => {
+        const today = createCalendarDate(2025, 3, 22)
+        expect(isPastDate(today)).toBe(false)
+      })
+
+      it("returns false for tomorrow", () => {
+        const futureDate = createCalendarDate(2025, 3, 23)
+        expect(isPastDate(futureDate)).toBe(false)
+      })
+    })
+
+    context("month boundaries", () => {
+      it("returns true for last day of previous month", () => {
+        const pastMonth = createCalendarDate(2025, 2, 28)
+        expect(isPastDate(pastMonth)).toBe(true)
+      })
+
+      it("returns false for first day of next month", () => {
+        const futureMonth = createCalendarDate(2025, 4, 1)
+        expect(isPastDate(futureMonth)).toBe(false)
+      })
+    })
+
+    context("year boundaries", () => {
+      it("returns true for last day of previous year", () => {
+        const pastYear = createCalendarDate(2024, 12, 31)
+        expect(isPastDate(pastYear)).toBe(true)
+      })
+
+      it("returns false for first day of next year", () => {
+        const futureYear = createCalendarDate(2026, 1, 1)
+        expect(isPastDate(futureYear)).toBe(false)
+      })
+    })
   })
 })

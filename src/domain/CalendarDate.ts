@@ -26,3 +26,11 @@ export function isToday(date: CalendarDate): boolean {
   const today = createCalendarDateFromDate(getToday())
   return isSame(date, today)
 }
+
+export function getDateNum(date: CalendarDate): number {
+  return date.year * 10000 + date.month * 100 + date.day
+}
+
+export function isPastDate(date: CalendarDate): boolean {
+  return getDateNum(date) < getDateNum(createCalendarDateFromDate(getToday()))
+}
