@@ -33,16 +33,14 @@ function normalizeYearMonth(year: number, month: number): YearMonth {
  * YearMonthオブジェクトを作成する
  */
 export function createYearMonth(year: number, month: number): YearMonth {
-  const normalized = normalizeYearMonth(year, month)
-  return normalized
+  return normalizeYearMonth(year, month)
 }
 
 /**
  * YearMonthに指定された月数を加算する
  */
 export function addMonths(yearMonth: YearMonth, months: number): YearMonth {
-  const normalized = normalizeYearMonth(yearMonth.year, yearMonth.month + months)
-  return normalized
+  return normalizeYearMonth(yearMonth.year, yearMonth.month + months)
 }
 
 /**
