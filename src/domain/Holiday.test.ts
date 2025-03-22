@@ -9,12 +9,12 @@ describe("isHoliday", () => {
   }
 
   it("should return true for holiday dates", () => {
-    const date = new Date(2024, 0, 1)
+    const date = createCalendarDate(2024, 1, 1)
     expect(isHoliday(date, holidays)).toBe(true)
   })
 
   it("should return false for non-holiday dates", () => {
-    const date = new Date(2024, 0, 2)
+    const date = createCalendarDate(2024, 1, 2)
     expect(isHoliday(date, holidays)).toBe(false)
   })
 })
@@ -26,12 +26,12 @@ describe("getHoliday", () => {
   }
 
   it("should return holiday info for holiday dates", () => {
-    const date = new Date(2024, 0, 1)
+    const date = createCalendarDate(2024, 1, 1)
     expect(getHoliday(date, holidays)).toHaveProperty("name", "元日")
   })
 
   it("should return null for non-holiday dates", () => {
-    const date = new Date(2024, 0, 2)
+    const date = createCalendarDate(2024, 1, 2)
     expect(getHoliday(date, holidays)).toBeNull()
   })
 })

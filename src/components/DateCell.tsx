@@ -10,7 +10,7 @@ type Props = {
 
 export const DateCell: React.FC<Props> = ({ date }) => {
   const holidays = useHolidays()
-  const holiday = getHoliday(date, holidays)
+  const holiday = getHoliday(createCalendarDateFromDate(date), holidays)
   const tooltip = holiday?.name
 
   const cellClassName = clsx(
