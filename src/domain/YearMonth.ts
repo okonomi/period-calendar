@@ -27,7 +27,7 @@ export function addMonths(yearMonth: YearMonth, months: number): YearMonth {
   }
   // 0以下になる場合の調整
   else if (newMonth <= 0) {
-    newYear -= Math.floor((11 - newMonth) / 12)
+    newYear += Math.floor((newMonth - 1) / 12)
     newMonth = 12 - (-newMonth % 12)
   }
 
