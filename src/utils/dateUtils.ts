@@ -1,11 +1,5 @@
-import { generateDates } from "../domain/Dates"
 import { format } from "../domain/YearMonth"
 import type { Holiday } from "../types/Holiday"
-
-// 後方互換性のために年のみ指定するバージョンを残す
-export function generateDatesForYear(year: number): Date[] {
-  return generateDates(year, 1, year, 12)
-}
 
 const DAYS_IN_WEEK = 7
 

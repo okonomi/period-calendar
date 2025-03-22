@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest"
+import { generateDates } from "../domain/Dates"
 import type { Holiday } from "../types/Holiday"
 import {
   formatDate,
   formatYearMonthJP,
-  generateDates,
-  generateDatesForYear,
   getDateNum,
   getHoliday,
   getToday,
@@ -90,21 +89,6 @@ describe("generateDates", () => {
     expect(dates.length).toBe(62) // 31 days in December + 31 days in January
     expect(dates[0]).toEqual(new Date(2023, 11, 1))
     expect(dates[dates.length - 1]).toEqual(new Date(2024, 0, 31))
-  })
-})
-
-describe("generateDatesForYear", () => {
-  it("should generate dates for entire year", () => {
-    const dates = generateDatesForYear(2023)
-    expect(dates.length).toBe(365) // non-leap year
-    expect(dates[0]).toEqual(new Date(2023, 0, 1))
-    expect(dates[dates.length - 1]).toEqual(new Date(2023, 11, 31))
-  })
-
-  it("should handle leap years", () => {
-    const dates = generateDatesForYear(2024)
-    expect(dates.length).toBe(366)
-    expect(dates[31 + 28]).toEqual(new Date(2024, 1, 29)) // Feb 29th exists
   })
 })
 
