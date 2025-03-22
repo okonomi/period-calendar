@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { HolidaysContext } from "../contexts/HolidaysContext"
+import type { Holiday } from "../domain/Holiday"
 import { getPeriodRange } from "../domain/Period"
-import type { Holiday } from "../types/Holiday"
 
 async function fetchHolidays(year: number): Promise<Record<string, Holiday>> {
   const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`)
