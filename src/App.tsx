@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { SettingsDialog } from "./components/SettingsDialog"
+import { createCalendarDateFromDate } from "./domain/CalendarDate"
 import { generateDates } from "./domain/Dates"
 import type { PeriodRange } from "./domain/Period"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getSecondHalfPeriodRange } from "./domain/Period"
@@ -17,7 +18,9 @@ function generateDatesFromPeriodRange(periodRange: PeriodRange): Date[] {
 // アプリケーションのメインコンテンツ
 const AppContent: React.FC = () => {
   const { settings } = useSettings()
-  const [selectedPeriod, setSelectedPeriod] = useState(() => calculateInitialPeriod(getToday(), settings))
+  const [selectedPeriod, setSelectedPeriod] = useState(() =>
+    calculateInitialPeriod(createCalendarDateFromDate(getToday()), settings)
+  )
 
   const firstHalfDates = generateDatesFromPeriodRange(getFirstHalfPeriodRange(selectedPeriod, settings))
   const secondHalfDates = generateDatesFromPeriodRange(getSecondHalfPeriodRange(selectedPeriod, settings))

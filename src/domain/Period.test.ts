@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 const context = describe
 
 import type { Settings } from "../types/Settings"
+import { createCalendarDate } from "./CalendarDate"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
 
 describe("getPeriodRange", () => {
@@ -187,11 +188,11 @@ describe("getSecondHalfPeriodRange", () => {
 describe("calculateInitialPeriod", () => {
   it("calculates period correctly with default settings", () => {
     // First period start date
-    const period1 = calculateInitialPeriod(new Date(1999, 8 - 1, 1))
+    const period1 = calculateInitialPeriod(createCalendarDate(1999, 8, 1))
     expect(period1).toBe(1)
 
     // Future date
-    const period26 = calculateInitialPeriod(new Date(2024, 8 - 1, 1))
+    const period26 = calculateInitialPeriod(createCalendarDate(2024, 8, 1))
     expect(period26).toBe(26)
   })
 
@@ -202,11 +203,11 @@ describe("calculateInitialPeriod", () => {
     }
 
     // Last day of period 23
-    const period23 = calculateInitialPeriod(new Date(2023, 3 - 1, 31), customSettings)
+    const period23 = calculateInitialPeriod(createCalendarDate(2023, 3, 31), customSettings)
     expect(period23).toBe(23)
 
     // First day of period 24
-    const period24 = calculateInitialPeriod(new Date(2023, 4 - 1, 1), customSettings)
+    const period24 = calculateInitialPeriod(createCalendarDate(2023, 4, 1), customSettings)
     expect(period24).toBe(24)
   })
 })

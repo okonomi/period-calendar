@@ -1,5 +1,6 @@
 import type { Settings } from "../types/Settings"
 import { defaultSettings } from "../types/Settings"
+import type { CalendarDate } from "./CalendarDate"
 import { type YearMonth, addMonths, createYearMonth } from "./YearMonth"
 
 export type PeriodRange = {
@@ -35,10 +36,10 @@ export function getSecondHalfPeriodRange(period: number, settings: Settings = de
 }
 
 // 現在の日付から期を計算する
-export function calculateInitialPeriod(today: Date, settings: Settings = defaultSettings): number {
+export function calculateInitialPeriod(today: CalendarDate, settings: Settings = defaultSettings): number {
   const { firstPeriodStartYear, firstPeriodStartMonth } = settings
-  const currentYear = today.getFullYear()
-  const currentMonth = today.getMonth() + 1 // 0-based to 1-based
+  const currentYear = today.year
+  const currentMonth = today.month
 
   if (currentMonth < firstPeriodStartMonth) {
     return currentYear - firstPeriodStartYear
