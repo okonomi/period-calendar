@@ -32,7 +32,7 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
         ◀ 前期
       </button>
       <div className="text-center">
-        <div className="text-lg font-medium text-stone-800">{period}期</div>
+        <div className="font-medium text-lg text-stone-800">{period}期</div>
         <div className="text-sm text-stone-500">{periodRange}</div>
       </div>
       <button type="button" onClick={onNextPeriod} className={buttonClasses}>

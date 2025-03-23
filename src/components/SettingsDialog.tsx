@@ -34,14 +34,14 @@ export const SettingsDialog: React.FC = () => {
   return (
     <>
       <button type="button" onClick={openSettings} className={buttonClasses} aria-label="設定">
-        <SettingsIcon className="w-5 h-5" />
+        <SettingsIcon className="h-5 w-5" />
       </button>
 
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <dialog
         ref={dialogRef}
         onClick={handleDialogClick}
-        className="p-0 rounded-md shadow-xl border border-gray-200 fixed m-auto inset-0 backdrop:bg-black/50"
+        className="fixed inset-0 m-auto rounded-md border border-gray-200 p-0 shadow-xl backdrop:bg-black/50"
       >
         <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
       </dialog>

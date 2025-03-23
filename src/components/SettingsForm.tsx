@@ -33,14 +33,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <div className="p-4 bg-white w-72">
-      <h3 className="text-lg font-medium text-gray-800 mb-4">カレンダー設定</h3>
+    <div className="w-72 bg-white p-4">
+      <h3 className="mb-4 font-medium text-gray-800 text-lg">カレンダー設定</h3>
 
       <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-800 mb-2">1期目の開始年月</h4>
+        <h4 className="mb-2 font-medium text-gray-800 text-sm">1期目の開始年月</h4>
         <div className="flex items-center gap-3">
           <div>
-            <label htmlFor="firstPeriodYear" className="block text-xs text-gray-700 mb-1 font-medium">
+            <label htmlFor="firstPeriodYear" className="mb-1 block font-medium text-gray-700 text-xs">
               年
             </label>
             <input
@@ -50,11 +50,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setYear(e.target.value)}
               min="1900"
               max="2100"
-              className="px-2 py-1 border border-gray-300 rounded-md text-sm w-24 text-gray-800"
+              className="w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-800 text-sm"
             />
           </div>
           <div>
-            <label htmlFor="firstPeriodMonth" className="block text-xs text-gray-700 mb-1 font-medium">
+            <label htmlFor="firstPeriodMonth" className="mb-1 block font-medium text-gray-700 text-xs">
               月
             </label>
             <input
@@ -64,25 +64,25 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setMonth(e.target.value)}
               min="1"
               max="12"
-              className="px-2 py-1 border border-gray-300 rounded-md text-sm w-16 text-gray-800"
+              className="w-16 rounded-md border border-gray-300 px-2 py-1 text-gray-800 text-sm"
             />
           </div>
         </div>
-        <p className="text-xs text-gray-700 mt-1">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+        <p className="mt-1 text-gray-700 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
       </div>
 
       <div className="flex justify-end space-x-2">
         <button
           type="button"
           onClick={onCancel}
-          className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-gray-300 px-3 py-1 text-gray-700 text-sm hover:bg-gray-50"
         >
           キャンセル
         </button>
         <button
           type="button"
           onClick={handleSave}
-          className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600"
+          className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
         >
           保存
         </button>

@@ -14,7 +14,7 @@ export const Tooltip: React.FC<Props> = ({ text, position }) => {
 
   return (
     <div
-      className="absolute -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs rounded py-1 px-2 before:content-[''] before:absolute before:left-1/2 before:-translate-x-1/2 before:bottom-[-4px] before:border-4 before:border-transparent before:border-t-black"
+      className="-translate-x-1/2 before:-translate-x-1/2 absolute whitespace-nowrap rounded bg-black px-2 py-1 text-white text-xs before:absolute before:bottom-[-4px] before:left-1/2 before:border-4 before:border-transparent before:border-t-black before:content-['']"
       style={style}
     >
       {text}

@@ -1,4 +1,3 @@
-import { clsx } from "clsx"
 import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
 import { groupDatesByWeek } from "../domain/Dates"
 import { DateCell } from "./DateCell"
@@ -28,9 +27,9 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
     <div className="calendar-container">
       <div className="flex flex-row">
         {/* 左カラム - 月名表示 */}
-        <div className="w-14 flex flex-col">
+        <div className="flex w-14 flex-col">
           {/* 曜日行と同じ高さのスペーサー */}
-          <div className="flex items-center justify-center h-9" />
+          <div className="flex h-9 items-center justify-center" />
 
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.day === 1)
@@ -38,7 +37,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               return (
                 <div
                   key={generateMonthKey(firstDayOfMonth, weekIndex)}
-                  className="flex items-center justify-center h-9"
+                  className="flex h-9 items-center justify-center"
                 />
               )
             }
@@ -55,7 +54,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         </div>
 
         {/* 右カラム - カレンダー本体 */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex min-w-0 flex-1 flex-col">
           {/* 曜日の行 */}
           <div className="grid grid-cols-7">
             {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
@@ -75,7 +74,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                   if (!date) {
                     const dayOfWeek = dateIndex
                     const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                    return <div key={spacerKey} className="flex items-center justify-center h-9" />
+                    return <div key={spacerKey} className="flex h-9 items-center justify-center" />
                   }
 
                   return <DateCell key={`date-${getDateNum(date)}`} date={date} />

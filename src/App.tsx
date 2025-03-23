@@ -29,9 +29,9 @@ const AppContent: React.FC = () => {
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
         <div className="mx-auto p-2">
-          <div className="max-w-5xl mx-auto relative">
+          <div className="relative mx-auto max-w-5xl">
             <div className="flex justify-center">
-              <div className="w-full max-w-2xl flex items-center justify-between">
+              <div className="flex w-full max-w-2xl items-center justify-between">
                 <div className="w-12" />
                 <div className="grow">
                   <PeriodSelector
@@ -40,12 +40,12 @@ const AppContent: React.FC = () => {
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="w-12 flex justify-end">
+                <div className="flex w-12 justify-end">
                   <SettingsDialog />
                 </div>
               </div>
             </div>
-            <div className="flex gap-8 justify-center mt-4">
+            <div className="mt-4 flex justify-center gap-8">
               <div className="shrink">
                 <Calendar dates={firstHalfDates} />
               </div>
