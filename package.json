@@ -10,9 +10,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "run-s --continue-on-error lint:biome",
+    "lint": "run-p --continue-on-error lint:*",
     "lint:biome": "biome lint .",
-    "lint-fix": "biome lint . --apply",
+    "lint:tsc": "tsc --noEmit",
+    "lint-fix": "run-s lint-fix:*",
+    "lint-fix:biome": "biome lint . --write",
     "preview": "vite preview",
     "test": "vitest run"
   },
