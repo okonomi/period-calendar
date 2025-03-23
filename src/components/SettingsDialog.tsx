@@ -24,8 +24,8 @@ export const SettingsDialog: React.FC = () => {
 
   const buttonClasses = clsx(
     "p-2 text-sm rounded",
-    "bg-stone-50 border border-stone-200 text-stone-600",
-    "hover:bg-stone-100 hover:border-stone-300",
+    "bg-[#fffcf8] border border-stone-200 text-stone-600",
+    "hover:bg-[#fff9f0] hover:border-stone-300",
     "transition-colors duration-200",
     "shadow-sm"
   )
