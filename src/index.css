@@ -1,79 +1,81 @@
 @import "tailwindcss";
 
-/* フォント設定 */
+/* 基本設定 */
 @theme {
   --font-sans: "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo,
     sans-serif;
   --font-feature-settings: "palt" 1;
+  --calendar-bg: #fffcf8;
+  --calendar-hover-bg: #fff9f0;
+  --cell-height: 2.25rem; /* h-9 = 36px = 2.25rem */
 }
 
 @layer components {
-  /* カレンダーのコンテナ */
+  /* ベースとなる共通スタイル */
+  .calendar-flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  /* カレンダー全体 */
   .calendar-container {
-    @apply bg-[#fffcf8] rounded-md shadow-lg p-4 w-[320px] mx-auto;
+    @apply bg-[var(--calendar-bg)] rounded-md p-4 w-[320px] mx-auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
     background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
     background-size: 8px 8px;
   }
 
-  /* ヘッダー要素 */
+  /* レイアウト要素 */
   .calendar-header {
-    @apply flex items-center justify-center space-x-2 w-full;
+    @apply flex justify-center space-x-2 w-full;
+  }
+  .calendar-grid {
+    @apply grid grid-cols-7;
+  }
+  .calendar-spacer {
+    @apply calendar-flex-center h-[var(--cell-height)];
   }
 
+  /* 月・曜日ヘッダー */
   .calendar-month {
-    @apply h-9 flex items-center justify-center text-base font-medium text-stone-700;
+    @apply calendar-flex-center h-[var(--cell-height)] text-base font-medium text-stone-700;
   }
-
   .calendar-weekday {
-    @apply h-9 flex items-center justify-center font-medium text-sm text-stone-600;
+    @apply calendar-flex-center h-[var(--cell-height)] font-medium text-sm text-stone-600;
   }
 
-  /* カレンダーセル */
+  /* 日付セル */
   .calendar-cell {
-    @apply h-9 px-1 rounded-md flex items-center justify-center text-sm text-stone-700 hover:bg-stone-50 transition-colors duration-200;
+    @apply calendar-flex-center h-[var(--cell-height)] px-1 rounded-md text-sm text-stone-700 
+           hover:bg-stone-50 transition-colors duration-200;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
   }
 
-  /* セル状態のバリエーション */
+  /* セル状態変化 */
   .calendar-cell-today {
     @apply bg-emerald-50 font-bold;
   }
-
   .calendar-cell-first-of-month {
     @apply bg-sky-50;
   }
-
   .calendar-cell-holiday {
     @apply text-red-600;
   }
-
   .calendar-cell-past {
     @apply opacity-40;
   }
 
-  /* 共通ボタンスタイル */
+  /* ボタン */
   .calendar-button {
-    @apply px-3 py-1.5 rounded-md h-9;
-    @apply bg-[#fffcf8] border border-stone-200 text-sm text-stone-600;
-    @apply hover:bg-[#fff9f0] hover:border-stone-300;
-    @apply transition-colors duration-200;
-    @apply shadow-sm;
+    @apply px-3 py-1.5 rounded-md h-[var(--cell-height)] bg-[var(--calendar-bg)] border border-stone-200 
+           text-sm text-stone-600 hover:bg-[var(--calendar-hover-bg)] hover:border-stone-300
+           transition-colors duration-200 shadow-sm;
   }
 
-  /* Tooltip関連スタイル */
+  /* Tooltip */
   .tooltip {
-    @apply absolute whitespace-nowrap rounded bg-black px-2 py-1 text-white text-xs -translate-x-1/2;
-    @apply before:absolute before:bottom-[-4px] before:left-1/2 before:border-4 before:border-transparent before:border-t-black before:content-[''] before:-translate-x-1/2;
-  }
-
-  /* カレンダーレイアウト用スタイル */
-  .calendar-spacer {
-    @apply flex h-9 items-center justify-center;
-  }
-
-  .calendar-grid {
-    @apply grid grid-cols-7;
+    @apply absolute whitespace-nowrap rounded bg-black px-2 py-1 text-white text-xs -translate-x-1/2
+           before:absolute before:bottom-[-4px] before:left-1/2 before:border-4 
+           before:border-transparent before:border-t-black before:content-[''] before:-translate-x-1/2;
   }
 }
