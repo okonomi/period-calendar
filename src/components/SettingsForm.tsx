@@ -50,7 +50,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setYear(e.target.value)}
               min="1900"
               max="2100"
-              className="px-2 py-1 border border-gray-300 rounded text-sm w-24 text-gray-800"
+              className="px-2 py-1 border border-gray-300 rounded-md text-sm w-24 text-gray-800"
             />
           </div>
           <div>
@@ -64,7 +64,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setMonth(e.target.value)}
               min="1"
               max="12"
-              className="px-2 py-1 border border-gray-300 rounded text-sm w-16 text-gray-800"
+              className="px-2 py-1 border border-gray-300 rounded-md text-sm w-16 text-gray-800"
             />
           </div>
         </div>
@@ -75,14 +75,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         <button
           type="button"
           onClick={onCancel}
-          className="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50"
+          className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
         >
           キャンセル
         </button>
         <button
           type="button"
           onClick={handleSave}
-          className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+          className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600"
         >
           保存
         </button>

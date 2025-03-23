@@ -8,7 +8,7 @@
 
 @layer components {
   .calendar-container {
-    @apply bg-[#fffcf8] rounded-lg shadow-lg p-4 w-[320px] mx-auto;
+    @apply bg-[#fffcf8] rounded-md shadow-lg p-4 w-[320px] mx-auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
     background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
@@ -20,7 +20,7 @@
   }
 
   .calendar-cell {
-    @apply h-9 px-1 rounded-sm;
+    @apply h-9 px-1 rounded-md;
     @apply flex items-center justify-center;
     @apply text-sm text-stone-700;
     @apply hover:bg-stone-50 transition-colors duration-200;
