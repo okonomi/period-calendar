@@ -40,7 +40,7 @@ const AppContent: React.FC = () => {
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="w-12">
+                <div className="w-12 flex justify-end">
                   <SettingsDialog />
                 </div>
               </div>
