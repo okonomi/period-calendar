@@ -33,12 +33,16 @@ const AppContent: React.FC = () => {
             <div className="flex justify-center">
               <div className="w-full max-w-2xl flex items-center justify-between">
                 <div className="w-12" />
-                <PeriodSelector
-                  period={selectedPeriod}
-                  onPrevPeriod={handlePrevPeriod}
-                  onNextPeriod={handleNextPeriod}
-                />
-                <SettingsDialog />
+                <div className="grow">
+                  <PeriodSelector
+                    period={selectedPeriod}
+                    onPrevPeriod={handlePrevPeriod}
+                    onNextPeriod={handleNextPeriod}
+                  />
+                </div>
+                <div className="w-12">
+                  <SettingsDialog />
+                </div>
               </div>
             </div>
             <div className="flex gap-8 justify-center mt-2">
