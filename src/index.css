@@ -7,6 +7,7 @@
   --font-feature-settings: "palt" 1;
   --color-calendar-bg: #fffcf8;
   --color-calendar-hover-bg: #fff9f0;
+  --color-calendar-text: #44403c; /* stone-700 */
   --cell-height: 2.25rem; /* h-9 = 36px = 2.25rem */
 }
 
@@ -33,15 +34,15 @@
 
   /* 月・曜日ヘッダー */
   .calendar-month {
-    @apply flex items-center justify-center h-(--cell-height) text-base font-medium text-stone-700;
+    @apply flex items-center justify-center h-(--cell-height) text-base font-medium text-calendar-text;
   }
   .calendar-weekday {
-    @apply flex items-center justify-center h-(--cell-height) font-medium text-sm text-stone-600;
+    @apply flex items-center justify-center h-(--cell-height) font-medium text-sm text-calendar-text;
   }
 
   /* 日付セル */
   .calendar-cell {
-    @apply flex items-center justify-center h-(--cell-height) px-1 rounded-md text-sm text-stone-700 
+    @apply flex items-center justify-center h-(--cell-height) px-1 rounded-md text-sm text-calendar-text 
            hover:bg-stone-50 transition-colors duration-200;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
   }
@@ -63,7 +64,7 @@
   /* ボタン */
   .calendar-button {
     @apply px-3 py-1.5 rounded-md h-(--cell-height) bg-calendar-bg border border-stone-200 
-           text-sm text-stone-600 hover:bg-calendar-hover-bg hover:border-stone-300
+           text-sm text-calendar-text hover:bg-calendar-hover-bg hover:border-stone-300
            transition-colors duration-200 shadow-sm;
   }
 
