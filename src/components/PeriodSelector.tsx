@@ -17,7 +17,7 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   const { settings } = useSettings()
 
   const buttonClasses = clsx(
-    "px-3 py-1.5 rounded-md",
+    "px-3 py-1.5 rounded-md h-9",
     "bg-[#fffcf8] border border-stone-200 text-sm text-stone-600",
     "hover:bg-[#fff9f0] hover:border-stone-300",
     "transition-colors duration-200",

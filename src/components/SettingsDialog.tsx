@@ -23,7 +23,7 @@ export const SettingsDialog: React.FC = () => {
   }
 
   const buttonClasses = clsx(
-    "p-2 text-sm rounded",
+    "p-1.5 rounded-md flex items-center justify-center w-9 h-9",
     "bg-[#fffcf8] border border-stone-200 text-stone-600",
     "hover:bg-[#fff9f0] hover:border-stone-300",
     "transition-colors duration-200",
