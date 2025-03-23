@@ -30,7 +30,7 @@ const AppContent: React.FC = () => {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-2 py-2">
           <div className="max-w-5xl mx-auto relative">
-            <div className="mb-4 flex justify-center">
+            <div className="flex justify-center">
               <div className="w-full max-w-2xl flex items-center justify-between">
                 <div className="w-12" />
                 <PeriodSelector
@@ -41,7 +41,7 @@ const AppContent: React.FC = () => {
                 <SettingsDialog />
               </div>
             </div>
-            <div className="flex gap-8 justify-center mt-4">
+            <div className="flex gap-8 justify-center">
               <div className="shrink">
                 <Calendar dates={firstHalfDates} />
               </div>
