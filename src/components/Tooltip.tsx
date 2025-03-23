@@ -7,7 +7,6 @@ type Props = {
 
 export const Tooltip: React.FC<Props> = ({ text, position }) => {
   const style: CSSProperties = {
-    position: "absolute",
     top: position.top,
     left: position.left,
   }
