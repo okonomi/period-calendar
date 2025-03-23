@@ -73,4 +73,73 @@
            before:absolute before:bottom-[-4px] before:left-1/2 before:border-4 
            before:border-transparent before:border-t-black before:content-[''] before:-translate-x-1/2;
   }
+
+  /* 設定ダイアログ */
+  .settings-button {
+    @apply p-1.5 rounded-md flex items-center justify-center w-9 h-9 
+           bg-calendar-bg border border-stone-200 text-stone-600
+           hover:bg-calendar-hover-bg hover:border-stone-300
+           transition-colors duration-200 shadow-sm;
+  }
+
+  .settings-dialog {
+    @apply fixed inset-0 m-auto rounded-md border border-gray-200 p-0 shadow-xl backdrop:bg-black/50;
+  }
+
+  /* 設定フォーム */
+  .settings-form {
+    @apply w-72 bg-white p-4;
+  }
+
+  .settings-form-title {
+    @apply mb-4 font-medium text-lg text-calendar-text;
+  }
+
+  .settings-form-section {
+    @apply mb-4;
+  }
+
+  .settings-form-subtitle {
+    @apply mb-2 font-medium text-sm text-calendar-text;
+  }
+
+  .settings-form-field-group {
+    @apply flex items-center gap-3;
+  }
+
+  .settings-form-label {
+    @apply mb-1 block font-medium text-xs text-calendar-text;
+  }
+
+  .settings-form-input {
+    @apply rounded-md border border-gray-300 px-2 py-1 text-sm text-calendar-text;
+  }
+
+  .settings-form-input-year {
+    @apply w-24;
+  }
+
+  .settings-form-input-month {
+    @apply w-16;
+  }
+
+  .settings-form-help {
+    @apply mt-1 text-xs text-calendar-text;
+  }
+
+  .settings-form-actions {
+    @apply flex justify-end space-x-2;
+  }
+
+  .settings-form-button {
+    @apply rounded-md px-3 py-1 text-sm transition-colors duration-200;
+  }
+
+  .settings-form-button-cancel {
+    @apply border border-gray-300 text-calendar-text hover:bg-gray-50;
+  }
+
+  .settings-form-button-save {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+  }
 }

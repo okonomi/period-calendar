@@ -33,14 +33,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <div className="w-72 bg-white p-4">
-      <h3 className="mb-4 font-medium text-gray-800 text-lg">カレンダー設定</h3>
+    <div className="settings-form">
+      <h3 className="settings-form-title">カレンダー設定</h3>
 
-      <div className="mb-4">
-        <h4 className="mb-2 font-medium text-gray-800 text-sm">1期目の開始年月</h4>
-        <div className="flex items-center gap-3">
+      <div className="settings-form-section">
+        <h4 className="settings-form-subtitle">1期目の開始年月</h4>
+        <div className="settings-form-field-group">
           <div>
-            <label htmlFor="firstPeriodYear" className="mb-1 block font-medium text-gray-700 text-xs">
+            <label htmlFor="firstPeriodYear" className="settings-form-label">
               年
             </label>
             <input
@@ -50,11 +50,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setYear(e.target.value)}
               min="1900"
               max="2100"
-              className="w-24 rounded-md border border-gray-300 px-2 py-1 text-gray-800 text-sm"
+              className="settings-form-input settings-form-input-year"
             />
           </div>
           <div>
-            <label htmlFor="firstPeriodMonth" className="mb-1 block font-medium text-gray-700 text-xs">
+            <label htmlFor="firstPeriodMonth" className="settings-form-label">
               月
             </label>
             <input
@@ -64,26 +64,18 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setMonth(e.target.value)}
               min="1"
               max="12"
-              className="w-16 rounded-md border border-gray-300 px-2 py-1 text-gray-800 text-sm"
+              className="settings-form-input settings-form-input-month"
             />
           </div>
         </div>
-        <p className="mt-1 text-gray-700 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+        <p className="settings-form-help">例：1期が1999年8月から始まる場合、1999と8を設定</p>
       </div>
 
-      <div className="flex justify-end space-x-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded-md border border-gray-300 px-3 py-1 text-gray-700 text-sm hover:bg-gray-50"
-        >
+      <div className="settings-form-actions">
+        <button type="button" onClick={onCancel} className="settings-form-button settings-form-button-cancel">
           キャンセル
         </button>
-        <button
-          type="button"
-          onClick={handleSave}
-          className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
-        >
+        <button type="button" onClick={handleSave} className="settings-form-button settings-form-button-save">
           保存
         </button>
       </div>
