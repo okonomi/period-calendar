@@ -1,4 +1,3 @@
-import { clsx } from "clsx"
 import { type PeriodRange, getPeriodRange } from "../domain/Period"
 import { format } from "../domain/YearMonth"
 import { useSettings } from "../hooks/use-settings"
