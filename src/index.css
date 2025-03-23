@@ -11,14 +11,9 @@
 }
 
 @layer components {
-  /* ベースとなる共通スタイル */
-  .calendar-flex-center {
-    @apply flex items-center justify-center;
-  }
-
   /* カレンダー全体 */
   .calendar-container {
-    @apply bg-[var(--calendar-bg)] rounded-md p-4 w-[320px] mx-auto;
+    @apply bg-(--calendar-bg) rounded-md p-4 w-[320px] mx-auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
     background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
@@ -33,20 +28,20 @@
     @apply grid grid-cols-7;
   }
   .calendar-spacer {
-    @apply calendar-flex-center h-[var(--cell-height)];
+    @apply flex items-center justify-center h-(--cell-height);
   }
 
   /* 月・曜日ヘッダー */
   .calendar-month {
-    @apply calendar-flex-center h-[var(--cell-height)] text-base font-medium text-stone-700;
+    @apply flex items-center justify-center h-(--cell-height) text-base font-medium text-stone-700;
   }
   .calendar-weekday {
-    @apply calendar-flex-center h-[var(--cell-height)] font-medium text-sm text-stone-600;
+    @apply flex items-center justify-center h-(--cell-height) font-medium text-sm text-stone-600;
   }
 
   /* 日付セル */
   .calendar-cell {
-    @apply calendar-flex-center h-[var(--cell-height)] px-1 rounded-md text-sm text-stone-700 
+    @apply flex items-center justify-center h-(--cell-height) px-1 rounded-md text-sm text-stone-700 
            hover:bg-stone-50 transition-colors duration-200;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
   }
@@ -67,8 +62,8 @@
 
   /* ボタン */
   .calendar-button {
-    @apply px-3 py-1.5 rounded-md h-[var(--cell-height)] bg-[var(--calendar-bg)] border border-stone-200 
-           text-sm text-stone-600 hover:bg-[var(--calendar-hover-bg)] hover:border-stone-300
+    @apply px-3 py-1.5 rounded-md h-(--cell-height) bg-(--calendar-bg) border border-stone-200 
+           text-sm text-stone-600 hover:bg-(--calendar-hover-bg) hover:border-stone-300
            transition-colors duration-200 shadow-sm;
   }
 
