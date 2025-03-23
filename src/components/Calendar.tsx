@@ -29,22 +29,16 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         {/* 左カラム - 月名表示 */}
         <div className="flex w-14 flex-col">
           {/* 曜日行と同じ高さのスペーサー */}
-          <div className="flex h-9 items-center justify-center" />
+          <div className="calendar-spacer" />
 
           {weeklyDates.map((week, weekIndex) => {
             const firstDayOfMonth = week.find((d) => d?.day === 1)
             if (!firstDayOfMonth) {
-              return (
-                <div
-                  key={generateMonthKey(firstDayOfMonth, weekIndex)}
-                  className="flex h-9 items-center justify-center"
-                />
-              )
+              return <div key={generateMonthKey(firstDayOfMonth, weekIndex)} className="calendar-spacer" />
             }
 
             const month = firstDayOfMonth.month
             const monthKey = generateMonthKey(firstDayOfMonth, weekIndex)
-
             return (
               <div key={monthKey} className="calendar-month">
                 {month}月
@@ -56,7 +50,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         {/* 右カラム - カレンダー本体 */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* 曜日の行 */}
-          <div className="grid grid-cols-7">
+          <div className="calendar-grid">
             {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
               <div key={`weekday-${dayName}`} className="calendar-weekday">
                 {dayName}
@@ -69,12 +63,12 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
             const weekStart = generateWeekKey(firstValidDate)
 
             return (
-              <div key={`week-${weekStart}`} className="grid grid-cols-7">
+              <div key={`week-${weekStart}`} className="calendar-grid">
                 {week.map((date, dateIndex) => {
                   if (!date) {
                     const dayOfWeek = dateIndex
                     const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                    return <div key={spacerKey} className="flex h-9 items-center justify-center" />
+                    return <div key={spacerKey} className="calendar-spacer" />
                   }
 
                   return <DateCell key={`date-${getDateNum(date)}`} date={date} />

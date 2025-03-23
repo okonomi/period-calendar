@@ -15,27 +15,18 @@ type Props = {
 
 export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPeriod }) => {
   const { settings } = useSettings()
-
-  const buttonClasses = clsx(
-    "px-3 py-1.5 rounded-md h-9",
-    "bg-[#fffcf8] border border-stone-200 text-sm text-stone-600",
-    "hover:bg-[#fff9f0] hover:border-stone-300",
-    "transition-colors duration-200",
-    "shadow-sm"
-  )
-
   const periodRange = formatPeriodRange(getPeriodRange(period, settings))
 
   return (
     <div className="calendar-header">
-      <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
+      <button type="button" onClick={onPrevPeriod} className="calendar-button">
         ◀ 前期
       </button>
       <div className="text-center">
         <div className="font-medium text-lg text-stone-800">{period}期</div>
         <div className="text-sm text-stone-500">{periodRange}</div>
       </div>
-      <button type="button" onClick={onNextPeriod} className={buttonClasses}>
+      <button type="button" onClick={onNextPeriod} className="calendar-button">
         来期 ▶
       </button>
     </div>
