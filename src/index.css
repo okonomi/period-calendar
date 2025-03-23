@@ -16,7 +16,7 @@
   }
 
   .calendar-header {
-    @apply flex items-center justify-center space-x-2 w-full py-3 mb-2;
+    @apply flex items-center justify-center space-x-2 w-full;
   }
 
   .calendar-cell {
