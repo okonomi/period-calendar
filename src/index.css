@@ -5,15 +5,15 @@
   --font-sans: "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo,
     sans-serif;
   --font-feature-settings: "palt" 1;
-  --calendar-bg: #fffcf8;
-  --calendar-hover-bg: #fff9f0;
+  --color-calendar-bg: #fffcf8;
+  --color-calendar-hover-bg: #fff9f0;
   --cell-height: 2.25rem; /* h-9 = 36px = 2.25rem */
 }
 
 @layer components {
   /* カレンダー全体 */
   .calendar-container {
-    @apply bg-(--calendar-bg) rounded-md p-4 w-[320px] mx-auto;
+    @apply bg-calendar-bg rounded-md p-4 w-[320px] mx-auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
     background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
@@ -62,8 +62,8 @@
 
   /* ボタン */
   .calendar-button {
-    @apply px-3 py-1.5 rounded-md h-(--cell-height) bg-(--calendar-bg) border border-stone-200 
-           text-sm text-stone-600 hover:bg-(--calendar-hover-bg) hover:border-stone-300
+    @apply px-3 py-1.5 rounded-md h-(--cell-height) bg-calendar-bg border border-stone-200 
+           text-sm text-stone-600 hover:bg-calendar-hover-bg hover:border-stone-300
            transition-colors duration-200 shadow-sm;
   }
 
