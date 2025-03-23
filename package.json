@@ -5,14 +5,13 @@
   "type": "module",
   "packageManager": "pnpm@10.6.3",
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "biome lint .",
+    "lint": "run-s --continue-on-error lint:biome",
+    "lint:biome": "biome lint .",
     "lint-fix": "biome lint . --apply",
     "preview": "vite preview",
     "test": "vitest run"
