@@ -52,7 +52,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
           {/* 曜日の行 */}
           <div className="calendar-grid">
             {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
-              <div key={`weekday-${dayName}`} className="calendar-weekday">
+              <div key={`weekday-${dayName}`} className="calendar-cell calendar-weekday">
                 {dayName}
               </div>
             ))}

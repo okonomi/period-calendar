@@ -13,11 +13,11 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   const holiday = getHoliday(date, holidays)
   const tooltip = holiday?.name
 
-  const cellClassName = clsx("calendar-cell", {
-    "calendar-cell-first-of-month": isFirstDayOfMonth(date),
-    "calendar-cell-today": isToday(date),
-    "calendar-cell-past": isPastDate(date),
-    "calendar-cell-holiday": !!holiday,
+  const cellClassName = clsx("calendar-cell date-cell", {
+    "date-cell-first-of-month": isFirstDayOfMonth(date),
+    "date-cell-today": isToday(date),
+    "date-cell-past": isPastDate(date),
+    "date-cell-holiday": !!holiday,
   })
 
   return (
