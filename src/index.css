@@ -14,8 +14,14 @@
 
 @layer components {
   .calendar-box {
-    @apply bg-calendar-bg border border-calendar-border rounded-md;
+    @apply bg-calendar-bg rounded-md;
     @apply shadow-sm;
+  }
+
+  .calendar-button {
+    @apply border border-calendar-border/50
+        hover:bg-calendar-hover-bg hover:border-calendar-border
+          transition-colors duration-200;
   }
 
   /* カレンダー全体 */
@@ -66,10 +72,9 @@
   }
 
   /* ボタン */
-  .calendar-button {
+  .period-selector-button {
     @apply px-3 py-1.5 rounded-md h-9
-           text-sm text-calendar-text hover:bg-calendar-hover-bg hover:border-stone-300
-           transition-colors duration-200;
+           text-sm text-calendar-text;
   }
 
   /* Tooltip */
@@ -81,10 +86,8 @@
 
   /* 設定ダイアログ */
   .settings-button {
-    @apply p-1.5 rounded-md flex items-center justify-center size-9
-           text-calendar-text
-           hover:bg-calendar-hover-bg hover:border-stone-300
-           transition-colors duration-200;
+    @apply p-1.5 flex items-center justify-center size-9
+           text-calendar-text;
   }
 
   .settings-dialog {

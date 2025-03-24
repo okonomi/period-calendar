@@ -18,14 +18,14 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
 
   return (
     <div className="calendar-header">
-      <button type="button" onClick={onPrevPeriod} className="calendar-button calendar-box">
+      <button type="button" onClick={onPrevPeriod} className="calendar-button calendar-box period-selector-button">
         ◀ 前期
       </button>
       <div className="text-center">
         <div className="font-medium text-calendar-text text-lg">{period}期</div>
         <div className="text-sm text-stone-500">{periodRange}</div>
       </div>
-      <button type="button" onClick={onNextPeriod} className="calendar-button calendar-box">
+      <button type="button" onClick={onNextPeriod} className="calendar-button calendar-box period-selector-button">
         来期 ▶
       </button>
     </div>
