@@ -24,7 +24,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
   const weeklyDates = groupDatesByWeek(dates)
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container calendar-shadow">
       <div className="flex flex-row">
         {/* 左カラム - 月名表示 */}
         <div className="flex w-14 flex-col">
