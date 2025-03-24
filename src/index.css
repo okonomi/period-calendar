@@ -13,14 +13,14 @@
 }
 
 @layer components {
-  /* 共通ユーティリティ */
-  .calendar-shadow {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
+  .calendar-box {
+    @apply bg-calendar-bg border border-calendar-border rounded-md;
+    @apply shadow-sm;
   }
 
   /* カレンダー全体 */
   .calendar-container {
-    @apply bg-calendar-bg rounded-md p-4 w-[320px] mx-auto;
+    @apply p-4 w-[320px] mx-auto;
     background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
     background-size: 8px 8px;
@@ -68,7 +68,7 @@
 
   /* ボタン */
   .calendar-button {
-    @apply px-3 py-1.5 rounded-md h-9 bg-calendar-bg border border-calendar-border
+    @apply px-3 py-1.5 rounded-md h-9
            text-sm text-calendar-text hover:bg-calendar-hover-bg hover:border-stone-300
            transition-colors duration-200;
   }
@@ -83,7 +83,7 @@
   /* 設定ダイアログ */
   .settings-button {
     @apply p-1.5 rounded-md flex items-center justify-center size-9
-           bg-calendar-bg border border-calendar-border text-calendar-text
+           text-calendar-text
            hover:bg-calendar-hover-bg hover:border-stone-300
            transition-colors duration-200;
   }
