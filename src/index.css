@@ -13,21 +13,23 @@
 }
 
 @layer components {
-  .calendar-box {
+  .sc-box {
     @apply bg-calendar-bg rounded-md;
     @apply shadow-sm;
   }
 
-  .calendar-button {
+  .sc-button {
     @apply border border-calendar-border/50
         hover:bg-calendar-hover-bg hover:border-calendar-border
           transition-colors duration-200;
   }
 
-  .calendar-cell {
+  .sc-cell {
     @apply flex items-center justify-center size-9;
   }
+}
 
+@layer components {
   /* カレンダー全体 */
   .calendar-container {
     @apply p-4 mx-auto;

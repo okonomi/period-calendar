@@ -24,12 +24,7 @@ export const SettingsDialog: React.FC = () => {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={openSettings}
-        className="calendar-box calendar-button settings-button"
-        aria-label="設定"
-      >
+      <button type="button" onClick={openSettings} className="sc-box sc-button settings-button" aria-label="設定">
         <SettingsIcon className="h-5 w-5" />
       </button>
 
