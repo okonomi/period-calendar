@@ -50,7 +50,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         {/* 右カラム - カレンダー本体 */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* 曜日の行 */}
-          <div className="calendar-grid">
+          <div className="calendar-week">
             {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
               <div key={`weekday-${dayName}`} className="sc-cell calendar-weekday">
                 {dayName}
@@ -63,7 +63,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
             const weekStart = generateWeekKey(firstValidDate)
 
             return (
-              <div key={`week-${weekStart}`} className="calendar-grid">
+              <div key={`week-${weekStart}`} className="calendar-week">
                 {week.map((date, dateIndex) => {
                   if (!date) {
                     const dayOfWeek = dateIndex

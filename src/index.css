@@ -42,7 +42,7 @@
   .calendar-header {
     @apply flex justify-center space-x-2 w-full;
   }
-  .calendar-grid {
+  .calendar-week {
     @apply grid grid-cols-7;
   }
   .calendar-spacer {
