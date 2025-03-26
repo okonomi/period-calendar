@@ -22,12 +22,12 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
   return (
     <div className="sc-box calendar-container">
       {/* 曜日の行 */}
-      <div className="flex justify-center space-x-2 w-full">
-        <div className="flex items-center justify-center w-14" />
+      <div className="flex w-full justify-center">
+        <div className="flex w-14 items-center justify-center" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div
             key={`weekday-${dayName}`}
-            className="font-medium text-sm text-calendar-text flex-1 flex items-center justify-center size-9"
+            className="flex aspect-square size-9 flex-1 items-center justify-center font-medium text-calendar-text text-sm"
           >
             {dayName}
           </div>
@@ -43,7 +43,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         return (
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
-            <div className="flex items-center justify-center w-14">
+            <div className="flex w-14 items-center justify-center">
               {firstDayOfMonth ? (
                 <span className="px-2 py-1 font-medium text-sm">{firstDayOfMonth.month}月</span>
               ) : (
@@ -56,10 +56,14 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               if (!date) {
                 const dayOfWeek = dateIndex
                 const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                return <div key={spacerKey} className="flex items-center justify-center h-9 flex-1" />
+                return <div key={spacerKey} className="flex aspect-square size-9 flex-1 items-center justify-center" />
               }
 
-              return <DateCell key={`date-${getDateNum(date)}`} date={date} />
+              return (
+                <div key={`date-${getDateNum(date)}`} className="flex flex-1 items-center justify-center">
+                  <DateCell date={date} />
+                </div>
+              )
             })}
           </div>
         )
