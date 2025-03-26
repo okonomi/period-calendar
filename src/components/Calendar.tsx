@@ -22,10 +22,13 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
   return (
     <div className="sc-box calendar-container">
       {/* 曜日の行 */}
-      <div className="calendar-header flex">
+      <div className="flex justify-center space-x-2 w-full">
         <div className="flex items-center justify-center w-14" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
-          <div key={`weekday-${dayName}`} className="calendar-weekday sc-cell flex-1">
+          <div
+            key={`weekday-${dayName}`}
+            className="font-medium text-sm text-calendar-text flex-1 flex items-center justify-center size-9"
+          >
             {dayName}
           </div>
         ))}
@@ -38,7 +41,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         const firstDayOfMonth = week.find((d) => d?.day === 1)
 
         return (
-          <div key={`week-${weekStart}`} className="calendar-week flex">
+          <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
             <div className="flex items-center justify-center w-14">
               {firstDayOfMonth ? (
@@ -53,7 +56,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               if (!date) {
                 const dayOfWeek = dateIndex
                 const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                return <div key={spacerKey} className="calendar-spacer flex-1" />
+                return <div key={spacerKey} className="flex items-center justify-center h-9 flex-1" />
               }
 
               return <DateCell key={`date-${getDateNum(date)}`} date={date} />
