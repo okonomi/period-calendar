@@ -22,7 +22,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
   return (
     <div className="sc-box calendar-container">
       {/* 曜日の行 */}
-      <div className="flex w-full justify-center">
+      <div className="flex">
         <div className="w-14" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div
@@ -56,7 +56,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               if (!date) {
                 const dayOfWeek = dateIndex
                 const spacerKey = generateSpacerKey(weekStart, dayOfWeek)
-                return <div key={spacerKey} className="flex aspect-square size-9 flex-1 items-center justify-center" />
+                return <div key={spacerKey} className="flex aspect-square flex-1" />
               }
 
               return (
