@@ -4,6 +4,7 @@ const config = {
   printWidth: 120,
   trailingComma: "es5",
   plugins: ["prettier-plugin-tailwindcss"],
+  tailwindFunctions: ["clsx"],
 }
 
 export default config
