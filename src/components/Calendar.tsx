@@ -43,13 +43,13 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         return (
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
-            <div className="flex w-14 items-center justify-center">
-              {firstDayOfMonth ? (
-                <span className="px-2 py-1 font-medium text-sm">{firstDayOfMonth.month}月</span>
-              ) : (
-                <span className="invisible">&nbsp;</span>
-              )}
-            </div>
+            {firstDayOfMonth ? (
+              <div className="flex w-14 items-center justify-center px-2 py-1 font-medium text-sm">
+                {firstDayOfMonth.month}月
+              </div>
+            ) : (
+              <div className="w-14" />
+            )}
 
             {/* 日付セル */}
             {week.map((date, dateIndex) => {
