@@ -2,8 +2,8 @@
 
 /* 基本設定 */
 @theme {
-  --font-sans: "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo,
-    sans-serif;
+  --font-sans:
+    "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
   --font-feature-settings: "palt" 1;
   --color-calendar-bg: #fffcf8;
   --color-calendar-hover-bg: #fff9f0;
@@ -19,48 +19,46 @@
   }
 
   .sc-button {
-    @apply border border-calendar-border/50
-        hover:bg-calendar-hover-bg hover:border-calendar-border
-          transition-colors duration-200;
+    @apply border-calendar-border/50 hover:bg-calendar-hover-bg hover:border-calendar-border border transition-colors duration-200;
   }
 
   .sc-cell {
-    @apply flex items-center justify-center size-9;
+    @apply flex size-9 items-center justify-center;
   }
 }
 
 @layer components {
   /* カレンダー全体 */
   .calendar-container {
-    @apply p-4 mx-auto;
-    background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
+    @apply mx-auto p-4;
+    background-image:
+      linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
     background-size: 8px 8px;
   }
 
   /* レイアウト要素 */
   .calendar-header {
-    @apply flex justify-center space-x-2 w-full;
+    @apply flex w-full justify-center space-x-2;
   }
   .calendar-week {
     @apply grid grid-cols-7;
   }
   .calendar-spacer {
-    @apply flex items-center justify-center h-9;
+    @apply flex h-9 items-center justify-center;
   }
 
   /* 月・曜日ヘッダー */
   .calendar-month {
-    @apply flex items-center justify-center h-9 text-base font-medium text-calendar-text;
+    @apply text-calendar-text flex h-9 items-center justify-center text-base font-medium;
   }
   .calendar-weekday {
-    @apply font-medium text-sm text-calendar-text;
+    @apply text-calendar-text text-sm font-medium;
   }
 
   /* 日付セル */
   .date-cell {
-    @apply px-1 rounded-md text-sm text-calendar-text
-           hover:bg-stone-50 transition-colors duration-200;
+    @apply text-calendar-text rounded-md px-1 text-sm transition-colors duration-200 hover:bg-stone-50;
   }
 
   /* セル状態変化 */
@@ -79,21 +77,17 @@
 
   /* ボタン */
   .period-selector-button {
-    @apply px-3 py-1.5 rounded-md h-9
-           text-sm text-calendar-text;
+    @apply text-calendar-text h-9 rounded-md px-3 py-1.5 text-sm;
   }
 
   /* Tooltip */
   .tooltip {
-    @apply absolute whitespace-nowrap rounded bg-black px-2 py-1 text-white text-xs -translate-x-1/2
-           before:absolute before:bottom-[-4px] before:left-1/2 before:border-4 
-           before:border-transparent before:border-t-black before:content-[''] before:-translate-x-1/2;
+    @apply absolute -translate-x-1/2 rounded bg-black px-2 py-1 text-xs whitespace-nowrap text-white before:absolute before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-black before:content-[''];
   }
 
   /* 設定ダイアログ */
   .settings-button {
-    @apply p-1.5 flex items-center justify-center size-9
-           text-calendar-text;
+    @apply text-calendar-text flex size-9 items-center justify-center p-1.5;
   }
 
   .settings-dialog {
@@ -106,7 +100,7 @@
   }
 
   .settings-form-title {
-    @apply mb-4 font-medium text-lg text-calendar-text;
+    @apply text-calendar-text mb-4 text-lg font-medium;
   }
 
   .settings-form-section {
@@ -114,7 +108,7 @@
   }
 
   .settings-form-subtitle {
-    @apply mb-2 font-medium text-sm text-calendar-text;
+    @apply text-calendar-text mb-2 text-sm font-medium;
   }
 
   .settings-form-field-group {
@@ -122,11 +116,11 @@
   }
 
   .settings-form-label {
-    @apply mb-1 block font-medium text-xs text-calendar-text;
+    @apply text-calendar-text mb-1 block text-xs font-medium;
   }
 
   .settings-form-input {
-    @apply rounded-md border border-gray-300 px-2 py-1 text-sm text-calendar-text;
+    @apply text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm;
   }
 
   .settings-form-input-year {
@@ -138,7 +132,7 @@
   }
 
   .settings-form-help {
-    @apply mt-1 text-xs text-calendar-text;
+    @apply text-calendar-text mt-1 text-xs;
   }
 
   .settings-form-actions {
@@ -150,7 +144,7 @@
   }
 
   .settings-form-button-cancel {
-    @apply border border-gray-300 text-calendar-text hover:bg-gray-50;
+    @apply text-calendar-text border border-gray-300 hover:bg-gray-50;
   }
 
   .settings-form-button-save {

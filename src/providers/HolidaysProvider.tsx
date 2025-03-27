@@ -8,7 +8,10 @@ async function fetchHolidays(year: number): Promise<Record<string, Holiday>> {
   const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`)
   const data = await response.json()
   const holidayDates = Object.keys(data).reduce<Record<string, Holiday>>((acc, dateString) => {
-    acc[dateString] = { date: createCalendarDateFromDate(new Date(dateString)), name: data[dateString] }
+    acc[dateString] = {
+      date: createCalendarDateFromDate(new Date(dateString)),
+      name: data[dateString],
+    }
     return acc
   }, {})
   return holidayDates

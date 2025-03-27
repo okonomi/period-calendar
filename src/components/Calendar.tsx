@@ -27,7 +27,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div
             key={`weekday-${dayName}`}
-            className="flex aspect-square flex-1 items-center justify-center font-medium text-calendar-text text-sm"
+            className="text-calendar-text flex aspect-square flex-1 items-center justify-center text-sm font-medium"
           >
             {dayName}
           </div>
@@ -44,7 +44,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
             {firstDayOfMonth ? (
-              <div className="flex w-14 items-center justify-center px-2 py-1 font-medium text-sm">
+              <div className="flex w-14 items-center justify-center px-2 py-1 text-sm font-medium">
                 {firstDayOfMonth.month}月
               </div>
             ) : (

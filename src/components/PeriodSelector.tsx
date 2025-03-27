@@ -22,7 +22,7 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
         ◀ 前期
       </button>
       <div className="text-center">
-        <div className="font-medium text-calendar-text text-lg">{period}期</div>
+        <div className="text-calendar-text text-lg font-medium">{period}期</div>
         <div className="text-sm text-stone-500">{periodRange}</div>
       </div>
       <button type="button" onClick={onNextPeriod} className="sc-box sc-button period-selector-button">
