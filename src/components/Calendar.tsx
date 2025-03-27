@@ -23,11 +23,11 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
     <div className="sc-box calendar-container">
       {/* 曜日の行 */}
       <div className="flex w-full justify-center">
-        <div className="flex w-14 items-center justify-center" />
+        <div className="w-14" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div
             key={`weekday-${dayName}`}
-            className="flex aspect-square size-9 flex-1 items-center justify-center font-medium text-calendar-text text-sm"
+            className="flex aspect-square flex-1 items-center justify-center font-medium text-calendar-text text-sm"
           >
             {dayName}
           </div>
