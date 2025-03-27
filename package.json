@@ -5,9 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.6.3",
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "scripts": {
     "dev": "vite",
@@ -15,8 +13,10 @@
     "lint": "run-p --continue-on-error lint:*",
     "lint:biome": "biome lint .",
     "lint:tsc": "tsc --noEmit",
+    "lint:prettier": "prettier --check src/",
     "lint-fix": "run-s lint-fix:*",
     "lint-fix:biome": "biome lint . --write",
+    "lint-fix:prettier": "prettier --write src/",
     "preview": "vite preview",
     "test": "vitest run"
   },
