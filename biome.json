@@ -12,9 +12,6 @@
       "recommended": true,
       "a11y": {
         "recommended": true
-      },
-      "nursery": {
-        "useSortedClasses": "warn"
       }
     }
   },
