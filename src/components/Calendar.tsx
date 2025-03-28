@@ -59,7 +59,11 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
                 return <div key={spacerKey} className="flex aspect-square flex-1" />
               }
 
-              return <DateCell key={`date-${getDateNum(date)}`} date={date} />
+              return (
+                <div key={`date-${getDateNum(date)}`} className="flex aspect-square flex-1 items-center justify-center">
+                  <DateCell date={date} />
+                </div>
+              )
             })}
           </div>
         )

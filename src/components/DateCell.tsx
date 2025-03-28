@@ -14,7 +14,7 @@ export const DateCell: React.FC<Props> = ({ date }) => {
   const tooltip = holiday?.name
 
   const cellClassName = clsx(
-    "text-calendar-text flex aspect-square size-9 flex-1 items-center justify-center rounded-md text-sm transition-colors duration-200 hover:bg-stone-50",
+    "w-full h-full text-calendar-text grid place-content-center rounded-md text-sm transition-colors duration-200 hover:bg-stone-50",
     {
       "bg-emerald-50 font-bold": isToday(date),
       "bg-sky-50": isFirstDayOfMonth(date),
