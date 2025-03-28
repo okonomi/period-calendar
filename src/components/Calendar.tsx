@@ -23,7 +23,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
     <div className="sc-box calendar-container">
       {/* 曜日の行 */}
       <div className="flex">
-        <div className="w-14" />
+        <div className="flex-[1.5]" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div
             key={`weekday-${dayName}`}
@@ -44,11 +44,11 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
             {firstDayOfMonth ? (
-              <div className="flex w-14 items-center justify-center px-2 py-1 text-sm font-medium">
+              <div className="flex flex-[1.5] items-center justify-center text-sm font-medium">
                 {firstDayOfMonth.month}月
               </div>
             ) : (
-              <div className="w-14" />
+              <div className="flex-[1.5]" />
             )}
 
             {/* 日付セル */}
