@@ -68,9 +68,6 @@ export const Default: Story = {
     dates: threeMontDates,
     containerWidth: 300,
   },
-  parameters: {
-    autoplay: true,
-  },
 }
 
 // Single month calendar
@@ -79,9 +76,6 @@ export const SingleMonth: Story = {
     dates: generateDates(createYearMonth(2023, 5), createYearMonth(2023, 5)),
     containerWidth: 300,
   },
-  parameters: {
-    autoplay: true,
-  },
 }
 
 // Full year calendar (12 months)
@@ -89,9 +83,6 @@ export const FullYear: Story = {
   args: {
     dates: generateDates(createYearMonth(2023, 1), createYearMonth(2023, 12)),
     containerWidth: 300,
-  },
-  parameters: {
-    autoplay: true,
   },
 }
 
@@ -121,8 +112,5 @@ export const WithHolidays: Story = {
     dates: threeMontDates,
     containerWidth: 300,
     holidays: japaneseHolidays,
-  },
-  parameters: {
-    autoplay: true,
   },
 }
