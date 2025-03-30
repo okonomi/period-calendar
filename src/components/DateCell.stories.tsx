@@ -9,12 +9,14 @@ const meta = {
   component: DateCell,
   tags: ["autodocs"],
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
   decorators: [
     (Story) => (
       <HolidaysContext.Provider value={{}}>
-        <Story />
+        <div className="@container size-20">
+          <Story />
+        </div>
       </HolidaysContext.Provider>
     ),
   ],
