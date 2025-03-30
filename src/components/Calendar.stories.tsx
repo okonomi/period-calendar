@@ -14,6 +14,12 @@ const meta = {
   parameters: {
     layout: "centered",
     mockdate: new Date(2023, 5 - 1, 15), // 2023-05-15
+    docs: {
+      source: {
+        excludeDecorators: true,
+        transform: (code: string) => code.replace(/containerWidth=\{[^}]+\}\s*/g, ""),
+      },
+    },
   },
   decorators: [
     (Story, context) => {
