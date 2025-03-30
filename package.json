@@ -5,9 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.6.3",
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "scripts": {
     "dev": "vite",
@@ -64,8 +62,6 @@
     "vitest": "^3.0.8"
   },
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   }
 }

@@ -1,7 +1,9 @@
 import type { Preview } from "@storybook/react"
+import { withMockdateDecorator } from "./decorators"
 import "../src/index.css"
 
 const preview: Preview = {
+  decorators: [withMockdateDecorator],
   parameters: {
     controls: {
       matchers: {
