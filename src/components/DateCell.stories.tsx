@@ -29,6 +29,12 @@ const meta = {
         type: "object",
       },
     },
+    displayMode: {
+      control: { type: "radio" },
+      options: ["continuous", "monthly"],
+      description: "カレンダー表示モード",
+      defaultValue: "continuous",
+    },
   },
 } satisfies Meta<typeof DateCell>
 
@@ -39,12 +45,14 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     date: { ...currentDate, day: currentDate.day + 2 },
+    displayMode: "continuous",
   },
 }
 
 export const Holiday: Story = {
   args: {
     date: createCalendarDate(2023, 2, 2),
+    displayMode: "continuous",
   },
   decorators: [
     (Story) => {
@@ -66,17 +74,48 @@ export const Holiday: Story = {
 export const Today: Story = {
   args: {
     date: currentDate,
+    displayMode: "continuous",
   },
 }
 
 export const Future: Story = {
   args: {
     date: { ...currentDate, day: currentDate.day + 1 },
+    displayMode: "continuous",
   },
 }
 
 export const Past: Story = {
   args: {
     date: { ...currentDate, day: currentDate.day - 1 },
+    displayMode: "continuous",
+  },
+}
+
+export const FirstDayOfMonth: Story = {
+  args: {
+    date: createCalendarDate(2023, 1, 1),
+    displayMode: "continuous",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "月の1日のセル（連続表示モード - 背景色あり）",
+      },
+    },
+  },
+}
+
+export const FirstDayMonthly: Story = {
+  args: {
+    date: createCalendarDate(2023, 1, 1),
+    displayMode: "monthly",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "月の1日のセル（月表示モード - 背景色なし）",
+      },
+    },
   },
 }

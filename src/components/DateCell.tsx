@@ -6,9 +6,10 @@ import { TooltipContainer } from "./TooltipContainer"
 
 type Props = {
   date: CalendarDate
+  displayMode?: 'monthly' | 'continuous'
 }
 
-export const DateCell: React.FC<Props> = ({ date }) => {
+export const DateCell: React.FC<Props> = ({ date, displayMode = 'continuous' }) => {
   const holidays = useHolidays()
   const holiday = getHoliday(date, holidays)
   const tooltip = holiday?.name
@@ -17,7 +18,7 @@ export const DateCell: React.FC<Props> = ({ date }) => {
     "text-calendar-text grid size-full place-content-center rounded-md text-sm transition-colors duration-200 hover:bg-stone-50",
     {
       "bg-emerald-50 font-bold": isToday(date),
-      "bg-sky-50": isFirstDayOfMonth(date),
+      "bg-sky-50": isFirstDayOfMonth(date) && displayMode === 'continuous',
       "text-red-600": !!holiday,
       "opacity-40": isPastDate(date),
     }

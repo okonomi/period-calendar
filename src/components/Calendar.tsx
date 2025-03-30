@@ -67,7 +67,7 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = 'continuous' })
 
               return (
                 <div key={`date-${getDateNum(date)}`} className="@container aspect-square flex-1">
-                  <DateCell date={date} />
+                  <DateCell date={date} displayMode={displayMode} />
                 </div>
               )
             })}
