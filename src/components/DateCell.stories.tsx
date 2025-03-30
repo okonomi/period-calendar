@@ -18,6 +18,13 @@ const meta = {
       </HolidaysContext.Provider>
     ),
   ],
+  argTypes: {
+    date: {
+      control: {
+        type: "object",
+      },
+    },
+  },
 } satisfies Meta<typeof DateCell>
 
 export default meta
