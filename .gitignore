@@ -28,4 +28,6 @@ coverage
 *.sln
 *.sw?
 
+# Storybook
 *storybook.log
+storybook-static
