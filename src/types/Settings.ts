@@ -2,6 +2,8 @@ export interface Settings {
   // 1期目の開始年月設定
   firstPeriodStartYear: number
   firstPeriodStartMonth: number
+  // カレンダー表示モード
+  displayMode: 'monthly' | 'continuous'
 }
 
 export type SettingsContextType = {
@@ -13,4 +15,5 @@ export type SettingsContextType = {
 export const defaultSettings: Settings = {
   firstPeriodStartYear: 1999,
   firstPeriodStartMonth: 8,
+  displayMode: 'continuous',
 }
