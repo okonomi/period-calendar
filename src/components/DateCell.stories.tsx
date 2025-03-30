@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import MockDate from "mockdate"
 
 import { HolidaysContext } from "../contexts/HolidaysContext"
-import { createCalendarDate, format } from "../domain/CalendarDate"
+import { createCalendarDate } from "../domain/CalendarDate"
 import { DateCell } from "./DateCell"
 
 const currentDate = createCalendarDate(2023, 1, 11)
@@ -13,6 +12,7 @@ const meta = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
+    mockdate: new Date(currentDate.year, currentDate.month - 1, currentDate.day),
   },
   decorators: [
     (Story) => (
@@ -23,9 +23,6 @@ const meta = {
       </HolidaysContext.Provider>
     ),
   ],
-  play: async () => {
-    MockDate.set(format(currentDate))
-  },
   argTypes: {
     date: {
       control: {
