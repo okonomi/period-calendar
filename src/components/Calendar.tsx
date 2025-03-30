@@ -44,8 +44,10 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示がないときもスペーサーを表示する */}
             {firstDayOfMonth ? (
-              <div className="flex flex-[1.5] items-center justify-center text-sm font-medium">
-                {firstDayOfMonth.month}月
+              <div className="@container flex-[1.5]">
+                <div className="grid size-full place-content-center">
+                  <span className="text-[30cqw] leading-none font-medium">{firstDayOfMonth.month}月</span>
+                </div>
               </div>
             ) : (
               <div className="flex-[1.5]" />
@@ -60,7 +62,7 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
               }
 
               return (
-                <div key={`date-${getDateNum(date)}`} className="flex aspect-square flex-1 items-center justify-center">
+                <div key={`date-${getDateNum(date)}`} className="@container aspect-square flex-1">
                   <DateCell date={date} />
                 </div>
               )
