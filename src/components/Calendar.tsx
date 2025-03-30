@@ -1,5 +1,5 @@
 import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
-import { groupDatesByWeek } from "../domain/Dates"
+import { groupDatesByMonth, groupDatesByContinuous } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 
 function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
@@ -18,7 +18,9 @@ type Props = {
 }
 
 export const Calendar: React.FC<Props> = ({ dates, displayMode = 'continuous' }) => {
-  const weeklyDates = groupDatesByWeek(dates, displayMode)
+  const weeklyDates = displayMode === 'monthly'
+    ? groupDatesByMonth(dates)
+    : groupDatesByContinuous(dates)
 
   return (
     <div className="sc-box calendar-container">
