@@ -36,9 +36,7 @@ const meta = {
   },
   argTypes: {
     dates: {
-      control: {
-        type: "object",
-      },
+      control: false,
     },
     containerWidth: {
       control: { type: "range", min: 100, max: 1000, step: 10 },
