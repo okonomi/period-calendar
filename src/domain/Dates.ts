@@ -5,17 +5,9 @@ export type Dates = Date[]
 
 const DAYS_IN_WEEK = 7
 
-// 互換性のためにラッパー関数を保持
-export function groupDatesByWeek(dates: CalendarDate[], displayMode: 'monthly' | 'continuous' = 'continuous'): (CalendarDate | null)[][] {
-  if (dates.length === 0) return []
-
-  return displayMode === 'monthly' 
-    ? groupDatesByMonth(dates)
-    : groupDatesByContinuous(dates)
-}
 
 // 連続表示モード用の週グループ化関数
-export function groupDatesByContinuous(dates: CalendarDate[]): (CalendarDate | null)[][] {
+export function groupDatesByWeekContinuous(dates: CalendarDate[]): (CalendarDate | null)[][] {
   if (dates.length === 0) return []
 
   // 最初の週に必要なパディングを計算（月曜始まり）
@@ -47,7 +39,7 @@ export function groupDatesByContinuous(dates: CalendarDate[]): (CalendarDate | n
 }
 
 // 月区切り表示モード用の週グループ化関数
-export function groupDatesByMonth(dates: CalendarDate[]): (CalendarDate | null)[][] {
+export function groupDatesByWeekMonthly(dates: CalendarDate[]): (CalendarDate | null)[][] {
   if (dates.length === 0) return []
 
   // 最初の週に必要なパディングを計算（月曜始まり）

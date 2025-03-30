@@ -1,34 +1,26 @@
 import { describe, expect, it } from "vitest"
-import { generateDates, groupDatesByWeek, groupDatesByContinuous, groupDatesByMonth } from "./Dates"
+import { generateDates, groupDatesByWeekContinuous, groupDatesByWeekMonthly } from "./Dates"
 
-describe("groupDatesByWeek", () => {
-  it("should group dates into weeks with Monday start", () => {
+describe("groupDatesByWeekContinuous", () => {
+  it("should group dates continuously", () => {
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 1 }) // January 2024
-    const weeks = groupDatesByWeek(dates)
+    const weeks = groupDatesByWeekContinuous(dates)
     expect(weeks.length).toBe(5) // January 2024 spans 5 weeks
     expect(weeks[0].filter((d) => d !== null).length).toBe(7) // First week has 7 days
     expect(weeks[4].filter((d) => d !== null).length).toBe(3) // Last week has 3 days
   })
 
   it("should handle empty input", () => {
-    const weeks = groupDatesByWeek([])
+    const weeks = groupDatesByWeekContinuous([])
     expect(weeks).toEqual([])
   })
 })
 
-describe("groupDatesByContinuous", () => {
-  it("should group dates continuously", () => {
-    const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 1 }) // January 2024
-    const weeks = groupDatesByContinuous(dates)
-    expect(weeks.length).toBe(5) // January 2024 spans 5 weeks
-  })
-})
-
-describe("groupDatesByMonth", () => {
+describe("groupDatesByWeekMonthly", () => {
   it("should group dates with month breaks", () => {
     // 2024年1月〜2月の日付を生成
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 2 })
-    const weeks = groupDatesByMonth(dates)
+    const weeks = groupDatesByWeekMonthly(dates)
     
     // 週の数を確認（正確な値はカレンダーによって異なる）
     expect(weeks.length).toBeGreaterThan(0)
@@ -55,7 +47,7 @@ describe("groupDatesByMonth", () => {
   
   it("should not produce empty rows", () => {
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 2 })
-    const weeks = groupDatesByMonth(dates)
+    const weeks = groupDatesByWeekMonthly(dates)
     
     // すべての週が少なくとも1つの非nullの日付を持つことを確認
     for (const week of weeks) {
