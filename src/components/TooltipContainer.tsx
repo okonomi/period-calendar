@@ -21,7 +21,7 @@ export const TooltipContainer: React.FC<React.PropsWithChildren<Props>> = ({ chi
   }
 
   return (
-    <div className="relative w-full h-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="relative h-full w-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {children}
       {tooltipPosition && tooltip && <Tooltip text={tooltip} position={tooltipPosition} />}
     </div>
