@@ -1,13 +1,30 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import type { ReactRenderer } from "@storybook/react"
+import type { Decorator } from "@storybook/types"
 import MockDate from "mockdate"
 
 import { HolidaysContext } from "../contexts/HolidaysContext"
 import { createCalendarDate, format } from "../domain/CalendarDate"
 import { generateDates } from "../domain/Dates"
+import type { Holiday } from "../domain/Holiday"
 import { createYearMonth } from "../domain/YearMonth"
 import { Calendar } from "./Calendar"
 
 const currentDate = createCalendarDate(2023, 5, 15)
+
+// カスタムデコレーター: 幅を制御するスライダー付きのコンテナ
+const withResizableContainer: Decorator<ReactRenderer> = (Story, context) => {
+  const containerWidth = (context.args.containerWidth as number) || 300
+  const holidays = (context.args.holidays || {}) as Record<string, Holiday>
+
+  return (
+    <HolidaysContext.Provider value={holidays}>
+      <div style={{ width: `${containerWidth}px` }}>
+        <Story />
+      </div>
+    </HolidaysContext.Provider>
+  )
+}
 
 const meta = {
   title: "Components/Calendar",
@@ -16,15 +33,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  decorators: [
-    (Story) => (
-      <HolidaysContext.Provider value={{}}>
-        <div className="w-[300px]">
-          <Story />
-        </div>
-      </HolidaysContext.Provider>
-    ),
-  ],
+  decorators: [withResizableContainer],
   play: async () => {
     MockDate.set(format(currentDate))
   },
@@ -32,6 +41,20 @@ const meta = {
     dates: {
       control: {
         type: "object",
+      },
+    },
+    containerWidth: {
+      control: { type: "range", min: 100, max: 1000, step: 10 },
+      description: "コンテナの幅 (px)",
+      defaultValue: 300,
+      table: {
+        category: "コントロール",
+      },
+    },
+    holidays: {
+      control: false,
+      table: {
+        disable: true,
       },
     },
   },
@@ -48,6 +71,7 @@ const threeMontDates = generateDates(createYearMonth(2023, 5), createYearMonth(2
 export const Default: Story = {
   args: {
     dates: threeMontDates,
+    containerWidth: 300,
   },
   parameters: {
     autoplay: true,
@@ -58,9 +82,41 @@ export const Default: Story = {
 export const SingleMonth: Story = {
   args: {
     dates: generateDates(createYearMonth(2023, 5), createYearMonth(2023, 5)),
+    containerWidth: 300,
   },
   parameters: {
     autoplay: true,
+  },
+}
+
+// Full year calendar (12 months)
+export const FullYear: Story = {
+  args: {
+    dates: generateDates(createYearMonth(2023, 1), createYearMonth(2023, 12)),
+    containerWidth: 300,
+  },
+  parameters: {
+    autoplay: true,
+  },
+}
+
+// 日本の祝日定義
+const japaneseHolidays = {
+  "2023-05-03": {
+    date: createCalendarDate(2023, 5, 3),
+    name: "憲法記念日",
+  },
+  "2023-05-04": {
+    date: createCalendarDate(2023, 5, 4),
+    name: "みどりの日",
+  },
+  "2023-05-05": {
+    date: createCalendarDate(2023, 5, 5),
+    name: "こどもの日",
+  },
+  "2023-07-17": {
+    date: createCalendarDate(2023, 7, 17),
+    name: "海の日",
   },
 }
 
@@ -68,37 +124,10 @@ export const SingleMonth: Story = {
 export const WithHolidays: Story = {
   args: {
     dates: threeMontDates,
+    containerWidth: 300,
+    holidays: japaneseHolidays,
   },
   parameters: {
     autoplay: true,
   },
-  decorators: [
-    (Story) => {
-      const mockHolidays = {
-        "2023-05-03": {
-          date: createCalendarDate(2023, 5, 3),
-          name: "憲法記念日",
-        },
-        "2023-05-04": {
-          date: createCalendarDate(2023, 5, 4),
-          name: "みどりの日",
-        },
-        "2023-05-05": {
-          date: createCalendarDate(2023, 5, 5),
-          name: "こどもの日",
-        },
-        "2023-07-17": {
-          date: createCalendarDate(2023, 7, 17),
-          name: "海の日",
-        },
-      }
-      return (
-        <HolidaysContext.Provider value={mockHolidays}>
-          <div className="w-[300px]">
-            <Story />
-          </div>
-        </HolidaysContext.Provider>
-      )
-    },
-  ],
 }
