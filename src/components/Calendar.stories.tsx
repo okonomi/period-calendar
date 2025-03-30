@@ -39,6 +39,15 @@ const meta = {
     dates: {
       control: false,
     },
+    displayMode: {
+      control: { type: "radio" },
+      options: ["continuous", "monthly"],
+      description: "カレンダー表示モード",
+      defaultValue: "continuous",
+      table: {
+        category: "コントロール",
+      },
+    },
     containerWidth: {
       control: { type: "range", min: 100, max: 1000, step: 10 },
       description: "コンテナの幅 (px)",
@@ -68,6 +77,7 @@ export const Default: Story = {
   args: {
     dates: threeMontDates,
     containerWidth: 300,
+    displayMode: "continuous",
   },
 }
 
@@ -76,6 +86,7 @@ export const SingleMonth: Story = {
   args: {
     dates: generateDates(createYearMonth(2023, 5), createYearMonth(2023, 5)),
     containerWidth: 300,
+    displayMode: "continuous",
   },
 }
 
@@ -84,6 +95,7 @@ export const FullYear: Story = {
   args: {
     dates: generateDates(createYearMonth(2023, 1), createYearMonth(2023, 12)),
     containerWidth: 300,
+    displayMode: "continuous",
   },
 }
 
@@ -112,6 +124,39 @@ export const WithHolidays: Story = {
   args: {
     dates: threeMontDates,
     containerWidth: 300,
+    displayMode: "continuous",
     holidays: japaneseHolidays,
+  },
+}
+
+// 月表示モードのカレンダー（連続ではなく月ごとに改行）
+export const MonthlyDisplay: Story = {
+  args: {
+    dates: threeMontDates,
+    containerWidth: 300,
+    displayMode: "monthly",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "月区切り表示モード - 月ごとに改行され、1日のセルの背景色なし",
+      },
+    },
+  },
+}
+
+// フルイヤーの月表示モード
+export const FullYearMonthly: Story = {
+  args: {
+    dates: generateDates(createYearMonth(2023, 1), createYearMonth(2023, 12)),
+    containerWidth: 300,
+    displayMode: "monthly",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "12ヶ月分の月区切り表示モード",
+      },
+    },
   },
 }
