@@ -4,13 +4,14 @@ import type { Settings } from "../types/Settings"
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
   settings: Settings
-  onSave: (newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth">) => void
+  onSave: (newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth" | "displayMode">) => void
   onCancel: () => void
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
   const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
+  const [displayMode, setDisplayMode] = useState(settings.displayMode)
 
   const handleSave = () => {
     const yearValue = Number.parseInt(year, 10)
@@ -29,6 +30,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     onSave({
       firstPeriodStartYear: yearValue,
       firstPeriodStartMonth: monthValue,
+      displayMode,
     })
   }
 
@@ -69,6 +71,40 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           </div>
         </div>
         <p className="settings-form-help">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+      </div>
+
+      <div className="settings-form-section">
+        <h4 className="settings-form-subtitle">カレンダー表示設定</h4>
+        <div className="settings-form-field-group">
+          <div>
+            <label className="settings-form-label">表示モード</label>
+            <div className="mt-2 flex gap-4">
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="displayMode"
+                  value="continuous"
+                  checked={displayMode === 'continuous'}
+                  onChange={() => setDisplayMode('continuous')}
+                  className="h-4 w-4"
+                />
+                <span>連続表示</span>
+              </label>
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="displayMode"
+                  value="monthly"
+                  checked={displayMode === 'monthly'}
+                  onChange={() => setDisplayMode('monthly')}
+                  className="h-4 w-4"
+                />
+                <span>月区切り表示</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <p className="settings-form-help">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
       </div>
 
       <div className="settings-form-actions">
