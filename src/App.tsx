@@ -46,10 +46,10 @@ const AppContent: React.FC = () => {
               </div>
             </div>
             <div className="mt-4 flex justify-center gap-8">
-              <div className="shrink w-[338px]">
+              <div className="w-[338px] shrink">
                 <Calendar dates={firstHalfDates} />
               </div>
-              <div className="shrink w-[338px]">
+              <div className="w-[338px] shrink">
                 <Calendar dates={secondHalfDates} />
               </div>
             </div>
