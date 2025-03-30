@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import type { ReactRenderer } from "@storybook/react"
-import type { Decorator } from "@storybook/types"
 import MockDate from "mockdate"
 
 import { HolidaysContext } from "../contexts/HolidaysContext"
@@ -12,20 +10,6 @@ import { Calendar } from "./Calendar"
 
 const currentDate = createCalendarDate(2023, 5, 15)
 
-// カスタムデコレーター: 幅を制御するスライダー付きのコンテナ
-const withResizableContainer: Decorator<ReactRenderer> = (Story, context) => {
-  const containerWidth = (context.args.containerWidth as number) || 300
-  const holidays = (context.args.holidays || {}) as Record<string, Holiday>
-
-  return (
-    <HolidaysContext.Provider value={holidays}>
-      <div style={{ width: `${containerWidth}px` }}>
-        <Story />
-      </div>
-    </HolidaysContext.Provider>
-  )
-}
-
 const meta = {
   title: "Components/Calendar",
   component: Calendar,
@@ -33,7 +17,20 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  decorators: [withResizableContainer],
+  decorators: [
+    (Story, context) => {
+      const containerWidth = context.args.containerWidth
+      const holidays = context.args.holidays ?? {}
+
+      return (
+        <HolidaysContext.Provider value={holidays}>
+          <div style={{ width: `${containerWidth}px` }}>
+            <Story />
+          </div>
+        </HolidaysContext.Provider>
+      )
+    },
+  ],
   play: async () => {
     MockDate.set(format(currentDate))
   },
@@ -58,7 +55,7 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof Calendar>
+} satisfies Meta<React.ComponentProps<typeof Calendar> & { containerWidth: number; holidays?: Record<string, Holiday> }>
 
 export default meta
 
