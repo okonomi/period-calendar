@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import MockDate from "mockdate"
 
 import { HolidaysContext } from "../contexts/HolidaysContext"
-import { createCalendarDateFromDate } from "../domain/CalendarDate"
+import { createCalendarDate, format } from "../domain/CalendarDate"
 import { DateCell } from "./DateCell"
+
+const currentDate = createCalendarDate(2023, 1, 11)
 
 const meta = {
   title: "Components/DateCell",
@@ -20,6 +23,9 @@ const meta = {
       </HolidaysContext.Provider>
     ),
   ],
+  play: async () => {
+    MockDate.set(format(currentDate))
+  },
   argTypes: {
     date: {
       control: {
@@ -35,19 +41,19 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    date: createCalendarDateFromDate(new Date(2023, 1, 1)),
+    date: { ...currentDate, day: currentDate.day + 2 },
   },
 }
 
 export const Holiday: Story = {
   args: {
-    date: createCalendarDateFromDate(new Date(2023, 1, 1)),
+    date: createCalendarDate(2023, 2, 2),
   },
   decorators: [
     (Story) => {
       const mockHoliday = {
-        "2023-02-01": {
-          date: createCalendarDateFromDate(new Date(2023, 1, 1)),
+        "2023-02-02": {
+          date: createCalendarDate(2023, 2, 2),
           name: "Holiday Example",
         },
       }
@@ -62,6 +68,18 @@ export const Holiday: Story = {
 
 export const Today: Story = {
   args: {
-    date: createCalendarDateFromDate(new Date()),
+    date: currentDate,
+  },
+}
+
+export const Future: Story = {
+  args: {
+    date: { ...currentDate, day: currentDate.day + 1 },
+  },
+}
+
+export const Past: Story = {
+  args: {
+    date: { ...currentDate, day: currentDate.day - 1 },
   },
 }
