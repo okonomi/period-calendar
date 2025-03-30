@@ -25,11 +25,10 @@ export const Calendar: React.FC<Props> = ({ dates }) => {
       <div className="flex">
         <div className="flex-[1.5]" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
-          <div
-            key={`weekday-${dayName}`}
-            className="text-calendar-text flex aspect-square flex-1 items-center justify-center text-sm font-medium"
-          >
-            {dayName}
+          <div key={`weekday-${dayName}`} className="@container aspect-square flex-1">
+            <div className="grid size-full place-content-center">
+              <span className="text-[40cqw] leading-none font-medium">{dayName}</span>
+            </div>
           </div>
         ))}
       </div>
