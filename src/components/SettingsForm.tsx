@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { Settings } from "../types/Settings"
+import type { DisplayMode, Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
@@ -11,7 +11,7 @@ type SettingsFormProps = {
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
   const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
-  const [displayMode, setDisplayMode] = useState(settings.displayMode)
+  const [displayMode, setDisplayMode] = useState<DisplayMode>(settings.displayMode)
 
   const handleSave = () => {
     const yearValue = Number.parseInt(year, 10)

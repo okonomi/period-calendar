@@ -1,9 +1,11 @@
+export type DisplayMode = "monthly" | "continuous"
+
 export interface Settings {
   // 1期目の開始年月設定
   firstPeriodStartYear: number
   firstPeriodStartMonth: number
   // カレンダー表示モード
-  displayMode: "monthly" | "continuous"
+  displayMode: DisplayMode
 }
 
 export type SettingsContextType = {

@@ -1,6 +1,7 @@
 import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
 import { groupDatesByWeekMonthly, groupDatesByWeekContinuous } from "../domain/Dates"
 import { DateCell } from "./DateCell"
+import type { DisplayMode } from "../types/Settings"
 
 function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
   return firstValidDate
@@ -14,7 +15,7 @@ function generateSpacerKey(weekStart: string, dayOfWeek: number) {
 
 type Props = {
   dates: CalendarDate[]
-  displayMode?: "monthly" | "continuous"
+  displayMode?: DisplayMode
 }
 
 export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) => {

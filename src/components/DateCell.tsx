@@ -4,9 +4,11 @@ import { getHoliday } from "../domain/Holiday"
 import { useHolidays } from "../hooks/use-holidays"
 import { TooltipContainer } from "./TooltipContainer"
 
+import type { DisplayMode } from "../types/Settings"
+
 type Props = {
   date: CalendarDate
-  displayMode?: "monthly" | "continuous"
+  displayMode?: DisplayMode
 }
 
 export const DateCell: React.FC<Props> = ({ date, displayMode = "monthly" }) => {
