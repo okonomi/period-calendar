@@ -15,7 +15,7 @@ export type SettingsContextType = {
 
 // デフォルト設定
 export const defaultSettings: Settings = {
-  firstPeriodStartYear: 1999,
-  firstPeriodStartMonth: 8,
+  firstPeriodStartYear: 2001,
+  firstPeriodStartMonth: 1,
   displayMode: "monthly",
 }
