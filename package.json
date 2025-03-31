@@ -11,6 +11,8 @@
     "dev": "run-p dev:*",
     "dev:vite": "vite",
     "dev:storybook": "storybook dev -p 6006",
+    "gen": "run-p gen:*",
+    "gen:storybook": "storybook build",
     "build": "tsc -b && vite build",
     "lint": "run-p --continue-on-error lint:*",
     "lint:biome": "biome lint .",
@@ -20,9 +22,7 @@
     "lint-fix:biome": "biome lint . --write",
     "lint-fix:prettier": "prettier --write src/",
     "preview": "vite preview",
-    "test": "vitest run",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "test": "vitest run"
   },
   "dependencies": {
     "clsx": "^2.1.1",
