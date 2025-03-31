@@ -17,7 +17,7 @@ type Props = {
   displayMode?: 'monthly' | 'continuous'
 }
 
-export const Calendar: React.FC<Props> = ({ dates, displayMode = 'continuous' }) => {
+export const Calendar: React.FC<Props> = ({ dates, displayMode = 'monthly' }) => {
   const weeklyDates = displayMode === 'monthly'
     ? groupDatesByWeekMonthly(dates)
     : groupDatesByWeekContinuous(dates)

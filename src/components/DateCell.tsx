@@ -9,7 +9,7 @@ type Props = {
   displayMode?: 'monthly' | 'continuous'
 }
 
-export const DateCell: React.FC<Props> = ({ date, displayMode = 'continuous' }) => {
+export const DateCell: React.FC<Props> = ({ date, displayMode = 'monthly' }) => {
   const holidays = useHolidays()
   const holiday = getHoliday(date, holidays)
   const tooltip = holiday?.name
