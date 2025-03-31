@@ -111,6 +111,18 @@ Launch Storybook for component development:
 pnpm storybook
 ```
 
+Build Storybook for static deployment:
+
+```bash
+pnpm gen:storybook
+```
+
+Run all generation commands:
+
+```bash
+pnpm gen
+```
+
 ## Build
 
 Create a production build:

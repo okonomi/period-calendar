@@ -2,6 +2,7 @@
 
 ## コマンド
 
+### テストとリント
 - テスト実行: `pnpm test`
 - 全てのリントチェック: `pnpm lint`
 - 型チェック: `pnpm lint:tsc`
@@ -10,6 +11,10 @@
 - 全ての自動修正: `pnpm lint-fix`
 - Prettier フォーマット自動修正: `pnpm lint-fix:prettier`
 - Biome リント自動修正: `pnpm lint-fix:biome`
+
+### 生成コマンド
+- 全ての生成コマンド実行: `pnpm gen`
+- Storybook静的ビルド: `pnpm gen:storybook`
 
 ## 機能追加
 
