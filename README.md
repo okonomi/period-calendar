@@ -41,45 +41,87 @@ pnpm install
 
 ## Development
 
+### Local Development Server
+
+Start the development server with hot module replacement:
+
 ```bash
-# Start development server
 pnpm dev
+```
 
-# Run all linting checks
+### Code Quality
+
+Run all linting checks in parallel:
+
+```bash
 pnpm lint
+```
 
-# Run type checking
+Run TypeScript type checking:
+
+```bash
 pnpm lint:tsc
+```
 
-# Run prettier formatting check
+Check code formatting with Prettier:
+
+```bash
 pnpm lint:prettier
+```
 
-# Run biome linting check
+Run Biome linting checks:
+
+```bash
 pnpm lint:biome
+```
 
-# Auto-fix all linting issues
+### Automatic Fixes
+
+Fix all linting and formatting issues automatically:
+
+```bash
 pnpm lint-fix
+```
 
-# Fix prettier formatting issues
+Fix Prettier formatting issues:
+
+```bash
 pnpm lint-fix:prettier
+```
 
-# Fix biome linting issues
+Fix Biome linting issues:
+
+```bash
 pnpm lint-fix:biome
+```
 
-# Run tests
+### Testing
+
+Run the test suite:
+
+```bash
 pnpm test
+```
 
-# Launch Storybook
+### Component Development
+
+Launch Storybook for component development:
+
+```bash
 pnpm storybook
 ```
 
 ## Build
 
-```bash
-# Production build
-pnpm build
+Create a production build:
 
-# Preview build
+```bash
+pnpm build
+```
+
+Preview the production build locally:
+
+```bash
 pnpm preview
 ```
 
