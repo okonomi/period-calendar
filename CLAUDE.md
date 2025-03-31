@@ -4,6 +4,8 @@
 
 - テスト実行: `pnpm test`
 - 型チェック: `pnpm lint:tsc`
+- Prettier: `pnpm lint:prettier`
+- Biome: `pnpm lint:biome`
 
 ## 機能追加
 
@@ -13,3 +15,26 @@
 - `groupDatesByWeekContinuous` と `groupDatesByWeekMonthly` で実装
 - 月表示モードでは月初めのセルの背景色を変えない
 - Storybook をそれぞれの表示モードで確認できるよう更新
+
+### 実装済み機能
+1. カレンダー表示モードのデフォルトを 'continuous' から 'monthly' に変更
+   - `src/types/Settings.ts` のデフォルト設定を変更
+   - `src/components/Calendar.tsx` と `src/components/DateCell.tsx` のデフォルトプロップも変更
+
+2. 設定画面の表示モードの順序を変更し、「月区切り表示」を左側に配置
+   - `src/components/SettingsForm.tsx` のラジオボタンの順序を入れ替え
+
+3. Prettier と Biome の指摘を修正
+   - ラベル要素を適切に div に変更
+   - 非null断言 (!) を optional chaining (?.) に置き換え
+
+4. displayMode の型定義を作成
+   - `src/types/Settings.ts` に `DisplayMode` 型を追加
+   - 各コンポーネントで型のインポートと使用を更新
+
+### 主要変更ファイル
+- `src/types/Settings.ts`
+- `src/components/Calendar.tsx`
+- `src/components/DateCell.tsx`
+- `src/components/SettingsForm.tsx`
+- `src/domain/Dates.test.ts`
