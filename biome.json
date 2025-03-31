@@ -27,5 +27,10 @@
       "trailingCommas": "es5",
       "semicolons": "asNeeded"
     }
+  },
+  "json": {
+    "formatter": {
+      "enabled": true
+    }
   }
 }
