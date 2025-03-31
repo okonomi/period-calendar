@@ -77,7 +77,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         <h4 className="settings-form-subtitle">カレンダー表示設定</h4>
         <div className="settings-form-field-group">
           <div>
-            <label className="settings-form-label">表示モード</label>
+            <div className="settings-form-label">表示モード</div>
             <div className="mt-2 flex gap-4">
               <label className="flex items-center gap-1">
                 <input

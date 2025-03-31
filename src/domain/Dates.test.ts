@@ -31,11 +31,11 @@ describe("groupDatesByWeekMonthly", () => {
       const validDates = week.filter((d) => d !== null)
       if (validDates.length > 0) {
         // 同じ週に異なる月の日付がないことを確認
-        const months = new Set(validDates.map((d) => d!.month))
+        const months = new Set(validDates.map((d) => d?.month))
         expect(months.size).toBe(1)
 
         // 2月の日付を含む週を見つけたらフラグを立てる
-        if (validDates[0]!.month === 2) {
+        if (validDates[0]?.month === 2) {
           found2Month = true
         }
       }
