@@ -1,73 +1,73 @@
 # Period Calendar
 
-期（会計年度、事業年度など）に基づいたカレンダービューアアプリケーションです。通常の暦年とは異なる期間を基準にしたカレンダー管理を実現します。
+A calendar viewer application based on fiscal or business periods, allowing you to manage calendars based on time frames that differ from the standard calendar year.
 
-## 主な機能
+## Key Features
 
-- 1期12ヶ月（1年間）で、上期・下期に分かれた期間ベースのカレンダー表示
-- 上期カレンダーと下期カレンダーを並べて表示
-- ユーザーによる1期目の開始年月設定
-- 期間の切り替え（前期・来期への移動）
-- 日付の特徴表示：
-  - 当日（緑色でハイライト）
-  - 月初日（水色でハイライト）
-  - 過去の日付（薄く表示）
-  - 休日（赤色で表示、ツールチップで休日名表示）
+- Period-based calendar display with each period spanning 12 months (1 year), divided into first and second halves
+- Side-by-side display of first and second half calendars
+- Customizable start year/month for the first period
+- Period navigation (previous and next period)
+- Date highlighting features:
+  - Current day (highlighted in green)
+  - First day of month (highlighted in blue)
+  - Past dates (displayed in lighter color)
+  - Holidays (displayed in red with tooltip showing holiday name)
 
-## 技術スタック
+## Technology Stack
 
-- [React](https://react.dev/) - UIライブラリ
-- [TypeScript](https://www.typescriptlang.org/) - 型付きJavaScript
-- [Tailwind CSS](https://tailwindcss.com/) - スタイリング
-- [Vite](https://vitejs.dev/) - ビルドツール
-- [Vitest](https://vitest.dev/) - テストフレームワーク
-- [Storybook](https://storybook.js.org/) - UIコンポーネント開発環境
+- [React](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Vite](https://vitejs.dev/) - Build tool
+- [Vitest](https://vitest.dev/) - Testing framework
+- [Storybook](https://storybook.js.org/) - UI component development environment
 
-## 必要要件
+## Requirements
 
-- Node.js v18以上
-- pnpm v8以上
+- Node.js v18 or higher
+- pnpm v8 or higher
 
-## インストール方法
+## Installation
 
 ```bash
-# リポジトリのクローン
+# Clone the repository
 git clone https://github.com/okonomi/period-calendar.git
 cd period-calendar
 
-# 依存関係のインストール
+# Install dependencies
 pnpm install
 ```
 
-## 開発方法
+## Development
 
 ```bash
-# 開発サーバーの起動
+# Start development server
 pnpm dev
 
-# リント実行
+# Run linting
 pnpm lint
 
-# リント問題の自動修正
+# Auto-fix linting issues
 pnpm lint-fix
 
-# テスト実行
+# Run tests
 pnpm test
 
-# Storybookの起動
+# Launch Storybook
 pnpm storybook
 ```
 
-## ビルド
+## Build
 
 ```bash
-# 本番用ビルド
+# Production build
 pnpm build
 
-# ビルド結果のプレビュー
+# Preview build
 pnpm preview
 ```
 
-## ライセンス
+## License
 
-[MITライセンス](LICENSE)
+[MIT License](LICENSE)
