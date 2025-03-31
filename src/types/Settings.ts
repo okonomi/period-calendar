@@ -3,7 +3,7 @@ export interface Settings {
   firstPeriodStartYear: number
   firstPeriodStartMonth: number
   // カレンダー表示モード
-  displayMode: 'monthly' | 'continuous'
+  displayMode: "monthly" | "continuous"
 }
 
 export type SettingsContextType = {
@@ -15,5 +15,5 @@ export type SettingsContextType = {
 export const defaultSettings: Settings = {
   firstPeriodStartYear: 1999,
   firstPeriodStartMonth: 8,
-  displayMode: 'monthly',
+  displayMode: "monthly",
 }

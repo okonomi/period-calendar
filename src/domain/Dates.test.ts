@@ -21,37 +21,37 @@ describe("groupDatesByWeekMonthly", () => {
     // 2024年1月〜2月の日付を生成
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 2 })
     const weeks = groupDatesByWeekMonthly(dates)
-    
+
     // 週の数を確認（正確な値はカレンダーによって異なる）
     expect(weeks.length).toBeGreaterThan(0)
-    
+
     // 月が変わるところで週が分割されていることを確認
     let found2Month = false
     for (const week of weeks) {
-      const validDates = week.filter(d => d !== null)
+      const validDates = week.filter((d) => d !== null)
       if (validDates.length > 0) {
         // 同じ週に異なる月の日付がないことを確認
-        const months = new Set(validDates.map(d => d!.month))
+        const months = new Set(validDates.map((d) => d!.month))
         expect(months.size).toBe(1)
-        
+
         // 2月の日付を含む週を見つけたらフラグを立てる
         if (validDates[0]!.month === 2) {
           found2Month = true
         }
       }
     }
-    
+
     // 2月の日付を含む週があることを確認
     expect(found2Month).toBe(true)
   })
-  
+
   it("should not produce empty rows", () => {
     const dates = generateDates({ year: 2024, month: 1 }, { year: 2024, month: 2 })
     const weeks = groupDatesByWeekMonthly(dates)
-    
+
     // すべての週が少なくとも1つの非nullの日付を持つことを確認
     for (const week of weeks) {
-      const hasValidDate = week.some(date => date !== null)
+      const hasValidDate = week.some((date) => date !== null)
       expect(hasValidDate).toBe(true)
     }
   })

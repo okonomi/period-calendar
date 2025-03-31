@@ -84,8 +84,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="radio"
                   name="displayMode"
                   value="monthly"
-                  checked={displayMode === 'monthly'}
-                  onChange={() => setDisplayMode('monthly')}
+                  checked={displayMode === "monthly"}
+                  onChange={() => setDisplayMode("monthly")}
                   className="h-4 w-4"
                 />
                 <span>月区切り表示</span>
@@ -95,8 +95,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="radio"
                   name="displayMode"
                   value="continuous"
-                  checked={displayMode === 'continuous'}
-                  onChange={() => setDisplayMode('continuous')}
+                  checked={displayMode === "continuous"}
+                  onChange={() => setDisplayMode("continuous")}
                   className="h-4 w-4"
                 />
                 <span>連続表示</span>

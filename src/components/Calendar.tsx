@@ -14,13 +14,11 @@ function generateSpacerKey(weekStart: string, dayOfWeek: number) {
 
 type Props = {
   dates: CalendarDate[]
-  displayMode?: 'monthly' | 'continuous'
+  displayMode?: "monthly" | "continuous"
 }
 
-export const Calendar: React.FC<Props> = ({ dates, displayMode = 'monthly' }) => {
-  const weeklyDates = displayMode === 'monthly'
-    ? groupDatesByWeekMonthly(dates)
-    : groupDatesByWeekContinuous(dates)
+export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) => {
+  const weeklyDates = displayMode === "monthly" ? groupDatesByWeekMonthly(dates) : groupDatesByWeekContinuous(dates)
 
   return (
     <div className="sc-box calendar-container">
@@ -45,7 +43,7 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = 'monthly' }) =>
         return (
           <div key={`week-${weekStart}`} className="flex">
             {/* 月表示のセル - 月表示モードまたは月初めの場合に表示 */}
-            {(displayMode === 'monthly' || firstDayOfMonth) ? (
+            {displayMode === "monthly" || firstDayOfMonth ? (
               <div className="@container flex-[1.5]">
                 <div className="grid size-full place-content-center">
                   {firstDayOfMonth && (
