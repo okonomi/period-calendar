@@ -8,7 +8,9 @@
     "onlyBuiltDependencies": ["esbuild"]
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "run-p dev:*",
+    "dev:vite": "vite",
+    "dev:storybook": "storybook dev -p 6006",
     "build": "tsc -b && vite build",
     "lint": "run-p --continue-on-error lint:*",
     "lint:biome": "biome lint .",
