@@ -3,9 +3,13 @@
 ## コマンド
 
 - テスト実行: `pnpm test`
+- 全てのリントチェック: `pnpm lint`
 - 型チェック: `pnpm lint:tsc`
-- Prettier: `pnpm lint:prettier`
-- Biome: `pnpm lint:biome`
+- Prettier フォーマットチェック: `pnpm lint:prettier`
+- Biome リントチェック: `pnpm lint:biome`
+- 全ての自動修正: `pnpm lint-fix`
+- Prettier フォーマット自動修正: `pnpm lint-fix:prettier`
+- Biome リント自動修正: `pnpm lint-fix:biome`
 
 ## 機能追加
 

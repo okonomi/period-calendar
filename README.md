@@ -45,11 +45,26 @@ pnpm install
 # Start development server
 pnpm dev
 
-# Run linting
+# Run all linting checks
 pnpm lint
 
-# Auto-fix linting issues
+# Run type checking
+pnpm lint:tsc
+
+# Run prettier formatting check
+pnpm lint:prettier
+
+# Run biome linting check
+pnpm lint:biome
+
+# Auto-fix all linting issues
 pnpm lint-fix
+
+# Fix prettier formatting issues
+pnpm lint-fix:prettier
+
+# Fix biome linting issues
+pnpm lint-fix:biome
 
 # Run tests
 pnpm test
