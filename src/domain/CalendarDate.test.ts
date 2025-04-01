@@ -8,6 +8,7 @@ import {
   getToday,
   isFirstDayOfMonth,
   isPastDate,
+  isPastMonth,
   isSame,
   isToday,
 } from "./CalendarDate"
@@ -360,6 +361,48 @@ describe("format", () => {
     it("handles first day of year", () => {
       const date = createCalendarDate(2025, 1, 1)
       expect(format(date)).toBe("2025-01-01")
+    })
+  })
+})
+
+describe("isPastMonth", () => {
+  context("with fixed current date of 2025-04-02", () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date(2025, 3, 2)) // 2025-04-02
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    context("basic cases", () => {
+      it("returns true for previous month", () => {
+        const pastMonth = createCalendarDate(2025, 3, 15) // March
+        expect(isPastMonth(pastMonth)).toBe(true)
+      })
+
+      it("returns false for current month", () => {
+        const currentMonth = createCalendarDate(2025, 4, 15) // April
+        expect(isPastMonth(currentMonth)).toBe(false)
+      })
+
+      it("returns false for future month", () => {
+        const futureMonth = createCalendarDate(2025, 5, 15) // May
+        expect(isPastMonth(futureMonth)).toBe(false)
+      })
+    })
+
+    context("year boundaries", () => {
+      it("returns true for month in previous year", () => {
+        const pastYear = createCalendarDate(2024, 12, 15) // December of previous year
+        expect(isPastMonth(pastYear)).toBe(true)
+      })
+
+      it("returns false for month in following year", () => {
+        const futureYear = createCalendarDate(2026, 1, 15) // January of future year
+        expect(isPastMonth(futureYear)).toBe(false)
+      })
     })
   })
 })
