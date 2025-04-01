@@ -35,7 +35,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <div className="w-72 bg-white p-4">
+    <>
       <h2 className="text-calendar-text mb-5 text-xl font-semibold">カレンダー設定</h2>
 
       <div className="mb-5">
@@ -123,6 +123,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           保存
         </button>
       </div>
-    </div>
+    </>
   )
 }

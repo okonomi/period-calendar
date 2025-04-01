@@ -11,7 +11,9 @@ export const SettingsDialog: React.FC = () => {
   const openSettings = () => dialogRef.current?.showModal()
   const closeSettings = () => dialogRef.current?.close()
 
-  const handleSaveSettings = (newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth">) => {
+  const handleSaveSettings = (
+    newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth" | "displayMode">
+  ) => {
     updateSettings(newSettings)
     closeSettings()
   }
@@ -30,7 +32,9 @@ export const SettingsDialog: React.FC = () => {
 
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <dialog ref={dialogRef} onClick={handleDialogClick} className="settings-dialog">
-        <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
+        <div className="w-96 bg-white p-6">
+          <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
+        </div>
       </dialog>
     </>
   )
