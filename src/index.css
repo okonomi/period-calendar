@@ -2,8 +2,8 @@
 
 /* 基本設定 */
 @theme {
-  --font-sans:
-    "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
+  --font-sans: "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo,
+    sans-serif;
   --font-feature-settings: "palt" 1;
   --color-calendar-bg: #fffcf8;
   --color-calendar-hover-bg: #fff9f0;
@@ -31,8 +31,7 @@
   /* カレンダー全体 */
   .calendar-container {
     @apply mx-auto p-4;
-    background-image:
-      linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
+    background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
     background-size: 8px 8px;
   }
@@ -92,62 +91,5 @@
 
   .settings-dialog {
     @apply fixed inset-0 m-auto rounded-md border border-gray-200 p-0 backdrop:bg-black/50;
-  }
-
-  /* 設定フォーム */
-  .settings-form {
-    @apply w-72 bg-white p-4;
-  }
-
-  .settings-form-title {
-    @apply text-calendar-text mb-4 text-lg font-medium;
-  }
-
-  .settings-form-section {
-    @apply mb-4;
-  }
-
-  .settings-form-subtitle {
-    @apply text-calendar-text mb-2 text-sm font-medium;
-  }
-
-  .settings-form-field-group {
-    @apply flex items-center gap-3;
-  }
-
-  .settings-form-label {
-    @apply text-calendar-text mb-1 block text-xs font-medium;
-  }
-
-  .settings-form-input {
-    @apply text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm;
-  }
-
-  .settings-form-input-year {
-    @apply w-24;
-  }
-
-  .settings-form-input-month {
-    @apply w-16;
-  }
-
-  .settings-form-help {
-    @apply text-calendar-text mt-1 text-xs;
-  }
-
-  .settings-form-actions {
-    @apply flex justify-end space-x-2;
-  }
-
-  .settings-form-button {
-    @apply rounded-md px-3 py-1 text-sm transition-colors duration-200;
-  }
-
-  .settings-form-button-cancel {
-    @apply text-calendar-text border border-gray-300 hover:bg-gray-50;
-  }
-
-  .settings-form-button-save {
-    @apply bg-blue-500 text-white hover:bg-blue-600;
   }
 }

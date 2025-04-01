@@ -35,14 +35,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <div className="settings-form">
-      <h3 className="settings-form-title">カレンダー設定</h3>
+    <div className="w-72 bg-white p-4">
+      <h2 className="text-calendar-text mb-5 text-xl font-semibold">カレンダー設定</h2>
 
-      <div className="settings-form-section">
-        <h4 className="settings-form-subtitle">1期目の開始年月</h4>
-        <div className="settings-form-field-group">
+      <div className="mb-5">
+        <h3 className="text-calendar-text mb-3 text-base font-medium">1期目の開始年月</h3>
+        <div className="flex items-center gap-3">
           <div>
-            <label htmlFor="firstPeriodYear" className="settings-form-label">
+            <label htmlFor="firstPeriodYear" className="text-calendar-text mb-1 block text-xs font-medium">
               年
             </label>
             <input
@@ -52,11 +52,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setYear(e.target.value)}
               min="1900"
               max="2100"
-              className="settings-form-input settings-form-input-year"
+              className="text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm w-24"
             />
           </div>
           <div>
-            <label htmlFor="firstPeriodMonth" className="settings-form-label">
+            <label htmlFor="firstPeriodMonth" className="text-calendar-text mb-1 block text-xs font-medium">
               月
             </label>
             <input
@@ -66,18 +66,18 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setMonth(e.target.value)}
               min="1"
               max="12"
-              className="settings-form-input settings-form-input-month"
+              className="text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm w-16"
             />
           </div>
         </div>
-        <p className="settings-form-help">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+        <p className="text-calendar-text mt-1 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
       </div>
 
-      <div className="settings-form-section">
-        <h4 className="settings-form-subtitle">カレンダー表示設定</h4>
-        <div className="settings-form-field-group">
+      <div className="mb-5">
+        <h3 className="text-calendar-text mb-3 text-base font-medium">カレンダー表示設定</h3>
+        <div className="flex items-center gap-3">
           <div>
-            <div className="settings-form-label">表示モード</div>
+            <div className="text-calendar-text mb-1 block text-xs font-medium">表示モード</div>
             <div className="mt-2 flex gap-4">
               <label className="flex items-center gap-1">
                 <input
@@ -104,14 +104,22 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             </div>
           </div>
         </div>
-        <p className="settings-form-help">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
+        <p className="text-calendar-text mt-1 text-xs">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
       </div>
 
-      <div className="settings-form-actions">
-        <button type="button" onClick={onCancel} className="settings-form-button settings-form-button-cancel">
+      <div className="flex justify-end space-x-2">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="text-calendar-text border border-gray-300 hover:bg-gray-50 rounded-md px-3 py-1 text-sm transition-colors duration-200"
+        >
           キャンセル
         </button>
-        <button type="button" onClick={handleSave} className="settings-form-button settings-form-button-save">
+        <button
+          type="button"
+          onClick={handleSave}
+          className="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-3 py-1 text-sm transition-colors duration-200"
+        >
           保存
         </button>
       </div>
