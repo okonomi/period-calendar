@@ -52,7 +52,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setYear(e.target.value)}
               min="1900"
               max="2100"
-              className="text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm w-24"
+              className="text-calendar-text w-24 rounded-md border border-gray-300 px-2 py-1 text-sm"
             />
           </div>
           <div>
@@ -66,7 +66,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               onChange={(e) => setMonth(e.target.value)}
               min="1"
               max="12"
-              className="text-calendar-text rounded-md border border-gray-300 px-2 py-1 text-sm w-16"
+              className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
             />
           </div>
         </div>
@@ -111,14 +111,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         <button
           type="button"
           onClick={onCancel}
-          className="text-calendar-text border border-gray-300 hover:bg-gray-50 rounded-md px-3 py-1 text-sm transition-colors duration-200"
+          className="text-calendar-text rounded-md border border-gray-300 px-3 py-1 text-sm transition-colors duration-200 hover:bg-gray-50"
         >
           キャンセル
         </button>
         <button
           type="button"
           onClick={handleSave}
-          className="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-3 py-1 text-sm transition-colors duration-200"
+          className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600"
         >
           保存
         </button>
