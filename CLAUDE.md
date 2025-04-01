@@ -66,6 +66,27 @@
    - `index.html`のページタイトルをデフォルトの "Vite + React + TS" から "Period Calendar" に更新
    - アプリケーション名を反映させ、ブラウザのタブ表示を改善
 
+### ドメインモデルの改善 (4/1)
+1. Settings型の1期目の開始年月設定をYearMonth型に統合
+   - 従来: `firstPeriodStartYear`と`firstPeriodStartMonth`を別々のプロパティとして保持
+   - 変更後: `firstPeriodStart: YearMonth`として単一のオブジェクトに統合
+   - 修正したファイル:
+     - `src/types/Settings.ts`: YearMonth型の利用、デフォルト設定の更新
+     - `src/domain/Period.ts`: defaultFirstPeriodStartYearMonthの参照方法を変更
+     - `src/components/SettingsForm.tsx`: 入力と保存処理のYearMonth対応
+     - `src/components/SettingsDialog.tsx`: 型定義の更新
+     - `src/providers/SettingsProvider.tsx`: 旧形式から新形式への変換処理の追加
+     - `src/App.tsx`: 年月参照方法の更新
+     - `src/components/PeriodSelector.tsx`: 年月参照方法の更新
+   - 変更の利点:
+     - 型安全性の向上: 年月を常にセットで扱うことで整合性を保証
+     - ドメインモデルの一貫性: アプリケーション全体でYearMonth型を統一的に使用
+     - コードの簡潔化: 設定の初期化や参照がよりシンプルに
+     - 保守性の向上: 年月関連の変更が必要な場合、一か所の修正で完結
+   - 後方互換性:
+     - 古い形式（個別プロパティ）で保存されたデータがあった場合に新形式に変換する処理を追加
+     - 既存ユーザーの設定を保持しながら移行が可能に
+
 ### 主要変更ファイル
 - `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
