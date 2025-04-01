@@ -8,7 +8,24 @@ export const SettingsProvider: React.FC<React.PropsWithChildren> = ({ children }
   const [settings, setSettings] = useState<Settings>(() => {
     // ローカルストレージから設定を読み込む
     const savedSettings = localStorage.getItem(STORAGE_KEY)
-    return savedSettings ? JSON.parse(savedSettings) : defaultSettings
+    if (!savedSettings) {
+      return defaultSettings
+    }
+
+    // 古い形式のデータがあり、firstPeriodStartYear と firstPeriodStartMonth がある場合は
+    // 新しい形式に変換する
+    const parsedSettings = JSON.parse(savedSettings)
+    if ("firstPeriodStartYear" in parsedSettings && "firstPeriodStartMonth" in parsedSettings) {
+      return {
+        firstPeriodStart: {
+          year: parsedSettings.firstPeriodStartYear,
+          month: parsedSettings.firstPeriodStartMonth,
+        },
+        displayMode: parsedSettings.displayMode,
+      }
+    }
+
+    return parsedSettings
   })
 
   // 設定が変更されたらローカルストレージに保存

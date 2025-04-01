@@ -2,10 +2,7 @@ import { defaultSettings } from "../types/Settings"
 import type { CalendarDate } from "./CalendarDate"
 import { type YearMonth, addMonths, createYearMonth } from "./YearMonth"
 
-const defaultFirstPeriodStartYearMonth: YearMonth = {
-  year: defaultSettings.firstPeriodStartYear,
-  month: defaultSettings.firstPeriodStartMonth,
-}
+const defaultFirstPeriodStartYearMonth: YearMonth = defaultSettings.firstPeriodStart
 
 export type PeriodRange = {
   start: YearMonth

@@ -1,9 +1,10 @@
+import type { YearMonth } from "../domain/YearMonth"
+
 export type DisplayMode = "monthly" | "continuous"
 
 export interface Settings {
   // 1期目の開始年月設定
-  firstPeriodStartYear: number
-  firstPeriodStartMonth: number
+  firstPeriodStart: YearMonth
   // カレンダー表示モード
   displayMode: DisplayMode
 }
@@ -15,7 +16,6 @@ export type SettingsContextType = {
 
 // デフォルト設定
 export const defaultSettings: Settings = {
-  firstPeriodStartYear: 2001,
-  firstPeriodStartMonth: 1,
+  firstPeriodStart: { year: 2001, month: 1 },
   displayMode: "monthly",
 }

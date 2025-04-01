@@ -4,13 +4,13 @@ import type { DisplayMode, Settings } from "../types/Settings"
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
   settings: Settings
-  onSave: (newSettings: Pick<Settings, "firstPeriodStartYear" | "firstPeriodStartMonth" | "displayMode">) => void
+  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode">) => void
   onCancel: () => void
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
-  const [year, setYear] = useState(settings.firstPeriodStartYear.toString())
-  const [month, setMonth] = useState(settings.firstPeriodStartMonth.toString())
+  const [year, setYear] = useState(settings.firstPeriodStart.year.toString())
+  const [month, setMonth] = useState(settings.firstPeriodStart.month.toString())
   const [displayMode, setDisplayMode] = useState<DisplayMode>(settings.displayMode)
 
   const handleSave = () => {
@@ -28,8 +28,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     }
 
     onSave({
-      firstPeriodStartYear: yearValue,
-      firstPeriodStartMonth: monthValue,
+      firstPeriodStart: { year: yearValue, month: monthValue },
       displayMode,
     })
   }

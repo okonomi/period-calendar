@@ -14,10 +14,7 @@ type Props = {
 
 export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPeriod }) => {
   const { settings } = useSettings()
-  const firstPeriodYearMonth = {
-    year: settings.firstPeriodStartYear,
-    month: settings.firstPeriodStartMonth,
-  }
+  const firstPeriodYearMonth = settings.firstPeriodStart
   const periodRange = formatPeriodRange(getPeriodRange(period, firstPeriodYearMonth))
 
   return (
