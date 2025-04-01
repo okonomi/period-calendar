@@ -1,4 +1,4 @@
-# Serial Calendar - Claude 機能開発メモ
+# Period Calendar - Claude 機能開発メモ
 
 ## コマンド
 
@@ -41,9 +41,27 @@
    - `src/types/Settings.ts` に `DisplayMode` 型を追加
    - 各コンポーネントで型のインポートと使用を更新
 
+### コードリファクタリング (4/1)
+1. ローカルストレージのアイテム名を定数化
+   - `src/providers/SettingsProvider.tsx` にて "calendarSettings" を `STORAGE_KEY` 定数に切り出し
+
+2. 設定フォームの見出しとスタイル改善
+   - `src/components/SettingsForm.tsx` の見出し階層をセクションレベルに合わせて調整
+   - メインタイトルのフォントサイズを `text-xl` およびフォントウェイトを `font-semibold` に変更
+   - セクションタイトルのフォントサイズを `text-base` に拡大し、マージンも調整
+
+3. CSS定義の整理とインライン化
+   - index.cssの `.settings-form` 系クラスをTailwindのユーティリティクラスに置き換え
+   - SettingsFormコンポーネントにインラインで適用
+   - 不要になった `.settings-form` 系クラスをindex.cssから削除
+
+4. コンポーネント責務の明確化
+   - 設定ダイアログの表示幅の設定をSettingsFormからSettingsDialogに移行
+   - SettingsFormはコンテンツに集中し、SettingsDialogはレイアウトに責任を持つ構造に変更
+   - ダイアログの幅を `w-72` から `w-96` に拡大し、視認性を向上
+
 ### 主要変更ファイル
-- `src/types/Settings.ts`
-- `src/components/Calendar.tsx`
-- `src/components/DateCell.tsx`
+- `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
-- `src/domain/Dates.test.ts`
+- `src/components/SettingsDialog.tsx`
+- `src/index.css`
