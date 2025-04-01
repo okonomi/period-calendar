@@ -1,7 +1,8 @@
-import { type CalendarDate, getDateNum } from "../domain/CalendarDate"
+import { type CalendarDate, getDateNum, isPastMonth } from "../domain/CalendarDate"
 import { groupDatesByWeekMonthly, groupDatesByWeekContinuous } from "../domain/Dates"
 import { DateCell } from "./DateCell"
 import type { DisplayMode } from "../types/Settings"
+import { clsx } from "clsx"
 
 function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
   return firstValidDate
@@ -48,7 +49,11 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) =>
               <div className="@container flex-[1.5]">
                 <div className="grid size-full place-content-center">
                   {firstDayOfMonth && (
-                    <span className="text-[30cqw] leading-none font-medium">{firstDayOfMonth.month}月</span>
+                    <span className={clsx("text-[30cqw] leading-none font-medium", {
+                      "opacity-40": isPastMonth(firstDayOfMonth)
+                    })}>
+                      {firstDayOfMonth.month}月
+                    </span>
                   )}
                 </div>
               </div>

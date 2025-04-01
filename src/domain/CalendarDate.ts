@@ -42,6 +42,11 @@ export function isFirstDayOfMonth(date: CalendarDate): boolean {
   return date.day === 1
 }
 
+export function isPastMonth(date: CalendarDate): boolean {
+  const today = getToday()
+  return date.year < today.year || (date.year === today.year && date.month < today.month)
+}
+
 export function format(date: CalendarDate): string {
   const year = date.year
   const month = date.month.toString().padStart(2, "0")
