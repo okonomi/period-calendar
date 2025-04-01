@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest"
 const context = describe
 
-import type { Settings } from "../types/Settings"
 import { createCalendarDate } from "./CalendarDate"
 import { calculateInitialPeriod, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
+import type { YearMonth } from "./YearMonth"
 
 describe("getPeriodRange", () => {
   context("with default settings", () => {
@@ -26,9 +26,9 @@ describe("getPeriodRange", () => {
 
   context("with custom settings", () => {
     it("returns correct date range with custom start month", () => {
-      const customSettings: Settings = {
-        firstPeriodStartYear: 2000,
-        firstPeriodStartMonth: 4,
+      const customSettings: YearMonth = {
+        year: 2000,
+        month: 4,
       }
 
       const result = getPeriodRange(10, customSettings)
@@ -40,9 +40,9 @@ describe("getPeriodRange", () => {
 
     it("handles edge cases for first month correctly", () => {
       // January case (wraps within same year)
-      const januarySettings: Settings = {
-        firstPeriodStartYear: 2000,
-        firstPeriodStartMonth: 1,
+      const januarySettings: YearMonth = {
+        year: 2000,
+        month: 1,
       }
 
       const januaryResult = getPeriodRange(1, januarySettings)
@@ -52,9 +52,9 @@ describe("getPeriodRange", () => {
       })
 
       // December case (wraps to next year)
-      const decemberSettings: Settings = {
-        firstPeriodStartYear: 2000,
-        firstPeriodStartMonth: 12,
+      const decemberSettings: YearMonth = {
+        year: 2000,
+        month: 12,
       }
 
       const decemberResult = getPeriodRange(1, decemberSettings)
@@ -76,9 +76,9 @@ describe("getFirstHalfPeriodRange", () => {
   })
 
   it("handles month overflow correctly with custom settings", () => {
-    const customSettings: Settings = {
-      firstPeriodStartYear: 2000,
-      firstPeriodStartMonth: 10,
+    const customSettings: YearMonth = {
+      year: 2000,
+      month: 10,
     }
 
     const range = getFirstHalfPeriodRange(3, customSettings)
@@ -102,9 +102,9 @@ describe("getSecondHalfPeriodRange", () => {
 
   context("with custom settings", () => {
     it("handles standard case (no month/year transitions)", () => {
-      const customSettings: Settings = {
-        firstPeriodStartYear: 2000,
-        firstPeriodStartMonth: 10,
+      const customSettings: YearMonth = {
+        year: 2000,
+        month: 10,
       }
 
       const range = getSecondHalfPeriodRange(3, customSettings)
@@ -116,9 +116,9 @@ describe("getSecondHalfPeriodRange", () => {
 
     context("month transitions", () => {
       it("handles case when first half ends in June (second half starts in July)", () => {
-        const customSettings: Settings = {
-          firstPeriodStartYear: 2000,
-          firstPeriodStartMonth: 1,
+        const customSettings: YearMonth = {
+          year: 2000,
+          month: 1,
         }
 
         const range = getSecondHalfPeriodRange(1, customSettings)
@@ -129,9 +129,9 @@ describe("getSecondHalfPeriodRange", () => {
       })
 
       it("handles case when first half ends in November (second half starts in December)", () => {
-        const customSettings: Settings = {
-          firstPeriodStartYear: 2000,
-          firstPeriodStartMonth: 6,
+        const customSettings: YearMonth = {
+          year: 2000,
+          month: 6,
         }
 
         const range = getSecondHalfPeriodRange(1, customSettings)
@@ -144,9 +144,9 @@ describe("getSecondHalfPeriodRange", () => {
 
     context("year transitions", () => {
       it("handles year transition when first half ends in December", () => {
-        const customSettings: Settings = {
-          firstPeriodStartYear: 2000,
-          firstPeriodStartMonth: 7,
+        const customSettings: YearMonth = {
+          year: 2000,
+          month: 7,
         }
 
         const range = getSecondHalfPeriodRange(1, customSettings)
@@ -157,9 +157,9 @@ describe("getSecondHalfPeriodRange", () => {
       })
 
       it("handles case when second half spans across years", () => {
-        const customSettings: Settings = {
-          firstPeriodStartYear: 2000,
-          firstPeriodStartMonth: 11,
+        const customSettings: YearMonth = {
+          year: 2000,
+          month: 11,
         }
 
         const range = getSecondHalfPeriodRange(1, customSettings)
@@ -171,9 +171,9 @@ describe("getSecondHalfPeriodRange", () => {
     })
 
     it("respects custom firstPeriodStartYear setting", () => {
-      const customSettings: Settings = {
-        firstPeriodStartYear: 2010,
-        firstPeriodStartMonth: 4,
+      const customSettings: YearMonth = {
+        year: 2010,
+        month: 4,
       }
 
       const range = getSecondHalfPeriodRange(2, customSettings)
@@ -197,9 +197,9 @@ describe("calculateInitialPeriod", () => {
   })
 
   it("calculates period correctly at period boundaries with custom settings", () => {
-    const customSettings: Settings = {
-      firstPeriodStartYear: 2000,
-      firstPeriodStartMonth: 4,
+    const customSettings: YearMonth = {
+      year: 2000,
+      month: 4,
     }
 
     // Last day of period 23
