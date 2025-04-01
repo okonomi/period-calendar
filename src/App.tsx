@@ -17,10 +17,14 @@ function generateDatesFromPeriodRange(periodRange: PeriodRange): CalendarDate[] 
 // アプリケーションのメインコンテンツ
 const AppContent: React.FC = () => {
   const { settings } = useSettings()
-  const [selectedPeriod, setSelectedPeriod] = useState(() => calculateInitialPeriod(getToday(), settings))
+  const firstPeriodYearMonth = {
+    year: settings.firstPeriodStartYear,
+    month: settings.firstPeriodStartMonth,
+  }
+  const [selectedPeriod, setSelectedPeriod] = useState(() => calculateInitialPeriod(getToday(), firstPeriodYearMonth))
 
-  const firstHalfDates = generateDatesFromPeriodRange(getFirstHalfPeriodRange(selectedPeriod, settings))
-  const secondHalfDates = generateDatesFromPeriodRange(getSecondHalfPeriodRange(selectedPeriod, settings))
+  const firstHalfDates = generateDatesFromPeriodRange(getFirstHalfPeriodRange(selectedPeriod, firstPeriodYearMonth))
+  const secondHalfDates = generateDatesFromPeriodRange(getSecondHalfPeriodRange(selectedPeriod, firstPeriodYearMonth))
 
   const handlePrevPeriod = () => setSelectedPeriod(selectedPeriod - 1)
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)

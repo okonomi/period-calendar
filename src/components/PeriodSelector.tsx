@@ -14,7 +14,11 @@ type Props = {
 
 export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPeriod }) => {
   const { settings } = useSettings()
-  const periodRange = formatPeriodRange(getPeriodRange(period, settings))
+  const firstPeriodYearMonth = {
+    year: settings.firstPeriodStartYear,
+    month: settings.firstPeriodStartMonth,
+  }
+  const periodRange = formatPeriodRange(getPeriodRange(period, firstPeriodYearMonth))
 
   return (
     <div className="calendar-header">
