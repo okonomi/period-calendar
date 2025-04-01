@@ -84,13 +84,4 @@
   .tooltip {
     @apply absolute -translate-x-1/2 rounded bg-black px-2 py-1 text-xs whitespace-nowrap text-white before:absolute before:bottom-[-4px] before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-black before:content-[''];
   }
-
-  /* 設定ダイアログ */
-  .settings-button {
-    @apply text-calendar-text flex size-9 items-center justify-center p-1.5;
-  }
-
-  .settings-dialog {
-    @apply fixed inset-0 m-auto rounded-md border border-gray-200 p-0 backdrop:bg-black/50;
-  }
 }

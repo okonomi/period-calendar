@@ -26,12 +26,21 @@ export const SettingsDialog: React.FC = () => {
 
   return (
     <>
-      <button type="button" onClick={openSettings} className="sc-box sc-button settings-button" aria-label="設定">
+      <button
+        type="button"
+        onClick={openSettings}
+        className="sc-box sc-button text-calendar-text flex size-9 items-center justify-center p-1.5"
+        aria-label="設定"
+      >
         <SettingsIcon className="h-5 w-5" />
       </button>
 
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-      <dialog ref={dialogRef} onClick={handleDialogClick} className="settings-dialog">
+      <dialog
+        ref={dialogRef}
+        onClick={handleDialogClick}
+        className="fixed inset-0 m-auto rounded-md border border-gray-200 p-0 backdrop:bg-black/50"
+      >
         <div className="w-96 bg-white p-6">
           <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
         </div>
