@@ -10,16 +10,16 @@ describe("getPeriodRange", () => {
     it("returns correct date range for period 1", () => {
       const result = getPeriodRange(1)
       expect(result).toEqual({
-        start: { year: 1999, month: 8 },
-        end: { year: 2000, month: 7 },
+        start: { year: 2001, month: 1 },
+        end: { year: 2001, month: 12 },
       })
     })
 
     it("returns correct date range for period 25", () => {
       const result = getPeriodRange(25)
       expect(result).toEqual({
-        start: { year: 2023, month: 8 },
-        end: { year: 2024, month: 7 },
+        start: { year: 2025, month: 1 },
+        end: { year: 2025, month: 12 },
       })
     })
   })
@@ -70,8 +70,8 @@ describe("getFirstHalfPeriodRange", () => {
   it("returns first half range with default settings", () => {
     const range = getFirstHalfPeriodRange(25)
     expect(range).toEqual({
-      start: { year: 2023, month: 8 },
-      end: { year: 2024, month: 1 },
+      start: { year: 2025, month: 1 },
+      end: { year: 2025, month: 6 },
     })
   })
 
@@ -94,8 +94,8 @@ describe("getSecondHalfPeriodRange", () => {
     it("returns correct second half range for period 25", () => {
       const range = getSecondHalfPeriodRange(25)
       expect(range).toEqual({
-        start: { year: 2024, month: 2 },
-        end: { year: 2024, month: 7 },
+        start: { year: 2025, month: 7 },
+        end: { year: 2025, month: 12 },
       })
     })
   })
@@ -188,12 +188,12 @@ describe("getSecondHalfPeriodRange", () => {
 describe("calculateInitialPeriod", () => {
   it("calculates period correctly with default settings", () => {
     // First period start date
-    const period1 = calculateInitialPeriod(createCalendarDate(1999, 8, 1))
+    const period1 = calculateInitialPeriod(createCalendarDate(2001, 1, 1))
     expect(period1).toBe(1)
 
     // Future date
     const period26 = calculateInitialPeriod(createCalendarDate(2024, 8, 1))
-    expect(period26).toBe(26)
+    expect(period26).toBe(24)
   })
 
   it("calculates period correctly at period boundaries with custom settings", () => {
