@@ -54,6 +54,8 @@
    - index.cssの `.settings-form` 系クラスをTailwindのユーティリティクラスに置き換え
    - SettingsFormコンポーネントにインラインで適用
    - 不要になった `.settings-form` 系クラスをindex.cssから削除
+   - `.settings-button`と`.settings-dialog`クラスもTailwindクラスにインライン展開
+   - CSSファイルからこれらの定義を削除し、コードをよりメンテナンスしやすく
 
 4. コンポーネント責務の明確化
    - 設定ダイアログの表示幅の設定をSettingsFormからSettingsDialogに移行
@@ -65,3 +67,64 @@
 - `src/components/SettingsForm.tsx`
 - `src/components/SettingsDialog.tsx`
 - `src/index.css`
+
+## 開発ワークフロー
+
+### コミット手順
+
+1. コード修正後にリントとフォーマットを適用する
+   ```bash
+   pnpm lint-fix
+   ```
+   
+   または特定のフォーマッターだけ実行する
+   ```bash
+   pnpm lint-fix:prettier
+   ```
+
+2. 変更内容の確認
+   ```bash
+   git --no-pager diff
+   ```
+
+3. コミット
+   ```bash
+   git add .
+   git commit -m "refactor: replace settings dialog CSS classes with Tailwind utilities"
+   ```
+
+4. コミットメッセージの規則（Conventional Commits）
+   コミットメッセージは以下の形式に従い、英語で記述する：
+   ```
+   <type>[optional scope]: <description>
+
+   [optional body]
+
+   [optional footer(s)]
+   ```
+
+   主な type の種類：
+   - `feat`: 新機能の追加
+   - `fix`: バグ修正
+   - `docs`: ドキュメントの変更
+   - `style`: コードの意味に影響しない変更（スペース、フォーマット、セミコロンなど）
+   - `refactor`: バグ修正でも機能追加でもないコードの変更
+   - `perf`: パフォーマンス改善のためのコード変更
+   - `test`: テストの追加・修正
+   - `build`: ビルドシステムやパッケージ依存関係の変更
+   - `ci`: CI設定やスクリプトの変更
+   - `chore`: その他の雑多な変更
+
+   例：
+   - `feat: add calendar display mode setting`
+   - `fix: resolve issue with date calculation`
+   - `refactor: replace CSS classes with Tailwind utilities`
+   - `docs: update development notes`
+   - `test: add test cases for Period class`
+   - `style: format code with prettier`
+
+5. 間違ったコミットメッセージのやり直し
+   ```bash
+   git reset --soft HEAD^
+   git commit -m "正しいメッセージ"
+   ```
