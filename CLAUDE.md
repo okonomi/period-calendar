@@ -62,6 +62,10 @@
    - SettingsFormはコンテンツに集中し、SettingsDialogはレイアウトに責任を持つ構造に変更
    - ダイアログの幅を `w-72` から `w-96` に拡大し、視認性を向上
 
+5. ページタイトルの更新
+   - `index.html`のページタイトルをデフォルトの "Vite + React + TS" から "Period Calendar" に更新
+   - アプリケーション名を反映させ、ブラウザのタブ表示を改善
+
 ### 主要変更ファイル
 - `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
