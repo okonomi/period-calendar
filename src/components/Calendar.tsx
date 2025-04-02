@@ -49,9 +49,11 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) =>
               <div className="@container flex-[1.5]">
                 <div className="grid size-full place-content-center">
                   {firstDayOfMonth && (
-                    <span className={clsx("text-[30cqw] leading-none font-medium", {
-                      "opacity-40": isPastMonth(firstDayOfMonth)
-                    })}>
+                    <span
+                      className={clsx("text-[30cqw] leading-none font-medium", {
+                        "opacity-40": isPastMonth(firstDayOfMonth),
+                      })}
+                    >
                       {firstDayOfMonth.month}月
                     </span>
                   )}

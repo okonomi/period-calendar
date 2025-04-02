@@ -110,14 +110,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         <button
           type="button"
           onClick={onCancel}
-          className="text-calendar-text rounded-md border border-gray-300 px-3 py-1 text-sm transition-colors duration-200 hover:bg-gray-50 cursor-pointer hover:scale-105 hover:shadow"
+          className="text-calendar-text cursor-pointer rounded-md border border-gray-300 px-3 py-1 text-sm transition-colors duration-200 hover:scale-105 hover:bg-gray-50 hover:shadow"
         >
           キャンセル
         </button>
         <button
           type="button"
           onClick={handleSave}
-          className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600 cursor-pointer hover:scale-105 hover:shadow"
+          className="cursor-pointer rounded-md bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:scale-105 hover:bg-blue-600 hover:shadow"
         >
           保存
         </button>
