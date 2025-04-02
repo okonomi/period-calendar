@@ -2,8 +2,8 @@
 
 /* 基本設定 */
 @theme {
-  --font-sans:
-    "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
+  --font-sans: "Inter Variable", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo,
+    sans-serif;
   --font-feature-settings: "palt" 1;
   --color-calendar-bg: #fffcf8;
   --color-calendar-hover-bg: #fff9f0;
@@ -31,8 +31,7 @@
   /* カレンダー全体 */
   .calendar-container {
     @apply mx-auto p-4;
-    background-image:
-      linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
+    background-image: linear-gradient(90deg, rgba(230, 230, 230, 0.05) 1px, transparent 1px),
       linear-gradient(rgba(230, 230, 230, 0.05) 1px, transparent 1px);
     background-size: 8px 8px;
   }
@@ -73,11 +72,6 @@
   }
   .date-cell-past {
     @apply opacity-40;
-  }
-
-  /* ボタン */
-  .period-selector-button {
-    @apply text-calendar-text h-9 rounded-md px-3 py-1.5 text-sm;
   }
 
   /* Tooltip */

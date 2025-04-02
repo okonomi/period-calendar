@@ -27,7 +27,7 @@ export const SettingsDialog: React.FC = () => {
       <button
         type="button"
         onClick={openSettings}
-        className="sc-box sc-button text-calendar-text flex size-9 items-center justify-center p-1.5"
+        className="sc-box sc-button text-calendar-text flex size-9 items-center justify-center p-1.5 cursor-pointer hover:scale-105 hover:shadow transition-all"
         aria-label="設定"
       >
         <SettingsIcon className="h-5 w-5" />
