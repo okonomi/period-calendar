@@ -102,10 +102,39 @@
      - 視覚的区別の明確化: 現在と過去の月がはっきりと区別できるように
      - ユーザー体験の改善: 時系列の感覚がより直感的に
 
+### UI改善 (4/2)
+1. ボタンのホバー効果強化
+   - 変更したファイル:
+     - `src/components/PeriodSelector.tsx`: 期間選択ボタンのスタイル更新
+     - `src/components/SettingsDialog.tsx`: 設定アイコンボタンのスタイル更新
+     - `src/components/SettingsForm.tsx`: 設定フォームのボタンスタイル更新
+   - 変更内容:
+     - クリック可能な要素に `cursor-pointer` クラスを追加
+     - ホバー時の視覚効果として `hover:scale-105` と `hover:shadow` を追加
+     - トランジション効果に `transition-all` を適用
+   - メリット:
+     - 操作性向上: ボタンが押せることをより明確に視覚的に伝達
+     - 一貫性: 全てのボタン要素で同じホバー挙動を実現
+     - ユーザー体験改善: 微細な視覚的フィードバックによる使いやすさ向上
+
+2. コンポーネントスタイルのリファクタリング
+   - 変更したファイル:
+     - `src/components/PeriodSelector.tsx`: ボタンクラス定義を改善
+     - `src/index.css`: 不要になったクラス定義を削除
+   - 変更内容:
+     - `.period-selector-button` クラスをインラインの Tailwind クラスに展開
+     - `clsx` を使用してボタンクラスを論理的にグループ化された変数に切り出し
+     - 長いクラス名リストを改行と適切なコメントで整理
+   - メリット:
+     - コードの可読性向上: 明確なグループ分けと適切な改行によるスタイル定義
+     - メンテナンス性向上: 共通スタイルの一元管理でコード重複を削減
+     - 一貫性: プロジェクト全体で同じスタイリングアプローチを適用
+
 ### 主要変更ファイル
 - `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
 - `src/components/SettingsDialog.tsx`
+- `src/components/PeriodSelector.tsx`
 - `src/index.css`
 
 ## 開発ワークフロー
