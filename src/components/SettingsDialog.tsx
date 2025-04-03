@@ -41,7 +41,7 @@ export const SettingsDialog: React.FC = () => {
         onClick={handleDialogClick}
         className="fixed inset-0 m-auto rounded-md border border-gray-200 p-0 backdrop:bg-black/50"
       >
-        <div className="w-96 bg-white p-6">
+        <div className="w-full max-w-[90vw] bg-white p-4 sm:max-w-md sm:p-6 md:max-w-lg">
           <SettingsForm settings={settings} onSave={handleSaveSettings} onCancel={closeSettings} />
         </div>
       </dialog>

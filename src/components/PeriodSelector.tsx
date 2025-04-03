@@ -32,15 +32,15 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   )
 
   return (
-    <div className="flex w-full justify-between items-center space-x-2">
+    <div className="flex w-full items-center justify-between space-x-2">
       <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
         <span className="hidden md:inline">◀ 前期</span>
         <span className="hidden sm:inline md:hidden">◀ 前</span>
         <span className="inline sm:hidden">◀</span>
       </button>
       <div className="text-center">
-        <div className="text-calendar-text text-base sm:text-lg font-medium">{period}期</div>
-        <div className="text-xs sm:text-sm text-stone-500">{periodRange}</div>
+        <div className="text-calendar-text text-base font-medium sm:text-lg">{period}期</div>
+        <div className="text-xs text-stone-500 sm:text-sm">{periodRange}</div>
       </div>
       <button type="button" onClick={onNextPeriod} className={buttonClasses}>
         <span className="hidden md:inline">来期 ▶</span>

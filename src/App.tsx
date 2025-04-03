@@ -58,7 +58,7 @@ const AppContent: React.FC = () => {
           <div className="relative mx-auto max-w-5xl">
             <div className="flex justify-center">
               <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
-                <div className="w-12 flex place-content-center">
+                <div className="flex w-12 place-content-center">
                   <ReloadButton onClick={handleReload} />
                 </div>
                 <div className="grow px-1 sm:px-2">
@@ -68,7 +68,7 @@ const AppContent: React.FC = () => {
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="w-12 flex place-content-center">
+                <div className="flex w-12 place-content-center">
                   <SettingsDialog />
                 </div>
               </div>
@@ -77,10 +77,10 @@ const AppContent: React.FC = () => {
             {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
               <div className="mt-4 flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
-                <div className="w-full max-w-[338px] mx-auto">
+                <div className="mx-auto w-full max-w-[338px]">
                   <Calendar dates={firstHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
-                <div className="w-full max-w-[338px] mx-auto">
+                <div className="mx-auto w-full max-w-[338px]">
                   <Calendar dates={secondHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
