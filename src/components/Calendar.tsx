@@ -1,5 +1,6 @@
 import { clsx } from "clsx"
-import { type CalendarDate, getDateNum, isPastMonth } from "../domain/CalendarDate"
+import { useEffect, useRef } from "react"
+import { type CalendarDate, getDateNum, isPastMonth, isToday } from "../domain/CalendarDate"
 import { groupDatesByWeekContinuous, groupDatesByWeekMonthly } from "../domain/Dates"
 import type { MonthLayoutMode } from "../types/Settings"
 import { DateCell } from "./DateCell"
@@ -21,6 +22,20 @@ type Props = {
 
 export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) => {
   const weeklyDates = displayMode === "monthly" ? groupDatesByWeekMonthly(dates) : groupDatesByWeekContinuous(dates)
+  const todayCellRef = useRef<HTMLDivElement>(null)
+
+  // 初回レンダリング時に今日の日付にスクロール
+  useEffect(() => {
+    if (todayCellRef.current) {
+      // スクロール位置を調整するための遅延（レイアウト計算が完了するのを待つ）
+      setTimeout(() => {
+        todayCellRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+      }, 100)
+    }
+  }, [])
 
   return (
     <div className="sc-box calendar-container">
@@ -71,8 +86,15 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) =>
                 return <div key={spacerKey} className="flex aspect-square flex-1" />
               }
 
+              // 今日の日付のセルに参照を設定
+              const isDateToday = isToday(date)
+
               return (
-                <div key={`date-${getDateNum(date)}`} className="@container aspect-square flex-1">
+                <div
+                  key={`date-${getDateNum(date)}`}
+                  className="@container aspect-square flex-1"
+                  ref={isDateToday ? todayCellRef : undefined}
+                >
                   <DateCell date={date} displayMode={displayMode} />
                 </div>
               )
