@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
+import { ReloadIcon } from "./components/ReloadIcon"
 import { SettingsDialog } from "./components/SettingsDialog"
 import { type CalendarDate, getToday } from "./domain/CalendarDate"
 import { generateDates } from "./domain/Dates"
@@ -29,6 +30,11 @@ const AppContent: React.FC = () => {
   const handlePrevPeriod = () => setSelectedPeriod(selectedPeriod - 1)
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)
 
+  // ページを再読み込みする関数
+  const handleReload = () => {
+    window.location.reload()
+  }
+
   return (
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
@@ -44,7 +50,8 @@ const AppContent: React.FC = () => {
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="flex w-12 justify-end">
+                <div className="flex w-12 justify-end gap-3">
+                  <ReloadIcon onClick={handleReload} />
                   <SettingsDialog />
                 </div>
               </div>
