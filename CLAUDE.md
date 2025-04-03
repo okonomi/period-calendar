@@ -153,6 +153,47 @@
      - メンテナンス性向上: 共通スタイルの一元管理でコード重複を削減
      - 一貫性: プロジェクト全体で同じスタイリングアプローチを適用
 
+### 操作性向上機能 (4/3)
+1. 今日の日付への自動スクロール機能
+   - 変更したファイル:
+     - `src/App.tsx`: 今日の日付へのスクロール機能を追加
+     - `src/components/DateCell.tsx`: 今日の日付を特定するためのdata属性を追加
+   - 変更内容:
+     - 今日の日付のセルに `data-today="true"` 属性を追加
+     - `useEffect` を使用してページ読み込み時に今日の日付の要素にスクロール
+     - スクロールはアニメーション付き (`behavior: "smooth"`) で視覚的に分かりやすく
+   - メリット:
+     - ユーザー体験の向上: 今日の日付を探す手間を削減
+     - 直感的なUX: ページを開いた時点で今日の日付が中央に表示
+     - 視認性の向上: すでに緑色で強調表示されている今日の日付に自動的に視線を誘導
+
+2. ページ再読み込みボタンの追加
+   - 変更したファイル:
+     - `src/components/icon/ArrowPathIcon.tsx`: 新規作成したリロードアイコン
+     - `src/components/ReloadButton.tsx`: 新規作成したリロードボタンコンポーネント
+     - `src/App.tsx`: リロードボタンをUIに追加
+   - 変更内容:
+     - HeroiconsのArrow Pathアイコンを使用したリロードボタンを実装
+     - 設定アイコンと同じデザインでボタンを統一し視覚的一貫性を確保
+     - `window.location.reload()` を使用してページを再読み込み
+   - メリット:
+     - 操作性の向上: 簡単に最新データに更新可能
+     - アクセシビリティの向上: aria-labelとtitleで機能を明示
+     - UIの一貫性: 既存ボタンと同じデザイン言語を踏襲
+
+3. コンポーネント構造の改善
+   - 変更したファイル:
+     - `/src/components/icon/ArrowPathIcon.tsx`: アイコンコンポーネント
+     - `/src/components/ReloadButton.tsx`: ボタンコンポーネント
+   - 変更内容:
+     - アイコンとボタンの責務を明確に分離
+     - アイコンコンポーネントは描画のみ、ボタンはインタラクションを担当
+     - アイコンを `components/icon/` ディレクトリに配置し一貫した構成に
+   - メリット:
+     - コードの再利用性向上: アイコンとボタンが独立して再利用可能
+     - 保守性の向上: 責務の分離により変更の影響範囲を限定化
+     - 一貫したプロジェクト構造: アイコンを専用ディレクトリで管理
+
 ### 主要変更ファイル
 - `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
@@ -161,6 +202,8 @@
 - `src/index.css`
 - `src/App.tsx`
 - `src/types/Settings.ts`
+- `src/components/ReloadButton.tsx` (新規)
+- `src/components/icon/ArrowPathIcon.tsx` (新規)
 
 ## 開発ワークフロー
 
