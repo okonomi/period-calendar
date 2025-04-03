@@ -76,38 +76,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
       <div className="mb-5">
         <h3 className="text-calendar-text mb-3 text-base font-medium">カレンダー表示設定</h3>
-        <div className="flex flex-col gap-4">
-          <div>
-            <div className="text-calendar-text mb-1 block text-xs font-medium">表示モード</div>
-            <div className="mt-2 flex gap-4">
-              <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="displayMode"
-                  value="monthly"
-                  checked={displayMode === "monthly"}
-                  onChange={() => setDisplayMode("monthly")}
-                  className="h-4 w-4"
-                />
-                <span>月区切り表示</span>
-              </label>
-              <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="displayMode"
-                  value="continuous"
-                  checked={displayMode === "continuous"}
-                  onChange={() => setDisplayMode("continuous")}
-                  className="h-4 w-4"
-                />
-                <span>連続表示</span>
-              </label>
-            </div>
-            <p className="text-calendar-text mt-1 text-xs">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
-          </div>
-
-          <div>
-            <div className="text-calendar-text mb-1 block text-xs font-medium">カレンダー分割</div>
+        <div className="flex flex-col gap-6">
+          <div className="rounded-md bg-gray-50 p-3">
+            <div className="text-calendar-text mb-2 block text-sm font-medium">前期・後期の表示方法</div>
             <div className="mt-2 flex gap-4">
               <label className="flex items-center gap-1">
                 <input
@@ -118,7 +89,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   onChange={() => setViewMode("split")}
                   className="h-4 w-4"
                 />
-                <span>分割表示</span>
+                <span>2つに分けて表示</span>
               </label>
               <label className="flex items-center gap-1">
                 <input
@@ -129,12 +100,63 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   onChange={() => setViewMode("single")}
                   className="h-4 w-4"
                 />
-                <span>ひとまとめ表示</span>
+                <span>1つにまとめて表示</span>
               </label>
             </div>
-            <p className="text-calendar-text mt-1 text-xs">
-              分割表示を選ぶと、前期と後期のカレンダーが分けて表示されます
-            </p>
+            <div className="mt-2 flex items-center gap-2">
+              <div className="text-calendar-text text-xs">
+                {viewMode === "split" ? (
+                  <>
+                    前期と後期を<span className="font-medium">別々のカレンダー</span>で表示します
+                  </>
+                ) : (
+                  <>
+                    前期と後期を<span className="font-medium">1つのカレンダー</span>として続けて表示します
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-md bg-gray-50 p-3">
+            <div className="text-calendar-text mb-2 block text-sm font-medium">月のレイアウト</div>
+            <div className="mt-2 flex gap-4">
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="displayMode"
+                  value="monthly"
+                  checked={displayMode === "monthly"}
+                  onChange={() => setDisplayMode("monthly")}
+                  className="h-4 w-4"
+                />
+                <span>月ごとに区切る</span>
+              </label>
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="displayMode"
+                  value="continuous"
+                  checked={displayMode === "continuous"}
+                  onChange={() => setDisplayMode("continuous")}
+                  className="h-4 w-4"
+                />
+                <span>区切らず連続</span>
+              </label>
+            </div>
+            <div className="mt-2 flex items-center gap-2">
+              <div className="text-calendar-text text-xs">
+                {displayMode === "monthly" ? (
+                  <>
+                    月が変わる時に<span className="font-medium">改行して区切り</span>ます
+                  </>
+                ) : (
+                  <>
+                    月が変わっても<span className="font-medium">改行せず連続</span>して表示します
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
