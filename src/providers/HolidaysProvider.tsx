@@ -3,6 +3,7 @@ import { HolidaysContext } from "../contexts/HolidaysContext"
 import { createCalendarDateFromDate } from "../domain/CalendarDate"
 import type { Holiday } from "../domain/Holiday"
 import { getPeriodRange } from "../domain/Period"
+import { useSettings } from "../hooks/use-settings"
 
 async function fetchHolidays(year: number): Promise<Record<string, Holiday>> {
   const response = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`)
@@ -20,15 +21,17 @@ async function fetchHolidays(year: number): Promise<Record<string, Holiday>> {
 // HolidaysProviderコンポーネントの作成
 export const HolidaysProvider: React.FC<React.PropsWithChildren<{ period: number }>> = ({ children, period }) => {
   const [holidays, setHolidays] = useState<Record<string, Holiday>>({})
+  const { settings } = useSettings()
+  const firstPeriodYearMonth = settings.firstPeriodStart
 
   useEffect(() => {
-    const periodRange = getPeriodRange(period)
+    const periodRange = getPeriodRange(period, firstPeriodYearMonth)
     Promise.all([fetchHolidays(periodRange.start.year), fetchHolidays(periodRange.end.year)]).then(
       ([startYearHolidays, endYearHolidays]) => {
         setHolidays({ ...startYearHolidays, ...endYearHolidays })
       }
     )
-  }, [period])
+  }, [period, firstPeriodYearMonth])
 
   return <HolidaysContext.Provider value={holidays}>{children}</HolidaysContext.Provider>
 }
