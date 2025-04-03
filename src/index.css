@@ -37,9 +37,6 @@
   }
 
   /* レイアウト要素 */
-  .calendar-header {
-    @apply flex w-full justify-center space-x-2;
-  }
   .calendar-week {
     @apply grid grid-cols-7;
   }

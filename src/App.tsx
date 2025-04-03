@@ -57,16 +57,16 @@ const AppContent: React.FC = () => {
         <div className="mx-auto p-2">
           <div className="relative mx-auto max-w-5xl">
             <div className="flex justify-center">
-              <div className="flex w-full max-w-2xl items-center justify-between">
-                <div className="w-12" />
-                <div className="grow">
+              <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
+                <div className="w-8 sm:w-12" />
+                <div className="grow px-1 sm:px-2">
                   <PeriodSelector
                     period={selectedPeriod}
                     onPrevPeriod={handlePrevPeriod}
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="flex w-12 justify-end gap-3">
+                <div className="flex justify-end gap-1 sm:gap-3">
                   <ReloadButton onClick={handleReload} />
                   <SettingsDialog />
                 </div>
@@ -75,18 +75,18 @@ const AppContent: React.FC = () => {
 
             {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
-              <div className="mt-4 flex place-content-center gap-8">
-                <div className="w-[338px]">
+              <div className="mt-4 flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
+                <div className="w-full max-w-[338px] mx-auto">
                   <Calendar dates={firstHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
-                <div className="w-[338px]">
+                <div className="w-full max-w-[338px] mx-auto">
                   <Calendar dates={secondHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
             ) : (
               // ひとまとめ表示モード（前期・後期を連続して表示）
               <div className="mt-4 flex place-content-center">
-                <div className="w-[338px]">
+                <div className="w-full max-w-[338px]">
                   <Calendar dates={allDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
