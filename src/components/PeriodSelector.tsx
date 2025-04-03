@@ -22,9 +22,9 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
     // ベーススタイル
     "sc-box sc-button",
     // テキスト・サイズ
-    "text-calendar-text text-xs sm:text-sm",
+    "text-calendar-text text-sm",
     // レイアウト
-    "h-8 sm:h-9 rounded-md px-2 sm:px-3 py-1 sm:py-1.5",
+    "h-9 rounded-md px-3 py-1.5",
     // インタラクション
     "cursor-pointer",
     "hover:scale-105 hover:shadow",
@@ -32,18 +32,20 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   )
 
   return (
-    <div className="flex w-full justify-between items-center space-x-1 sm:space-x-2">
+    <div className="flex w-full justify-between items-center space-x-2">
       <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
-        <span className="hidden sm:inline">◀ 前期</span>
-        <span className="inline sm:hidden">◀ 前</span>
+        <span className="hidden md:inline">◀ 前期</span>
+        <span className="hidden sm:inline md:hidden">◀ 前</span>
+        <span className="inline sm:hidden">◀</span>
       </button>
       <div className="text-center">
         <div className="text-calendar-text text-base sm:text-lg font-medium">{period}期</div>
         <div className="text-xs sm:text-sm text-stone-500">{periodRange}</div>
       </div>
       <button type="button" onClick={onNextPeriod} className={buttonClasses}>
-        <span className="hidden sm:inline">来期 ▶</span>
-        <span className="inline sm:hidden">次 ▶</span>
+        <span className="hidden md:inline">来期 ▶</span>
+        <span className="hidden sm:inline md:hidden">次 ▶</span>
+        <span className="inline sm:hidden">▶</span>
       </button>
     </div>
   )

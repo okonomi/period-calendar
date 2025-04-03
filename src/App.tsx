@@ -58,7 +58,9 @@ const AppContent: React.FC = () => {
           <div className="relative mx-auto max-w-5xl">
             <div className="flex justify-center">
               <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
-                <div className="w-8 sm:w-12" />
+                <div className="w-12 flex place-content-center">
+                  <ReloadButton onClick={handleReload} />
+                </div>
                 <div className="grow px-1 sm:px-2">
                   <PeriodSelector
                     period={selectedPeriod}
@@ -66,8 +68,7 @@ const AppContent: React.FC = () => {
                     onNextPeriod={handleNextPeriod}
                   />
                 </div>
-                <div className="flex justify-end gap-1 sm:gap-3">
-                  <ReloadButton onClick={handleReload} />
+                <div className="w-12 flex place-content-center">
                   <SettingsDialog />
                 </div>
               </div>
