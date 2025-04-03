@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { useSettings } from "../hooks/use-settings"
 import type { Settings } from "../types/Settings"
 import { SettingsForm } from "./SettingsForm"
-import { SettingsIcon } from "./SettingsIcon"
+import { SettingsIcon } from "./icon/SettingsIcon"
 
 export const SettingsDialog: React.FC = () => {
   const { settings, updateSettings } = useSettings()

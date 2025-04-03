@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
-import { ReloadIcon } from "./components/ReloadIcon"
+import { ReloadButton } from "./components/ReloadButton"
 import { SettingsDialog } from "./components/SettingsDialog"
 import { type CalendarDate, getToday } from "./domain/CalendarDate"
 import { generateDates } from "./domain/Dates"
@@ -67,7 +67,7 @@ const AppContent: React.FC = () => {
                   />
                 </div>
                 <div className="flex w-12 justify-end gap-3">
-                  <ReloadIcon onClick={handleReload} />
+                  <ReloadButton onClick={handleReload} />
                   <SettingsDialog />
                 </div>
               </div>
