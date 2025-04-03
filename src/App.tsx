@@ -23,6 +23,9 @@ const AppContent: React.FC = () => {
   const firstHalfDates = generateDatesFromPeriodRange(getFirstHalfPeriodRange(selectedPeriod, firstPeriodYearMonth))
   const secondHalfDates = generateDatesFromPeriodRange(getSecondHalfPeriodRange(selectedPeriod, firstPeriodYearMonth))
 
+  // 両方の期間を合わせた日付配列（ひとまとめ表示用）
+  const allDates = [...firstHalfDates, ...secondHalfDates]
+
   const handlePrevPeriod = () => setSelectedPeriod(selectedPeriod - 1)
   const handleNextPeriod = () => setSelectedPeriod(selectedPeriod + 1)
 
@@ -46,14 +49,25 @@ const AppContent: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-4 flex place-content-center gap-8">
-              <div className="w-[338px]">
-                <Calendar dates={firstHalfDates} displayMode={settings.displayMode} />
+
+            {settings.viewMode === "split" ? (
+              // 分割表示モード（前期・後期を別々に表示）
+              <div className="mt-4 flex place-content-center gap-8">
+                <div className="w-[338px]">
+                  <Calendar dates={firstHalfDates} displayMode={settings.displayMode} />
+                </div>
+                <div className="w-[338px]">
+                  <Calendar dates={secondHalfDates} displayMode={settings.displayMode} />
+                </div>
               </div>
-              <div className="w-[338px]">
-                <Calendar dates={secondHalfDates} displayMode={settings.displayMode} />
+            ) : (
+              // ひとまとめ表示モード（前期・後期を連続して表示）
+              <div className="mt-4 flex place-content-center">
+                <div className="w-[338px]">
+                  <Calendar dates={allDates} displayMode={settings.displayMode} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

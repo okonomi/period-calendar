@@ -11,7 +11,7 @@ export const SettingsDialog: React.FC = () => {
   const openSettings = () => dialogRef.current?.showModal()
   const closeSettings = () => dialogRef.current?.close()
 
-  const handleSaveSettings = (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode">) => {
+  const handleSaveSettings = (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode" | "viewMode">) => {
     updateSettings(newSettings)
     closeSettings()
   }

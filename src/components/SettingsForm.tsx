@@ -1,10 +1,10 @@
 import { useState } from "react"
-import type { DisplayMode, Settings } from "../types/Settings"
+import type { DisplayMode, Settings, ViewMode } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
   settings: Settings
-  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode">) => void
+  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode" | "viewMode">) => void
   onCancel: () => void
 }
 
@@ -12,6 +12,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   const [year, setYear] = useState(settings.firstPeriodStart.year.toString())
   const [month, setMonth] = useState(settings.firstPeriodStart.month.toString())
   const [displayMode, setDisplayMode] = useState<DisplayMode>(settings.displayMode)
+  const [viewMode, setViewMode] = useState<ViewMode>(settings.viewMode)
 
   const handleSave = () => {
     const yearValue = Number.parseInt(year, 10)
@@ -30,6 +31,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     onSave({
       firstPeriodStart: { year: yearValue, month: monthValue },
       displayMode,
+      viewMode,
     })
   }
 
@@ -74,7 +76,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
       <div className="mb-5">
         <h3 className="text-calendar-text mb-3 text-base font-medium">カレンダー表示設定</h3>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-4">
           <div>
             <div className="text-calendar-text mb-1 block text-xs font-medium">表示モード</div>
             <div className="mt-2 flex gap-4">
@@ -101,9 +103,40 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <span>連続表示</span>
               </label>
             </div>
+            <p className="text-calendar-text mt-1 text-xs">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
+          </div>
+
+          <div>
+            <div className="text-calendar-text mb-1 block text-xs font-medium">カレンダー分割</div>
+            <div className="mt-2 flex gap-4">
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="viewMode"
+                  value="split"
+                  checked={viewMode === "split"}
+                  onChange={() => setViewMode("split")}
+                  className="h-4 w-4"
+                />
+                <span>分割表示</span>
+              </label>
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="viewMode"
+                  value="single"
+                  checked={viewMode === "single"}
+                  onChange={() => setViewMode("single")}
+                  className="h-4 w-4"
+                />
+                <span>ひとまとめ表示</span>
+              </label>
+            </div>
+            <p className="text-calendar-text mt-1 text-xs">
+              分割表示を選ぶと、前期と後期のカレンダーが分けて表示されます
+            </p>
           </div>
         </div>
-        <p className="text-calendar-text mt-1 text-xs">月区切り表示を選ぶと、月ごとにカレンダーが区切られます</p>
       </div>
 
       <div className="flex justify-end space-x-2">
