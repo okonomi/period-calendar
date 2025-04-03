@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { ReloadIcon } from "./components/ReloadIcon"
@@ -34,6 +34,22 @@ const AppContent: React.FC = () => {
   const handleReload = () => {
     window.location.reload()
   }
+
+  // 今日の日付へスクロールする
+  useEffect(() => {
+    // DOM更新後に処理を実行するため、少し遅延を入れる
+    const scrollTimeout = setTimeout(() => {
+      const todayCell = document.querySelector('[data-today="true"]')
+      if (todayCell) {
+        todayCell.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+      }
+    }, 500)
+
+    return () => clearTimeout(scrollTimeout)
+  }, [])
 
   return (
     <HolidaysProvider period={selectedPeriod}>
