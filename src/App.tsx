@@ -77,17 +77,17 @@ const AppContent: React.FC = () => {
             {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
               <div className="mt-4 flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
-                <div className="mx-auto w-full max-w-[338px]">
+                <div className="mx-auto w-full max-w-[338px] sm:mx-0">
                   <Calendar dates={firstHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
-                <div className="mx-auto w-full max-w-[338px]">
+                <div className="mx-auto w-full max-w-[338px] sm:mx-0">
                   <Calendar dates={secondHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
             ) : (
               // ひとまとめ表示モード（前期・後期を連続して表示）
               <div className="mt-4 flex place-content-center">
-                <div className="w-full max-w-[338px]">
+                <div className="mx-auto w-full max-w-[338px] sm:mx-0">
                   <Calendar dates={allDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
