@@ -2,15 +2,14 @@
 import { ArrowPathIcon } from "./icon/ArrowPathIcon"
 
 interface Props {
-  className?: string
   onClick?: () => void
 }
 
-export const ReloadButton: React.FC<Props> = ({ className = "", onClick }) => {
+export const ReloadButton: React.FC<Props> = ({ onClick }) => {
   return (
     <button
       type="button"
-      className={`text-gray-500 hover:text-gray-700 focus:outline-none ${className}`}
+      className="sc-box sc-button text-calendar-text flex size-9 cursor-pointer items-center justify-center p-1.5 transition-all hover:scale-105 hover:shadow"
       onClick={onClick}
       aria-label="ページを再読み込み"
       title="ページを再読み込み"
