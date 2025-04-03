@@ -1,18 +1,18 @@
 import { useState } from "react"
-import type { DisplayMode, Settings, ViewMode } from "../types/Settings"
+import type { MonthLayoutMode, PeriodSplitMode, Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
   settings: Settings
-  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "displayMode" | "viewMode">) => void
+  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "monthLayoutMode" | "periodSplitMode">) => void
   onCancel: () => void
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const [year, setYear] = useState(settings.firstPeriodStart.year.toString())
   const [month, setMonth] = useState(settings.firstPeriodStart.month.toString())
-  const [displayMode, setDisplayMode] = useState<DisplayMode>(settings.displayMode)
-  const [viewMode, setViewMode] = useState<ViewMode>(settings.viewMode)
+  const [monthLayoutMode, setMonthLayoutMode] = useState<MonthLayoutMode>(settings.monthLayoutMode)
+  const [periodSplitMode, setPeriodSplitMode] = useState<PeriodSplitMode>(settings.periodSplitMode)
 
   const handleSave = () => {
     const yearValue = Number.parseInt(year, 10)
@@ -30,8 +30,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
     onSave({
       firstPeriodStart: { year: yearValue, month: monthValue },
-      displayMode,
-      viewMode,
+      monthLayoutMode,
+      periodSplitMode,
     })
   }
 
@@ -83,10 +83,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="viewMode"
+                  name="periodSplitMode"
                   value="split"
-                  checked={viewMode === "split"}
-                  onChange={() => setViewMode("split")}
+                  checked={periodSplitMode === "split"}
+                  onChange={() => setPeriodSplitMode("split")}
                   className="h-4 w-4"
                 />
                 <span>2つに分けて表示</span>
@@ -94,10 +94,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="viewMode"
+                  name="periodSplitMode"
                   value="single"
-                  checked={viewMode === "single"}
-                  onChange={() => setViewMode("single")}
+                  checked={periodSplitMode === "single"}
+                  onChange={() => setPeriodSplitMode("single")}
                   className="h-4 w-4"
                 />
                 <span>1つにまとめて表示</span>
@@ -105,7 +105,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             </div>
             <div className="mt-2 flex items-center gap-2">
               <div className="text-calendar-text text-xs">
-                {viewMode === "split" ? (
+                {periodSplitMode === "split" ? (
                   <>
                     前期と後期を<span className="font-medium">別々のカレンダー</span>で表示します
                   </>
@@ -124,10 +124,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="displayMode"
+                  name="monthLayoutMode"
                   value="monthly"
-                  checked={displayMode === "monthly"}
-                  onChange={() => setDisplayMode("monthly")}
+                  checked={monthLayoutMode === "monthly"}
+                  onChange={() => setMonthLayoutMode("monthly")}
                   className="h-4 w-4"
                 />
                 <span>月ごとに区切る</span>
@@ -135,10 +135,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="displayMode"
+                  name="monthLayoutMode"
                   value="continuous"
-                  checked={displayMode === "continuous"}
-                  onChange={() => setDisplayMode("continuous")}
+                  checked={monthLayoutMode === "continuous"}
+                  onChange={() => setMonthLayoutMode("continuous")}
                   className="h-4 w-4"
                 />
                 <span>区切らず連続</span>
@@ -146,7 +146,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             </div>
             <div className="mt-2 flex items-center gap-2">
               <div className="text-calendar-text text-xs">
-                {displayMode === "monthly" ? (
+                {monthLayoutMode === "monthly" ? (
                   <>
                     月が変わる時に<span className="font-medium">改行して区切り</span>ます
                   </>

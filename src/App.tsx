@@ -50,21 +50,21 @@ const AppContent: React.FC = () => {
               </div>
             </div>
 
-            {settings.viewMode === "split" ? (
+            {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
               <div className="mt-4 flex place-content-center gap-8">
                 <div className="w-[338px]">
-                  <Calendar dates={firstHalfDates} displayMode={settings.displayMode} />
+                  <Calendar dates={firstHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
                 <div className="w-[338px]">
-                  <Calendar dates={secondHalfDates} displayMode={settings.displayMode} />
+                  <Calendar dates={secondHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
             ) : (
               // ひとまとめ表示モード（前期・後期を連続して表示）
               <div className="mt-4 flex place-content-center">
                 <div className="w-[338px]">
-                  <Calendar dates={allDates} displayMode={settings.displayMode} />
+                  <Calendar dates={allDates} displayMode={settings.monthLayoutMode} />
                 </div>
               </div>
             )}

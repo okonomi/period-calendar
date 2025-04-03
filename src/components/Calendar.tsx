@@ -1,8 +1,8 @@
-import { type CalendarDate, getDateNum, isPastMonth } from "../domain/CalendarDate"
-import { groupDatesByWeekMonthly, groupDatesByWeekContinuous } from "../domain/Dates"
-import { DateCell } from "./DateCell"
-import type { DisplayMode } from "../types/Settings"
 import { clsx } from "clsx"
+import { type CalendarDate, getDateNum, isPastMonth } from "../domain/CalendarDate"
+import { groupDatesByWeekContinuous, groupDatesByWeekMonthly } from "../domain/Dates"
+import type { MonthLayoutMode } from "../types/Settings"
+import { DateCell } from "./DateCell"
 
 function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
   return firstValidDate
@@ -16,7 +16,7 @@ function generateSpacerKey(weekStart: string, dayOfWeek: number) {
 
 type Props = {
   dates: CalendarDate[]
-  displayMode?: DisplayMode
+  displayMode?: MonthLayoutMode
 }
 
 export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) => {

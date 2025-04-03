@@ -12,16 +12,27 @@ export const SettingsProvider: React.FC<React.PropsWithChildren> = ({ children }
       return defaultSettings
     }
 
-    // 古い形式のデータがあり、firstPeriodStartYear と firstPeriodStartMonth がある場合は
-    // 新しい形式に変換する
+    // 古い形式のデータを変換する処理
     const parsedSettings = JSON.parse(savedSettings)
+
+    // 古い形式 (YearMonth 統合前) のデータ変換
     if ("firstPeriodStartYear" in parsedSettings && "firstPeriodStartMonth" in parsedSettings) {
       return {
         firstPeriodStart: {
           year: parsedSettings.firstPeriodStartYear,
           month: parsedSettings.firstPeriodStartMonth,
         },
-        displayMode: parsedSettings.displayMode,
+        monthLayoutMode: parsedSettings.displayMode || defaultSettings.monthLayoutMode,
+        periodSplitMode: parsedSettings.viewMode || defaultSettings.periodSplitMode,
+      }
+    }
+
+    // プロパティ名変更前のデータ変換（displayMode → monthLayoutMode, viewMode → periodSplitMode）
+    if ("displayMode" in parsedSettings || "viewMode" in parsedSettings) {
+      return {
+        firstPeriodStart: parsedSettings.firstPeriodStart,
+        monthLayoutMode: parsedSettings.displayMode || defaultSettings.monthLayoutMode,
+        periodSplitMode: parsedSettings.viewMode || defaultSettings.periodSplitMode,
       }
     }
 

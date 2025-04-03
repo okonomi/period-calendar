@@ -1,15 +1,15 @@
 import type { YearMonth } from "../domain/YearMonth"
 
-export type DisplayMode = "monthly" | "continuous"
-export type ViewMode = "split" | "single"
+export type MonthLayoutMode = "monthly" | "continuous"
+export type PeriodSplitMode = "split" | "single"
 
 export interface Settings {
   // 1期目の開始年月設定
   firstPeriodStart: YearMonth
-  // カレンダー表示モード
-  displayMode: DisplayMode
-  // カレンダー分割表示モード
-  viewMode: ViewMode
+  // 月のレイアウトモード（月区切り/連続表示）
+  monthLayoutMode: MonthLayoutMode
+  // 前期・後期の分割表示モード（2つに分ける/1つにまとめる）
+  periodSplitMode: PeriodSplitMode
 }
 
 export type SettingsContextType = {
@@ -20,6 +20,6 @@ export type SettingsContextType = {
 // デフォルト設定
 export const defaultSettings: Settings = {
   firstPeriodStart: { year: 2001, month: 1 },
-  displayMode: "monthly",
-  viewMode: "split",
+  monthLayoutMode: "monthly",
+  periodSplitMode: "split",
 }
