@@ -27,7 +27,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   const [monthLayoutMode, setMonthLayoutMode] = useState<MonthLayoutMode>(settings.monthLayoutMode)
   const [periodSplitMode, setPeriodSplitMode] = useState<PeriodSplitMode>(settings.periodSplitMode)
 
-  const handleSave = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
     let yearValue: number
     let monthValue: number
 
@@ -88,7 +90,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <h2 className="text-calendar-text mb-4 text-lg font-semibold sm:text-xl">カレンダー設定</h2>
       <div className="mb-5">
         <h3 className="text-calendar-text mb-2 text-sm font-medium sm:mb-3 sm:text-base">1期目の開始年月</h3>
@@ -299,13 +301,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           キャンセル
         </button>
         <button
-          type="button"
-          onClick={handleSave}
+          type="submit"
           className="cursor-pointer rounded-md bg-blue-500 px-2 py-1 text-sm text-white transition-colors duration-200 hover:scale-105 hover:bg-blue-600 hover:shadow sm:px-3 sm:py-1.5"
         >
           保存
         </button>
       </div>
-    </>
+    </form>
   )
 }
