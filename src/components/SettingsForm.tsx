@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createCalendarDate, getToday } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth, calculatePeriodFromDate } from "../domain/Period"
@@ -38,7 +38,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     register,
     handleSubmit,
     watch,
-    control,
     setValue,
     formState: { errors },
   } = useForm<FormState>({
@@ -104,19 +103,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <label htmlFor="firstPeriodYear" className="text-calendar-text mb-1 block text-xs font-medium">
                   年
                 </label>
-                <Controller
-                  name="firstPeriodStart.year"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="number"
-                      id="firstPeriodYear"
-                      {...field}
-                      min="1900"
-                      max="2100"
-                      className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
-                    />
-                  )}
+                <input
+                  type="number"
+                  id="firstPeriodYear"
+                  {...register("firstPeriodStart.year")}
+                  min="1900"
+                  max="2100"
+                  className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
                 />
                 {errors.firstPeriodStart?.year && (
                   <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.year.message}</p>
@@ -126,19 +119,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <label htmlFor="firstPeriodMonth" className="text-calendar-text mb-1 block text-xs font-medium">
                   月
                 </label>
-                <Controller
-                  name="firstPeriodStart.month"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="number"
-                      id="firstPeriodMonth"
-                      {...field}
-                      min="1"
-                      max="12"
-                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                    />
-                  )}
+                <input
+                  type="number"
+                  id="firstPeriodMonth"
+                  {...register("firstPeriodStart.month")}
+                  min="1"
+                  max="12"
+                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
                 {errors.firstPeriodStart?.month && (
                   <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.month.message}</p>
@@ -154,19 +141,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
                   期の開始月
                 </label>
-                <Controller
-                  name="periodStartMonth"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="number"
-                      id="periodStartMonth"
-                      {...field}
-                      min="1"
-                      max="12"
-                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                    />
-                  )}
+                <input
+                  type="number"
+                  id="periodStartMonth"
+                  {...register("periodStartMonth")}
+                  min="1"
+                  max="12"
+                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
                 {errors.periodStartMonth && (
                   <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
@@ -176,18 +157,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
                   現在何期目
                 </label>
-                <Controller
-                  name="currentPeriod"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="number"
-                      id="currentPeriod"
-                      {...field}
-                      min="1"
-                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                    />
-                  )}
+                <input
+                  type="number"
+                  id="currentPeriod"
+                  {...register("currentPeriod")}
+                  min="1"
+                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
                 {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
               </div>
