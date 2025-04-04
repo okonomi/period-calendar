@@ -186,90 +186,56 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // zodスキーマを使用してバリデーション（直接入力モードの場合）
-    if (formState.useDirectInput) {
-      try {
-        // firstPeriodStartのバリデーション
-        yearMonthSchema.parse(formState.firstPeriodStart)
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          // エラーメッセージを表示
-          const yearError = error.errors.find((e) => e.path.includes("year"))
-          const monthError = error.errors.find((e) => e.path.includes("month"))
+    try {
+      // formState全体をバリデーション
+      formStateSchema.parse(formState)
 
-          if (yearError) {
-            alert(`年の値が不正です: ${yearError.message}`)
-            return
-          }
+      // 設定を保存
+      const newSettings: Settings = {
+        firstPeriodStart: formState.firstPeriodStart,
+        monthLayoutMode: formState.monthLayoutMode,
+        periodSplitMode: formState.periodSplitMode,
+      }
+      onSave(newSettings)
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // エラーメッセージを適切に表示
+        const errors = error.errors
 
-          if (monthError) {
-            alert(`月の値が不正です: ${monthError.message}`)
-            return
-          }
+        // firstPeriodStartに関するエラー処理
+        const yearError = errors.find((e) => e.path.includes("firstPeriodStart") && e.path.includes("year"))
+        const monthError = errors.find((e) => e.path.includes("firstPeriodStart") && e.path.includes("month"))
+
+        if (yearError) {
+          alert(`年の値が不正です: ${yearError.message}`)
+          return
         }
 
-        alert("入力値が不正です。")
-        return
-      }
-    } else {
-      // 期から計算する場合の処理
-      try {
-        // periodStartMonthとcurrentPeriodのバリデーション
-        z.object({
-          periodStartMonth: z.number().int().min(1).max(12),
-          currentPeriod: z.number().int().min(1),
-        }).parse({
-          periodStartMonth: formState.periodStartMonth,
-          currentPeriod: formState.currentPeriod,
-        })
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          const periodStartMonthError = error.errors.find((e) => e.path.includes("periodStartMonth"))
-          const currentPeriodError = error.errors.find((e) => e.path.includes("currentPeriod"))
-
-          if (periodStartMonthError) {
-            alert(`期の開始月の値が不正です: ${periodStartMonthError.message}`)
-            return
-          }
-
-          if (currentPeriodError) {
-            alert(`現在何期目かの値が不正です: ${currentPeriodError.message}`)
-            return
-          }
+        if (monthError) {
+          alert(`月の値が不正です: ${monthError.message}`)
+          return
         }
 
+        // periodStartMonthとcurrentPeriodのエラー処理
+        const periodStartMonthError = errors.find((e) => e.path.includes("periodStartMonth"))
+        const currentPeriodError = errors.find((e) => e.path.includes("currentPeriod"))
+
+        if (periodStartMonthError) {
+          alert(`期の開始月の値が不正です: ${periodStartMonthError.message}`)
+          return
+        }
+
+        if (currentPeriodError) {
+          alert(`現在何期目かの値が不正です: ${currentPeriodError.message}`)
+          return
+        }
+
+        // その他のエラーは一般的なメッセージで表示
+        alert(`入力値が不正です: ${errors[0]?.message || "不明なエラー"}`)
+      } else {
         alert("入力値が不正です。")
-        return
-      }
-
-      const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-      const firstPeriodStart = calculateFirstPeriodStartYearMonth(
-        formState.periodStartMonth,
-        formState.currentPeriod,
-        calendarDate
-      )
-
-      if (!firstPeriodStart) {
-        alert("期の開始月または現在何期目かの値が不正です。")
-        return
-      }
-
-      // 計算結果の値チェック
-      try {
-        yearMonthSchema.parse(firstPeriodStart)
-      } catch (error) {
-        alert("計算された年月の値が範囲外です。1900〜2100の間になるよう設定してください。")
-        return
       }
     }
-
-    // 最終的な設定値をフォームの現在の状態から取得
-    const newSettings = {
-      firstPeriodStart: formState.firstPeriodStart, // 既に常に最新の状態が維持されている
-      monthLayoutMode: formState.monthLayoutMode,
-      periodSplitMode: formState.periodSplitMode,
-    }
-    onSave(newSettings)
   }
 
   return (
