@@ -12,9 +12,7 @@ type SettingsFormProps = {
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   // 既存の年月から現在の年と現在の期を計算
-  const currentDate = new Date()
-  const currentYear = currentDate.getFullYear()
-  const currentMonth = currentDate.getMonth() + 1 // JavaScriptの月は0から始まるので+1
+  const currentYearMonth = { ...settings.firstPeriodStart }
 
   const [useDirectInput, setUseDirectInput] = useState(true)
   const [year, setYear] = useState(settings.firstPeriodStart.year.toString())
@@ -60,7 +58,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         return
       }
 
-      const calendarDate = createCalendarDate(currentYear, currentMonth, 1)
+      const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
       const firstPeriodStart = calculateFirstPeriodStartYearMonth(
         periodStartMonthValue,
         currentPeriodValue,
@@ -192,7 +190,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 {(() => {
                   const periodStartMonthValue = Number.parseInt(periodStartMonth, 10)
                   const currentPeriodValue = Number.parseInt(currentPeriod, 10)
-                  const calendarDate = createCalendarDate(currentYear, currentMonth, 1)
+                  const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
                   const result = calculateFirstPeriodStartYearMonth(
                     periodStartMonthValue,
                     currentPeriodValue,
