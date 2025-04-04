@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { createCalendarDate, getToday } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth, calculatePeriodFromDate } from "../domain/Period"
-import type { YearMonth } from "../domain/YearMonth"
 import type { Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
@@ -12,27 +12,18 @@ type SettingsFormProps = {
   onCancel: () => void
 }
 
-// 文字列を数値に変換するプリプロセッサ
-const stringToNumber = (val: unknown) => {
-  if (typeof val === "string") {
-    const parsed = Number(val)
-    return Number.isNaN(parsed) ? undefined : parsed
-  }
-  return val
-}
-
 // YearMonth型のzodスキーマ（変換と検証を一体化）
 const yearMonthSchema = z.object({
-  year: z.preprocess(stringToNumber, z.number().int().min(1900).max(2100)),
-  month: z.preprocess(stringToNumber, z.number().int().min(1).max(12)),
+  year: z.number().int().min(1900).max(2100),
+  month: z.number().int().min(1).max(12),
 })
 
 // フォーム状態のzodスキーマ（変換と検証を一体化）
 const formStateSchema = z.object({
   useDirectInput: z.boolean(),
   firstPeriodStart: yearMonthSchema,
-  periodStartMonth: z.preprocess(stringToNumber, z.number().int().min(1).max(12)),
-  currentPeriod: z.preprocess(stringToNumber, z.number().int().min(1)),
+  periodStartMonth: z.number().int().min(1).max(12),
+  currentPeriod: z.number().int().min(1),
   monthLayoutMode: z.enum(["monthly", "continuous"]),
   periodSplitMode: z.enum(["split", "single"]),
 })
@@ -41,222 +32,104 @@ const formStateSchema = z.object({
 type FormState = z.infer<typeof formStateSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
-  // 既存の年月から現在の年と現在の期を計算
-  const currentYearMonth = { ...settings.firstPeriodStart }
-
-  // フォーム状態を単一のstateオブジェクトで管理
-  const [formState, setFormState] = useState<FormState>({
-    useDirectInput: true,
-    firstPeriodStart: settings.firstPeriodStart,
-    periodStartMonth: settings.firstPeriodStart.month,
-    currentPeriod: calculatePeriodFromDate(getToday(), settings.firstPeriodStart),
-    monthLayoutMode: settings.monthLayoutMode,
-    periodSplitMode: settings.periodSplitMode,
+  // react-hook-formの設定
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<FormState>({
+    resolver: zodResolver(formStateSchema),
+    defaultValues: {
+      useDirectInput: true,
+      firstPeriodStart: settings.firstPeriodStart,
+      periodStartMonth: settings.firstPeriodStart.month,
+      currentPeriod: calculatePeriodFromDate(getToday(), settings.firstPeriodStart),
+      monthLayoutMode: settings.monthLayoutMode,
+      periodSplitMode: settings.periodSplitMode,
+    },
   })
 
-  // フォームの入力値を一元処理するハンドラ関数
-  const handleChange = (
-    field: keyof FormState | { parent: "firstPeriodStart"; field: keyof FormState["firstPeriodStart"] },
-    value: string | number | boolean
-  ) => {
-    try {
-      // オブジェクト型フィールドの処理
-      if (typeof field === "object" && field.parent === "firstPeriodStart") {
-        const fieldName = field.field as keyof YearMonth
+  // 入力モードと関連する値の監視
+  const useDirectInput = watch("useDirectInput")
+  const periodStartMonth = watch("periodStartMonth")
+  const currentPeriod = watch("currentPeriod")
+  const currentYearMonth = { ...settings.firstPeriodStart }
 
-        // zodの変換機能を使用して値を適切な型に変換
-        try {
-          const schema = fieldName === "year" ? yearMonthSchema.shape.year : yearMonthSchema.shape.month
-
-          const parsedValue = schema.parse(value)
-
-          if (parsedValue === undefined) return // 変換に失敗した場合
-
-          setFormState((prev) => ({
-            ...prev,
-            firstPeriodStart: {
-              ...prev.firstPeriodStart,
-              [fieldName]: parsedValue,
-            },
-          }))
-        } catch (error) {
-          console.error(`変換エラー: ${error}`)
-        }
-        return
-      }
-
-      // 期から計算モード関連フィールドの処理
-      if (field === "periodStartMonth" || field === "currentPeriod") {
-        const fieldName = field as keyof FormState
-
-        try {
-          const schema = formStateSchema.shape[fieldName]
-          const parsedValue = schema.parse(value)
-
-          if (parsedValue === undefined) return // 変換に失敗した場合
-
-          setFormState((prev) => {
-            const newState = {
-              ...prev,
-              [fieldName]: parsedValue,
-            }
-
-            // 期から計算モードが有効な場合、firstPeriodStartも更新
-            if (!prev.useDirectInput) {
-              const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-              const periodStartMonth = field === "periodStartMonth" ? (parsedValue as number) : prev.periodStartMonth
-              const currentPeriod = field === "currentPeriod" ? (parsedValue as number) : prev.currentPeriod
-
-              const firstPeriodStart = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
-
-              if (firstPeriodStart) {
-                newState.firstPeriodStart = firstPeriodStart
-              }
-            }
-
-            return newState
-          })
-        } catch (error) {
-          console.error(`変換エラー: ${error}`)
-        }
-        return
-      }
-
-      // その他の一般的なフィールド処理（useDirectInputを含む）
-      const fieldName = field as keyof FormState
-
-      try {
-        const schema = formStateSchema.shape[fieldName]
-        if (!schema) return // 不明なフィールドは無視
-
-        const parsedValue = schema.parse(value)
-
-        setFormState((prev) => ({
-          ...prev,
-          [fieldName]: parsedValue,
-        }))
-      } catch (error) {
-        console.error(`変換エラー: ${error}`)
-      }
-    } catch (error) {
-      console.error(`入力値の変換エラー: ${error}`)
+  // フォーム送信処理
+  const onSubmitForm = (data: FormState) => {
+    const newSettings: Settings = {
+      firstPeriodStart: data.firstPeriodStart,
+      monthLayoutMode: data.monthLayoutMode,
+      periodSplitMode: data.periodSplitMode,
     }
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    try {
-      // formState全体をバリデーション
-      formStateSchema.parse(formState)
-
-      // 設定を保存
-      const newSettings: Settings = {
-        firstPeriodStart: formState.firstPeriodStart,
-        monthLayoutMode: formState.monthLayoutMode,
-        periodSplitMode: formState.periodSplitMode,
-      }
-      onSave(newSettings)
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        // エラーメッセージを適切に表示
-        const errors = error.errors
-
-        // firstPeriodStartに関するエラー処理
-        const yearError = errors.find((e) => e.path.includes("firstPeriodStart") && e.path.includes("year"))
-        const monthError = errors.find((e) => e.path.includes("firstPeriodStart") && e.path.includes("month"))
-
-        if (yearError) {
-          alert(`年の値が不正です: ${yearError.message}`)
-          return
-        }
-
-        if (monthError) {
-          alert(`月の値が不正です: ${monthError.message}`)
-          return
-        }
-
-        // periodStartMonthとcurrentPeriodのエラー処理
-        const periodStartMonthError = errors.find((e) => e.path.includes("periodStartMonth"))
-        const currentPeriodError = errors.find((e) => e.path.includes("currentPeriod"))
-
-        if (periodStartMonthError) {
-          alert(`期の開始月の値が不正です: ${periodStartMonthError.message}`)
-          return
-        }
-
-        if (currentPeriodError) {
-          alert(`現在何期目かの値が不正です: ${currentPeriodError.message}`)
-          return
-        }
-
-        // その他のエラーは一般的なメッセージで表示
-        alert(`入力値が不正です: ${errors[0]?.message || "不明なエラー"}`)
-      } else {
-        alert("入力値が不正です。")
-      }
-    }
+    onSave(newSettings)
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmitForm)}>
       <h2 className="text-calendar-text mb-4 text-lg font-semibold sm:text-xl">カレンダー設定</h2>
       <div className="mb-5">
         <h3 className="text-calendar-text mb-2 text-sm font-medium sm:mb-3 sm:text-base">1期目の開始年月</h3>
 
         <div className="mb-3 flex items-center gap-3">
           <label className="flex items-center gap-1">
-            <input
-              type="radio"
-              name="inputMode"
-              checked={formState.useDirectInput}
-              onChange={() => handleChange("useDirectInput", true)}
-              className="h-4 w-4"
-            />
+            <input type="radio" {...register("useDirectInput")} checked={useDirectInput} className="h-4 w-4" />
             <span className="text-sm">直接入力</span>
           </label>
           <label className="flex items-center gap-1">
-            <input
-              type="radio"
-              name="inputMode"
-              checked={!formState.useDirectInput}
-              onChange={() => handleChange("useDirectInput", false)}
-              className="h-4 w-4"
-            />
+            <input type="radio" {...register("useDirectInput")} checked={!useDirectInput} className="h-4 w-4" />
             <span className="text-sm">期から計算</span>
           </label>
         </div>
 
-        {formState.useDirectInput ? (
+        {useDirectInput ? (
           <>
             <div className="flex flex-wrap items-center gap-3">
               <div>
                 <label htmlFor="firstPeriodYear" className="text-calendar-text mb-1 block text-xs font-medium">
                   年
                 </label>
-                <input
-                  type="number"
-                  id="firstPeriodYear"
-                  value={formState.firstPeriodStart.year}
-                  onChange={(e) => handleChange({ parent: "firstPeriodStart", field: "year" }, e.target.value)}
-                  min="1900"
-                  max="2100"
-                  className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
+                <Controller
+                  name="firstPeriodStart.year"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id="firstPeriodYear"
+                      {...field}
+                      min="1900"
+                      max="2100"
+                      className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
+                    />
+                  )}
                 />
+                {errors.firstPeriodStart?.year && (
+                  <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.year.message}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="firstPeriodMonth" className="text-calendar-text mb-1 block text-xs font-medium">
                   月
                 </label>
-                <input
-                  type="number"
-                  id="firstPeriodMonth"
-                  value={formState.firstPeriodStart.month}
-                  onChange={(e) => handleChange({ parent: "firstPeriodStart", field: "month" }, e.target.value)}
-                  min="1"
-                  max="12"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                <Controller
+                  name="firstPeriodStart.month"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id="firstPeriodMonth"
+                      {...field}
+                      min="1"
+                      max="12"
+                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  )}
                 />
+                {errors.firstPeriodStart?.month && (
+                  <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.month.message}</p>
+                )}
               </div>
             </div>
             <p className="text-calendar-text mt-1 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
@@ -268,43 +141,53 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
                   期の開始月
                 </label>
-                <input
-                  type="number"
-                  id="periodStartMonth"
-                  value={formState.periodStartMonth}
-                  onChange={(e) => handleChange("periodStartMonth", e.target.value)}
-                  min="1"
-                  max="12"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                <Controller
+                  name="periodStartMonth"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id="periodStartMonth"
+                      {...field}
+                      min="1"
+                      max="12"
+                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  )}
                 />
+                {errors.periodStartMonth && (
+                  <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
                   現在何期目
                 </label>
-                <input
-                  type="number"
-                  id="currentPeriod"
-                  value={formState.currentPeriod}
-                  onChange={(e) => handleChange("currentPeriod", e.target.value)}
-                  min="1"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                <Controller
+                  name="currentPeriod"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id="currentPeriod"
+                      {...field}
+                      min="1"
+                      className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  )}
                 />
+                {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
               </div>
             </div>
             <p className="text-calendar-text mt-1 text-xs">
               例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
             </p>
-            {!formState.useDirectInput && (
+            {!useDirectInput && (
               <div className="mt-2 text-sm">
                 <span className="font-medium">計算結果：</span>
                 {(() => {
                   const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-                  const result = calculateFirstPeriodStartYearMonth(
-                    formState.periodStartMonth,
-                    formState.currentPeriod,
-                    calendarDate
-                  )
+                  const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
                   return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
                 })()}
               </div>
@@ -319,31 +202,17 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <div className="text-calendar-text mb-2 block text-xs font-medium sm:text-sm">前期・後期の表示方法</div>
             <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:gap-4">
               <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="periodSplitMode"
-                  value="split"
-                  checked={formState.periodSplitMode === "split"}
-                  onChange={() => handleChange("periodSplitMode", "split")}
-                  className="h-4 w-4"
-                />
+                <input type="radio" value="split" {...register("periodSplitMode")} className="h-4 w-4" />
                 <span className="text-sm">2つに分けて表示</span>
               </label>
               <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="periodSplitMode"
-                  value="single"
-                  checked={formState.periodSplitMode === "single"}
-                  onChange={() => handleChange("periodSplitMode", "single")}
-                  className="h-4 w-4"
-                />
+                <input type="radio" value="single" {...register("periodSplitMode")} className="h-4 w-4" />
                 <span className="text-sm">1つにまとめて表示</span>
               </label>
             </div>
             <div className="mt-2 flex items-center gap-2">
               <div className="text-calendar-text text-xs">
-                {formState.periodSplitMode === "split" ? (
+                {watch("periodSplitMode") === "split" ? (
                   <>
                     前期と後期を<span className="font-medium">別々のカレンダー</span>で表示します
                   </>
@@ -360,31 +229,17 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <div className="text-calendar-text mb-2 block text-xs font-medium sm:text-sm">月のレイアウト</div>
             <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:gap-4">
               <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="monthLayoutMode"
-                  value="monthly"
-                  checked={formState.monthLayoutMode === "monthly"}
-                  onChange={() => handleChange("monthLayoutMode", "monthly")}
-                  className="h-4 w-4"
-                />
+                <input type="radio" value="monthly" {...register("monthLayoutMode")} className="h-4 w-4" />
                 <span className="text-sm">月ごとに区切る</span>
               </label>
               <label className="flex items-center gap-1">
-                <input
-                  type="radio"
-                  name="monthLayoutMode"
-                  value="continuous"
-                  checked={formState.monthLayoutMode === "continuous"}
-                  onChange={() => handleChange("monthLayoutMode", "continuous")}
-                  className="h-4 w-4"
-                />
+                <input type="radio" value="continuous" {...register("monthLayoutMode")} className="h-4 w-4" />
                 <span className="text-sm">区切らず連続</span>
               </label>
             </div>
             <div className="mt-2 flex items-center gap-2">
               <div className="text-calendar-text text-xs">
-                {formState.monthLayoutMode === "monthly" ? (
+                {watch("monthLayoutMode") === "monthly" ? (
                   <>
                     月が変わる時に<span className="font-medium">改行して区切り</span>ます
                   </>
