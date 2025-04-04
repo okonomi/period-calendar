@@ -60,12 +60,52 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     periodSplitMode: settings.periodSplitMode,
   })
 
+  // 期から計算モードで設定値を生成する
+  const generateFirstPeriodFromPeriodSettings = () => {
+    const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+    const firstPeriodStart = calculateFirstPeriodStartYearMonth(
+      formState.periodStartMonth,
+      formState.currentPeriod,
+      calendarDate
+    )
+    return firstPeriodStart || { year: settings.firstPeriodStart.year, month: settings.firstPeriodStart.month }
+  }
+
   // フォームの入力値を一元処理するハンドラ関数
   const handleChange = (
     field: keyof FormState | { parent: "firstPeriodStart"; field: keyof FormState["firstPeriodStart"] },
     value: string | number | boolean
   ) => {
     try {
+      // 特殊ケース: useDirectInputが変更された場合の処理
+      if (field === "useDirectInput") {
+        const newUseDirectInput = inputParsers.useDirectInput.parse(value)
+
+        setFormState((prev) => {
+          // 直接入力→期から計算への切り替え
+          if (!newUseDirectInput) {
+            // 現在の設定から適切なperiodStartMonthとcurrentPeriodを推定
+            // (この例では単純に既存の月を使用し、期は1を設定)
+            return {
+              ...prev,
+              useDirectInput: newUseDirectInput,
+              periodStartMonth: prev.firstPeriodStart.month,
+              currentPeriod: 1,
+            }
+          }
+          // 期から計算→直接入力への切り替え
+
+          // 期の計算結果を直接入力の初期値として設定
+          const calculatedFirstPeriod = generateFirstPeriodFromPeriodSettings()
+          return {
+            ...prev,
+            useDirectInput: newUseDirectInput,
+            firstPeriodStart: calculatedFirstPeriod,
+          }
+        })
+        return
+      }
+
       // オブジェクト型フィールドの処理
       if (typeof field === "object" && field.parent === "firstPeriodStart") {
         const fieldName = field.field as keyof typeof inputParsers.firstPeriodStart
@@ -89,7 +129,42 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         return
       }
 
-      // 単純なフィールドの処理
+      // 期から計算モード関連フィールドの処理
+      if (field === "periodStartMonth" || field === "currentPeriod") {
+        const fieldName = field as keyof FormState
+        const parser = inputParsers[fieldName]
+
+        if (!parser) return
+        const parsedValue = parser.parse(value)
+
+        if (typeof parsedValue === "number" && Number.isNaN(parsedValue)) return
+
+        setFormState((prev) => {
+          const newState = {
+            ...prev,
+            [fieldName]: parsedValue,
+          }
+
+          // 期から計算モードが有効な場合、firstPeriodStartも更新
+          if (!prev.useDirectInput) {
+            const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+            // periodStartMonthかcurrentPeriodどちらかが更新された場合
+            const periodStartMonth = field === "periodStartMonth" ? (parsedValue as number) : prev.periodStartMonth
+            const currentPeriod = field === "currentPeriod" ? (parsedValue as number) : prev.currentPeriod
+
+            const firstPeriodStart = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
+
+            if (firstPeriodStart) {
+              newState.firstPeriodStart = firstPeriodStart
+            }
+          }
+
+          return newState
+        })
+        return
+      }
+
+      // その他の一般的なフィールド処理
       const fieldName = field as keyof FormState
       const parser = inputParsers[fieldName]
 
@@ -97,16 +172,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
       // zodの変換機能を使用して値を適切な型に変換
       const parsedValue = parser.parse(value)
-
-      // 数値型で変換に失敗した場合はスキップ
-      if (
-        (fieldName === "periodStartMonth" || fieldName === "currentPeriod") &&
-        typeof parsedValue === "number" &&
-        Number.
-        isNaN(parsedValue)
-      ) {
-        return
-      }
 
       setFormState((prev) => ({
         ...prev,
@@ -198,25 +263,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       }
     }
 
-    // 最終的な設定値を生成
-    const yearValue = formState.useDirectInput
-      ? formState.firstPeriodStart.year
-      : calculateFirstPeriodStartYearMonth(
-          formState.periodStartMonth,
-          formState.currentPeriod,
-          createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-        )?.year || 0
-
-    const monthValue = formState.useDirectInput
-      ? formState.firstPeriodStart.month
-      : calculateFirstPeriodStartYearMonth(
-          formState.periodStartMonth,
-          formState.currentPeriod,
-          createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-        )?.month || 0
-
+    // 最終的な設定値をフォームの現在の状態から取得
     const newSettings = {
-      firstPeriodStart: { year: yearValue, month: monthValue },
+      firstPeriodStart: formState.firstPeriodStart, // 既に常に最新の状態が維持されている
       monthLayoutMode: formState.monthLayoutMode,
       periodSplitMode: formState.periodSplitMode,
     }
