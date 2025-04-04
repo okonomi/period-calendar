@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest"
 const context = describe
 
 import { createCalendarDate } from "./CalendarDate"
-import { calculatePeriodFromDate, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
+import {
+  calculateFirstPeriodStartYearMonth,
+  calculatePeriodFromDate,
+  getFirstHalfPeriodRange,
+  getPeriodRange,
+  getSecondHalfPeriodRange,
+} from "./Period"
 import type { YearMonth } from "./YearMonth"
 
 describe("getPeriodRange", () => {
@@ -30,7 +36,6 @@ describe("getPeriodRange", () => {
         year: 2000,
         month: 4,
       }
-
       const result = getPeriodRange(10, customSettings)
       expect(result).toEqual({
         start: { year: 2009, month: 4 },
@@ -44,7 +49,6 @@ describe("getPeriodRange", () => {
         year: 2000,
         month: 1,
       }
-
       const januaryResult = getPeriodRange(1, januarySettings)
       expect(januaryResult).toEqual({
         start: { year: 2000, month: 1 },
@@ -56,7 +60,6 @@ describe("getPeriodRange", () => {
         year: 2000,
         month: 12,
       }
-
       const decemberResult = getPeriodRange(1, decemberSettings)
       expect(decemberResult).toEqual({
         start: { year: 2000, month: 12 },
@@ -80,7 +83,6 @@ describe("getFirstHalfPeriodRange", () => {
       year: 2000,
       month: 10,
     }
-
     const range = getFirstHalfPeriodRange(3, customSettings)
     expect(range).toEqual({
       start: { year: 2002, month: 10 },
@@ -106,7 +108,6 @@ describe("getSecondHalfPeriodRange", () => {
         year: 2000,
         month: 10,
       }
-
       const range = getSecondHalfPeriodRange(3, customSettings)
       expect(range).toEqual({
         start: { year: 2003, month: 4 },
@@ -120,7 +121,6 @@ describe("getSecondHalfPeriodRange", () => {
           year: 2000,
           month: 1,
         }
-
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
           start: { year: 2000, month: 7 },
@@ -133,7 +133,6 @@ describe("getSecondHalfPeriodRange", () => {
           year: 2000,
           month: 6,
         }
-
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
           start: { year: 2000, month: 12 },
@@ -148,7 +147,6 @@ describe("getSecondHalfPeriodRange", () => {
           year: 2000,
           month: 7,
         }
-
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
           start: { year: 2001, month: 1 },
@@ -161,7 +159,6 @@ describe("getSecondHalfPeriodRange", () => {
           year: 2000,
           month: 11,
         }
-
         const range = getSecondHalfPeriodRange(1, customSettings)
         expect(range).toEqual({
           start: { year: 2001, month: 5 },
@@ -175,7 +172,6 @@ describe("getSecondHalfPeriodRange", () => {
         year: 2010,
         month: 4,
       }
-
       const range = getSecondHalfPeriodRange(2, customSettings)
       expect(range).toEqual({
         start: { year: 2011, month: 10 },
@@ -187,7 +183,7 @@ describe("getSecondHalfPeriodRange", () => {
 
 describe("calculatePeriodFromDate", () => {
   it("should calculate period from date", () => {
-    // 2001/4/1 が期1の開始
+    // 2001/1/1 が期1の開始
     const period1 = calculatePeriodFromDate(createCalendarDate(2001, 1, 1))
     expect(period1).toBe(1)
 
@@ -209,5 +205,41 @@ describe("calculatePeriodFromDate", () => {
 
     const period24 = calculatePeriodFromDate(createCalendarDate(2023, 4, 1), customSettings)
     expect(period24).toBe(24)
+  })
+})
+
+describe("calculateFirstPeriodStartYearMonth", () => {
+  context("when period starts in April", () => {
+    it("returns 2022/04 when current period is 3 and current date is 2024/04/20", () => {
+      const result = calculateFirstPeriodStartYearMonth(4, 3, createCalendarDate(2024, 4, 20))
+      expect(result.year).toBe(2022)
+      expect(result.month).toBe(4)
+    })
+
+    it("returns 2022/04 when current period is 2 and current date is 2024/03/20", () => {
+      const result = calculateFirstPeriodStartYearMonth(4, 2, createCalendarDate(2024, 3, 20))
+      expect(result.year).toBe(2022)
+      expect(result.month).toBe(4)
+    })
+  })
+
+  context("when period starts in July", () => {
+    it("returns 2021/07 when current period is 3 and current date is 2024/06/15", () => {
+      const result = calculateFirstPeriodStartYearMonth(7, 3, createCalendarDate(2024, 6, 15))
+      expect(result.year).toBe(2021)
+      expect(result.month).toBe(7)
+    })
+
+    it("returns 2022/07 when current period is 3 and current date is 2024/08/15", () => {
+      const result = calculateFirstPeriodStartYearMonth(7, 3, createCalendarDate(2024, 8, 15))
+      expect(result.year).toBe(2022)
+      expect(result.month).toBe(7)
+    })
+  })
+
+  it("returns 1999/08 when period starts in August, current period is 26, and current date is 2025/04/01", () => {
+    const result = calculateFirstPeriodStartYearMonth(8, 26, createCalendarDate(2025, 4, 1))
+    expect(result.year).toBe(1999)
+    expect(result.month).toBe(8)
   })
 })

@@ -56,3 +56,19 @@ export function calculatePeriodFromDate(
   }
   return currentYear - firstPeriodStartYearMonth.year + 1
 }
+
+// 期の開始月と現在の期から1期目の開始年月を算出する
+export function calculateFirstPeriodStartYearMonth(
+  periodStartMonth: number,
+  currentPeriod: number,
+  currentDate: CalendarDate
+): YearMonth {
+  const currentYear = currentDate.year
+  const currentMonth = currentDate.month
+
+  // 現在の月が期の開始月より前なら、追加で1年引く必要がある
+  const yearOffset = currentMonth < periodStartMonth ? currentPeriod : currentPeriod - 1
+  const firstPeriodStartYear = currentYear - yearOffset
+
+  return createYearMonth(firstPeriodStartYear, periodStartMonth)
+}
