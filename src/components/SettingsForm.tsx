@@ -1,8 +1,8 @@
 import { useState } from "react"
+import { z } from "zod"
 import { createCalendarDate } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
-import type { YearMonth } from "../domain/YearMonth"
-import type { MonthLayoutMode, PeriodSplitMode, Settings } from "../types/Settings"
+import type { Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
@@ -11,15 +11,24 @@ type SettingsFormProps = {
   onCancel: () => void
 }
 
-// フォーム状態の型定義
-type FormState = {
-  useDirectInput: boolean
-  firstPeriodStart: YearMonth // CalendarDateからYearMonthに変更
-  periodStartMonth: string
-  currentPeriod: string
-  monthLayoutMode: MonthLayoutMode
-  periodSplitMode: PeriodSplitMode
-}
+// YearMonth型のzodスキーマ
+const yearMonthSchema = z.object({
+  year: z.number().int().min(1900).max(2100),
+  month: z.number().int().min(1).max(12),
+})
+
+// フォーム状態のzodスキーマ定義
+const formStateSchema = z.object({
+  useDirectInput: z.boolean(),
+  firstPeriodStart: yearMonthSchema,
+  periodStartMonth: z.number().int().min(1).max(12),
+  currentPeriod: z.number().int().min(1),
+  monthLayoutMode: z.enum(["monthly", "continuous"]),
+  periodSplitMode: z.enum(["split", "single"]),
+})
+
+// フォーム状態の型をzodスキーマから導出
+type FormState = z.infer<typeof formStateSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   // 既存の年月から現在の年と現在の期を計算
@@ -28,13 +37,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // フォーム状態を単一のstateオブジェクトで管理
   const [formState, setFormState] = useState<FormState>({
     useDirectInput: true,
-    // CalendarDateからYearMonthに変更
     firstPeriodStart: {
       year: settings.firstPeriodStart.year,
       month: settings.firstPeriodStart.month,
     },
-    periodStartMonth: settings.firstPeriodStart.month.toString(),
-    currentPeriod: "1",
+    periodStartMonth: settings.firstPeriodStart.month,
+    currentPeriod: 1,
     monthLayoutMode: settings.monthLayoutMode,
     periodSplitMode: settings.periodSplitMode,
   })
@@ -66,43 +74,85 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     }
   }
 
+  // periodStartMonthを更新するヘルパー関数
+  const updatePeriodStartMonth = (monthStr: string) => {
+    const month = Number.parseInt(monthStr, 10)
+    if (!Number.isNaN(month)) {
+      updateFormState("periodStartMonth", month)
+    }
+  }
+
+  // currentPeriodを更新するヘルパー関数
+  const updateCurrentPeriod = (periodStr: string) => {
+    const period = Number.parseInt(periodStr, 10)
+    if (!Number.isNaN(period)) {
+      updateFormState("currentPeriod", period)
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    let yearValue: number
-    let monthValue: number
-
+    // zodスキーマを使用してバリデーション（直接入力モードの場合）
     if (formState.useDirectInput) {
-      yearValue = formState.firstPeriodStart.year
-      monthValue = formState.firstPeriodStart.month
+      try {
+        // firstPeriodStartのバリデーション
+        yearMonthSchema.parse(formState.firstPeriodStart)
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          // エラーメッセージを表示
+          const yearError = error.errors.find((e) => e.path.includes("year"))
+          const monthError = error.errors.find((e) => e.path.includes("month"))
 
-      if (yearValue < 1900 || yearValue > 2100) {
-        alert("年の値が不正です。1900〜2100の間で設定してください。")
-        return
-      }
+          if (yearError) {
+            alert(`年の値が不正です: ${yearError.message}`)
+            return
+          }
 
-      if (monthValue < 1 || monthValue > 12) {
-        alert("月の値が不正です。1〜12の間で設定してください。")
+          if (monthError) {
+            alert(`月の値が不正です: ${monthError.message}`)
+            return
+          }
+        }
+
+        alert("入力値が不正です。")
         return
       }
     } else {
-      const periodStartMonthValue = Number.parseInt(formState.periodStartMonth, 10)
-      const currentPeriodValue = Number.parseInt(formState.currentPeriod, 10)
+      // 期から計算する場合の処理
+      try {
+        // periodStartMonthとcurrentPeriodのバリデーション
+        z.object({
+          periodStartMonth: z.number().int().min(1).max(12),
+          currentPeriod: z.number().int().min(1),
+        }).parse({
+          periodStartMonth: formState.periodStartMonth,
+          currentPeriod: formState.currentPeriod,
+        })
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const periodStartMonthError = error.errors.find((e) => e.path.includes("periodStartMonth"))
+          const currentPeriodError = error.errors.find((e) => e.path.includes("currentPeriod"))
 
-      if (Number.isNaN(periodStartMonthValue) || periodStartMonthValue < 1 || periodStartMonthValue > 12) {
-        alert("期の開始月の値が不正です。1〜12の間で設定してください。")
-        return
-      }
+          if (periodStartMonthError) {
+            alert(`期の開始月の値が不正です: ${periodStartMonthError.message}`)
+            return
+          }
 
-      if (Number.isNaN(currentPeriodValue) || currentPeriodValue < 1) {
-        alert("現在何期目かの値が不正です。1以上の値を設定してください。")
+          if (currentPeriodError) {
+            alert(`現在何期目かの値が不正です: ${currentPeriodError.message}`)
+            return
+          }
+        }
+
+        alert("入力値が不正です。")
         return
       }
 
       const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
       const firstPeriodStart = calculateFirstPeriodStartYearMonth(
-        periodStartMonthValue,
-        currentPeriodValue,
+        formState.periodStartMonth,
+        formState.currentPeriod,
         calendarDate
       )
 
@@ -111,14 +161,31 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         return
       }
 
-      yearValue = firstPeriodStart.year
-      monthValue = firstPeriodStart.month
-
-      if (yearValue < 1900 || yearValue > 2100) {
-        alert("計算された年の値が範囲外です。1900〜2100の間になるよう設定してください。")
+      // 計算結果の値チェック
+      try {
+        yearMonthSchema.parse(firstPeriodStart)
+      } catch (error) {
+        alert("計算された年月の値が範囲外です。1900〜2100の間になるよう設定してください。")
         return
       }
     }
+
+    // 最終的な設定値を生成
+    const yearValue = formState.useDirectInput
+      ? formState.firstPeriodStart.year
+      : calculateFirstPeriodStartYearMonth(
+          formState.periodStartMonth,
+          formState.currentPeriod,
+          createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+        )?.year || 0
+
+    const monthValue = formState.useDirectInput
+      ? formState.firstPeriodStart.month
+      : calculateFirstPeriodStartYearMonth(
+          formState.periodStartMonth,
+          formState.currentPeriod,
+          createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+        )?.month || 0
 
     const newSettings = {
       firstPeriodStart: { year: yearValue, month: monthValue },
@@ -202,7 +269,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="periodStartMonth"
                   value={formState.periodStartMonth}
-                  onChange={(e) => updateFormState("periodStartMonth", e.target.value)}
+                  onChange={(e) => updatePeriodStartMonth(e.target.value)}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
@@ -216,7 +283,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="currentPeriod"
                   value={formState.currentPeriod}
-                  onChange={(e) => updateFormState("currentPeriod", e.target.value)}
+                  onChange={(e) => updateCurrentPeriod(e.target.value)}
                   min="1"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
@@ -229,12 +296,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <div className="mt-2 text-sm">
                 <span className="font-medium">計算結果：</span>
                 {(() => {
-                  const periodStartMonthValue = Number.parseInt(formState.periodStartMonth, 10)
-                  const currentPeriodValue = Number.parseInt(formState.currentPeriod, 10)
                   const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
                   const result = calculateFirstPeriodStartYearMonth(
-                    periodStartMonthValue,
-                    currentPeriodValue,
+                    formState.periodStartMonth,
+                    formState.currentPeriod,
                     calendarDate
                   )
                   return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"

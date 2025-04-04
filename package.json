@@ -5,7 +5,10 @@
   "type": "module",
   "packageManager": "pnpm@10.7.0",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "msw"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "msw"
+    ]
   },
   "scripts": {
     "dev": "run-p dev:*",
@@ -27,7 +30,8 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
@@ -64,6 +68,8 @@
     "vitest": "^3.0.8"
   },
   "eslintConfig": {
-    "extends": ["plugin:storybook/recommended"]
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
