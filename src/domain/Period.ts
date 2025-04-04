@@ -44,7 +44,7 @@ export function getSecondHalfPeriodRange(
 }
 
 // 現在の日付から期を計算する
-export function calculateInitialPeriod(
+export function calculatePeriodFromDate(
   today: CalendarDate,
   firstPeriodStartYearMonth: YearMonth = defaultFirstPeriodStartYearMonth
 ): number {

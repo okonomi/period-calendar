@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest"
 const context = describe
 
 import { createCalendarDate } from "./CalendarDate"
-import { calculateInitialPeriod, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
+import { calculatePeriodFromDate, getFirstHalfPeriodRange, getPeriodRange, getSecondHalfPeriodRange } from "./Period"
 import type { YearMonth } from "./YearMonth"
 
 describe("getPeriodRange", () => {
@@ -185,29 +185,29 @@ describe("getSecondHalfPeriodRange", () => {
   })
 })
 
-describe("calculateInitialPeriod", () => {
-  it("calculates period correctly with default settings", () => {
-    // First period start date
-    const period1 = calculateInitialPeriod(createCalendarDate(2001, 1, 1))
+describe("calculatePeriodFromDate", () => {
+  it("should calculate period from date", () => {
+    // 2001/4/1 が期1の開始
+    const period1 = calculatePeriodFromDate(createCalendarDate(2001, 1, 1))
     expect(period1).toBe(1)
 
-    // Future date
-    const period26 = calculateInitialPeriod(createCalendarDate(2024, 8, 1))
+    const period26 = calculatePeriodFromDate(createCalendarDate(2024, 8, 1))
     expect(period26).toBe(24)
+
+    const period25 = calculatePeriodFromDate(createCalendarDate(2026, 3, 31))
+    expect(period25).toBe(26)
   })
 
-  it("calculates period correctly at period boundaries with custom settings", () => {
+  it("should calculate period from date with custom first period start", () => {
     const customSettings: YearMonth = {
       year: 2000,
       month: 4,
     }
 
-    // Last day of period 23
-    const period23 = calculateInitialPeriod(createCalendarDate(2023, 3, 31), customSettings)
+    const period23 = calculatePeriodFromDate(createCalendarDate(2023, 3, 31), customSettings)
     expect(period23).toBe(23)
 
-    // First day of period 24
-    const period24 = calculateInitialPeriod(createCalendarDate(2023, 4, 1), customSettings)
+    const period24 = calculatePeriodFromDate(createCalendarDate(2023, 4, 1), customSettings)
     expect(period24).toBe(24)
   })
 })

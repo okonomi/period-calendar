@@ -230,6 +230,21 @@
      - 保守性の向上: 責務の分離により変更の影響範囲を限定化
      - 一貫したプロジェクト構造: アイコンを専用ディレクトリで管理
 
+### 関数名の変更 (4/4)
+1. `calculateInitialPeriod` 関数名を `calculatePeriodFromDate` に変更
+   - 変更したファイル:
+     - `src/domain/Period.ts`: 関数名の変更
+     - `src/domain/Period.test.ts`: テスト側の関数名とテストケースの期待値を更新
+     - `src/App.tsx`: 関数の呼び出し箇所を更新
+   - 変更内容:
+     - 関数名を機能をより正確に表す `calculatePeriodFromDate` に変更
+     - 日本語コメント「現在の日付から期を計算する」と整合する名前に
+     - 関連するテストケースの期待値も実装に合わせて修正
+   - メリット:
+     - コード可読性の向上: 関数名が実際の機能を明確に表現
+     - 直感的な API: 関数名から処理内容が正確に推測できるように
+     - ドメインモデルの一貫性: 「日付から期を計算する」処理という役割の明確化
+
 ### 主要変更ファイル
 - `src/providers/SettingsProvider.tsx`
 - `src/components/SettingsForm.tsx`
