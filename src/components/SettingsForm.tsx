@@ -57,50 +57,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     periodSplitMode: settings.periodSplitMode,
   })
 
-  // 期から計算モードで設定値を生成する
-  const generateFirstPeriodFromPeriodSettings = () => {
-    const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-    const firstPeriodStart = calculateFirstPeriodStartYearMonth(
-      formState.periodStartMonth,
-      formState.currentPeriod,
-      calendarDate
-    )
-    return firstPeriodStart || { year: settings.firstPeriodStart.year, month: settings.firstPeriodStart.month }
-  }
-
   // フォームの入力値を一元処理するハンドラ関数
   const handleChange = (
     field: keyof FormState | { parent: "firstPeriodStart"; field: keyof FormState["firstPeriodStart"] },
     value: string | number | boolean
   ) => {
     try {
-      // 特殊ケース: useDirectInputが変更された場合の処理
-      if (field === "useDirectInput") {
-        const newUseDirectInput = formStateSchema.shape.useDirectInput.parse(value)
-
-        setFormState((prev) => {
-          // 直接入力→期から計算への切り替え
-          if (!newUseDirectInput) {
-            return {
-              ...prev,
-              useDirectInput: newUseDirectInput,
-              periodStartMonth: prev.firstPeriodStart.month,
-              currentPeriod: 1,
-            }
-          }
-          // 期から計算→直接入力への切り替え
-
-          // 期の計算結果を直接入力の初期値として設定
-          const calculatedFirstPeriod = generateFirstPeriodFromPeriodSettings()
-          return {
-            ...prev,
-            useDirectInput: newUseDirectInput,
-            firstPeriodStart: calculatedFirstPeriod,
-          }
-        })
-        return
-      }
-
       // オブジェクト型フィールドの処理
       if (typeof field === "object" && field.parent === "firstPeriodStart") {
         const fieldName = field.field as keyof YearMonth
@@ -163,7 +125,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         return
       }
 
-      // その他の一般的なフィールド処理
+      // その他の一般的なフィールド処理（useDirectInputを含む）
       const fieldName = field as keyof FormState
 
       try {
