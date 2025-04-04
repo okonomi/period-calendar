@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { createCalendarDate } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
-import type { MonthLayoutMode, PeriodSplitMode, Settings } from "../types/Settings"
+import { useSettings } from "../hooks/use-settings"
+import type { MonthLayoutMode, PeriodSplitMode } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
-  settings: Settings
-  onSave: (newSettings: Pick<Settings, "firstPeriodStart" | "monthLayoutMode" | "periodSplitMode">) => void
   onCancel: () => void
 }
 
-export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
+export const SettingsForm: React.FC<SettingsFormProps> = ({ onCancel }) => {
+  const { settings, updateSettings } = useSettings()
   // 既存の年月から現在の年と現在の期を計算
   const currentDate = new Date()
   const currentYear = currentDate.getFullYear()
@@ -79,11 +79,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       }
     }
 
-    onSave({
+    updateSettings({
       firstPeriodStart: { year: yearValue, month: monthValue },
       monthLayoutMode,
       periodSplitMode,
     })
+
+    onCancel()
   }
 
   return (
