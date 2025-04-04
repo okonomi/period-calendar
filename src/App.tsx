@@ -54,29 +54,37 @@ const AppContent: React.FC = () => {
   return (
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
-        <div className="mx-auto p-2">
-          <div className="relative mx-auto max-w-5xl">
-            <div className="flex justify-center">
-              <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
-                <div className="flex w-12 place-content-center">
-                  <ReloadButton onClick={handleReload} />
-                </div>
-                <div className="grow px-1 sm:px-2">
-                  <PeriodSelector
-                    period={selectedPeriod}
-                    onPrevPeriod={handlePrevPeriod}
-                    onNextPeriod={handleNextPeriod}
-                  />
-                </div>
-                <div className="flex w-12 place-content-center">
-                  <SettingsDialog />
+        {/* ヘッダ部分を sticky で固定表示 */}
+        <div className="sticky top-0 z-10 bg-gray-50 shadow-sm">
+          <div className="mx-auto p-2">
+            <div className="relative mx-auto max-w-5xl">
+              <div className="flex justify-center">
+                <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
+                  <div className="flex w-12 place-content-center">
+                    <ReloadButton onClick={handleReload} />
+                  </div>
+                  <div className="grow px-1 sm:px-2">
+                    <PeriodSelector
+                      period={selectedPeriod}
+                      onPrevPeriod={handlePrevPeriod}
+                      onNextPeriod={handleNextPeriod}
+                    />
+                  </div>
+                  <div className="flex w-12 place-content-center">
+                    <SettingsDialog />
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
+        {/* カレンダーコンテンツ部分 - stickyを使用するのでパディング調整不要 */}
+        <div className="mx-auto p-2">
+          <div className="relative mx-auto max-w-5xl">
             {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
-              <div className="mt-4 flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
+              <div className="flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
                 <div className="mx-auto w-full max-w-[338px] sm:mx-0">
                   <Calendar dates={firstHalfDates} displayMode={settings.monthLayoutMode} />
                 </div>
@@ -86,7 +94,7 @@ const AppContent: React.FC = () => {
               </div>
             ) : (
               // ひとまとめ表示モード（前期・後期を連続して表示）
-              <div className="mt-4 flex place-content-center">
+              <div className="flex place-content-center">
                 <div className="mx-auto w-full max-w-[338px] sm:mx-0">
                   <Calendar dates={allDates} displayMode={settings.monthLayoutMode} />
                 </div>
