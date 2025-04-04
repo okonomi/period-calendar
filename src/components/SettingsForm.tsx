@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { createCalendarDate } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
+import type { YearMonth } from "../domain/YearMonth"
 import type { MonthLayoutMode, PeriodSplitMode, Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
@@ -13,8 +14,7 @@ type SettingsFormProps = {
 // フォーム状態の型定義
 type FormState = {
   useDirectInput: boolean
-  year: string
-  month: string
+  firstPeriodStart: YearMonth // CalendarDateからYearMonthに変更
   periodStartMonth: string
   currentPeriod: string
   monthLayoutMode: MonthLayoutMode
@@ -28,8 +28,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // フォーム状態を単一のstateオブジェクトで管理
   const [formState, setFormState] = useState<FormState>({
     useDirectInput: true,
-    year: settings.firstPeriodStart.year.toString(),
-    month: settings.firstPeriodStart.month.toString(),
+    // CalendarDateからYearMonthに変更
+    firstPeriodStart: {
+      year: settings.firstPeriodStart.year,
+      month: settings.firstPeriodStart.month,
+    },
     periodStartMonth: settings.firstPeriodStart.month.toString(),
     currentPeriod: "1",
     monthLayoutMode: settings.monthLayoutMode,
@@ -41,6 +44,28 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     setFormState((prev) => ({ ...prev, [key]: value }))
   }
 
+  // 年の入力を更新するヘルパー関数
+  const updateYear = (yearStr: string) => {
+    const year = Number.parseInt(yearStr, 10)
+    if (!Number.isNaN(year)) {
+      updateFormState("firstPeriodStart", {
+        year: year,
+        month: formState.firstPeriodStart.month,
+      })
+    }
+  }
+
+  // 月の入力を更新するヘルパー関数
+  const updateMonth = (monthStr: string) => {
+    const month = Number.parseInt(monthStr, 10)
+    if (!Number.isNaN(month) && month >= 1 && month <= 12) {
+      updateFormState("firstPeriodStart", {
+        year: formState.firstPeriodStart.year,
+        month: month,
+      })
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -48,15 +73,15 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     let monthValue: number
 
     if (formState.useDirectInput) {
-      yearValue = Number.parseInt(formState.year, 10)
-      monthValue = Number.parseInt(formState.month, 10)
+      yearValue = formState.firstPeriodStart.year
+      monthValue = formState.firstPeriodStart.month
 
-      if (Number.isNaN(yearValue) || yearValue < 1900 || yearValue > 2100) {
+      if (yearValue < 1900 || yearValue > 2100) {
         alert("年の値が不正です。1900〜2100の間で設定してください。")
         return
       }
 
-      if (Number.isNaN(monthValue) || monthValue < 1 || monthValue > 12) {
+      if (monthValue < 1 || monthValue > 12) {
         alert("月の値が不正です。1〜12の間で設定してください。")
         return
       }
@@ -142,8 +167,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="firstPeriodYear"
-                  value={formState.year}
-                  onChange={(e) => updateFormState("year", e.target.value)}
+                  value={formState.firstPeriodStart.year}
+                  onChange={(e) => updateYear(e.target.value)}
                   min="1900"
                   max="2100"
                   className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
@@ -156,8 +181,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="firstPeriodMonth"
-                  value={formState.month}
-                  onChange={(e) => updateFormState("month", e.target.value)}
+                  value={formState.firstPeriodStart.month}
+                  onChange={(e) => updateMonth(e.target.value)}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
