@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { createCalendarDate } from "../domain/CalendarDate"
+import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
 import type { MonthLayoutMode, PeriodSplitMode, Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
@@ -25,36 +27,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   const [monthLayoutMode, setMonthLayoutMode] = useState<MonthLayoutMode>(settings.monthLayoutMode)
   const [periodSplitMode, setPeriodSplitMode] = useState<PeriodSplitMode>(settings.periodSplitMode)
 
-  // 期の開始月と現在何期目かから1期目の開始年月を計算
-  const calculateFirstPeriodStart = () => {
-    const periodStartMonthValue = Number.parseInt(periodStartMonth, 10)
-    const currentPeriodValue = Number.parseInt(currentPeriod, 10)
-
-    if (Number.isNaN(periodStartMonthValue) || periodStartMonthValue < 1 || periodStartMonthValue > 12) {
-      return null
-    }
-
-    if (Number.isNaN(currentPeriodValue) || currentPeriodValue < 1) {
-      return null
-    }
-
-    // 現在の期がいつ始まったかを計算
-    let currentPeriodStartYear = currentYear
-
-    // 現在の月が期の開始月より前の場合は前年度の期
-    if (currentMonth < periodStartMonthValue) {
-      currentPeriodStartYear--
-    }
-
-    // 1期目の開始年を計算
-    const firstPeriodStartYear = currentPeriodStartYear - (currentPeriodValue - 1)
-
-    return {
-      year: firstPeriodStartYear,
-      month: periodStartMonthValue,
-    }
-  }
-
   const handleSave = () => {
     let yearValue: number
     let monthValue: number
@@ -73,7 +45,25 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         return
       }
     } else {
-      const firstPeriodStart = calculateFirstPeriodStart()
+      const periodStartMonthValue = Number.parseInt(periodStartMonth, 10)
+      const currentPeriodValue = Number.parseInt(currentPeriod, 10)
+
+      if (Number.isNaN(periodStartMonthValue) || periodStartMonthValue < 1 || periodStartMonthValue > 12) {
+        alert("期の開始月の値が不正です。1〜12の間で設定してください。")
+        return
+      }
+
+      if (Number.isNaN(currentPeriodValue) || currentPeriodValue < 1) {
+        alert("現在何期目かの値が不正です。1以上の値を設定してください。")
+        return
+      }
+
+      const calendarDate = createCalendarDate(currentYear, currentMonth, 1)
+      const firstPeriodStart = calculateFirstPeriodStartYearMonth(
+        periodStartMonthValue,
+        currentPeriodValue,
+        calendarDate
+      )
 
       if (!firstPeriodStart) {
         alert("期の開始月または現在何期目かの値が不正です。")
@@ -197,7 +187,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <div className="mt-2 text-sm">
                 <span className="font-medium">計算結果：</span>
                 {(() => {
-                  const result = calculateFirstPeriodStart()
+                  const periodStartMonthValue = Number.parseInt(periodStartMonth, 10)
+                  const currentPeriodValue = Number.parseInt(currentPeriod, 10)
+                  const calendarDate = createCalendarDate(currentYear, currentMonth, 1)
+                  const result = calculateFirstPeriodStartYearMonth(
+                    periodStartMonthValue,
+                    currentPeriodValue,
+                    calendarDate
+                  )
                   return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
                 })()}
               </div>
