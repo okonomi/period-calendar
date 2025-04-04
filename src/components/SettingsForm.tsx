@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { z } from "zod"
-import { createCalendarDate } from "../domain/CalendarDate"
-import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
+import { createCalendarDate, getToday } from "../domain/CalendarDate"
+import { calculateFirstPeriodStartYearMonth, calculatePeriodFromDate } from "../domain/Period"
 import type { YearMonth } from "../domain/YearMonth"
 import type { Settings } from "../types/Settings"
 
@@ -49,7 +49,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     useDirectInput: true,
     firstPeriodStart: settings.firstPeriodStart,
     periodStartMonth: settings.firstPeriodStart.month,
-    currentPeriod: 1,
+    currentPeriod: calculatePeriodFromDate(getToday(), settings.firstPeriodStart),
     monthLayoutMode: settings.monthLayoutMode,
     periodSplitMode: settings.periodSplitMode,
   })
