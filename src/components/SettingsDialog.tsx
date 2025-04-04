@@ -1,8 +1,12 @@
 import { useRef } from "react"
+import { useSettings } from "../hooks/use-settings"
+import type { Settings } from "../types/Settings"
 import { SettingsForm } from "./SettingsForm"
 import { SettingsIcon } from "./icon/SettingsIcon"
 
 export const SettingsDialog: React.FC = () => {
+  const { settings, updateSettings } = useSettings()
+
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   const openSettings = () => dialogRef.current?.showModal()
@@ -12,6 +16,15 @@ export const SettingsDialog: React.FC = () => {
     if (e.target === dialogRef.current) {
       closeSettings()
     }
+  }
+
+  const handleSave = (newSettings: Pick<Settings, "firstPeriodStart" | "monthLayoutMode" | "periodSplitMode">) => {
+    updateSettings(newSettings)
+    closeSettings()
+  }
+
+  const handleCancel = () => {
+    closeSettings()
   }
 
   return (
@@ -32,7 +45,7 @@ export const SettingsDialog: React.FC = () => {
         className="fixed inset-0 m-auto rounded-md border border-gray-200 p-0 backdrop:bg-black/50"
       >
         <div className="w-full max-w-[90vw] bg-white p-4 sm:max-w-md sm:p-6 md:max-w-lg">
-          <SettingsForm onCancel={closeSettings} />
+          <SettingsForm settings={settings} onSave={handleSave} onCancel={handleCancel} />
         </div>
       </dialog>
     </>
