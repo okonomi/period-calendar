@@ -2,6 +2,7 @@ import { useState } from "react"
 import { z } from "zod"
 import { createCalendarDate } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth } from "../domain/Period"
+import type { YearMonth } from "../domain/YearMonth"
 import type { Settings } from "../types/Settings"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
@@ -11,34 +12,30 @@ type SettingsFormProps = {
   onCancel: () => void
 }
 
-// YearMonth型のzodスキーマ
+// 文字列を数値に変換するプリプロセッサ
+const stringToNumber = (val: unknown) => {
+  if (typeof val === "string") {
+    const parsed = Number(val)
+    return Number.isNaN(parsed) ? undefined : parsed
+  }
+  return val
+}
+
+// YearMonth型のzodスキーマ（変換と検証を一体化）
 const yearMonthSchema = z.object({
-  year: z.number().int().min(1900).max(2100),
-  month: z.number().int().min(1).max(12),
+  year: z.preprocess(stringToNumber, z.number().int().min(1900).max(2100)),
+  month: z.preprocess(stringToNumber, z.number().int().min(1).max(12)),
 })
 
-// フォーム状態のzodスキーマ定義
+// フォーム状態のzodスキーマ（変換と検証を一体化）
 const formStateSchema = z.object({
   useDirectInput: z.boolean(),
   firstPeriodStart: yearMonthSchema,
-  periodStartMonth: z.number().int().min(1).max(12),
-  currentPeriod: z.number().int().min(1),
+  periodStartMonth: z.preprocess(stringToNumber, z.number().int().min(1).max(12)),
+  currentPeriod: z.preprocess(stringToNumber, z.number().int().min(1)),
   monthLayoutMode: z.enum(["monthly", "continuous"]),
   periodSplitMode: z.enum(["split", "single"]),
 })
-
-// 入力値変換用のスキーマ定義
-const inputParsers = {
-  useDirectInput: z.boolean(),
-  firstPeriodStart: {
-    year: z.coerce.number().int().catch(Number.NaN),
-    month: z.coerce.number().int().catch(Number.NaN),
-  },
-  periodStartMonth: z.coerce.number().int().catch(Number.NaN),
-  currentPeriod: z.coerce.number().int().catch(Number.NaN),
-  monthLayoutMode: z.enum(["monthly", "continuous"]),
-  periodSplitMode: z.enum(["split", "single"]),
-}
 
 // フォーム状態の型をzodスキーマから導出
 type FormState = z.infer<typeof formStateSchema>
@@ -79,13 +76,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     try {
       // 特殊ケース: useDirectInputが変更された場合の処理
       if (field === "useDirectInput") {
-        const newUseDirectInput = inputParsers.useDirectInput.parse(value)
+        const newUseDirectInput = formStateSchema.shape.useDirectInput.parse(value)
 
         setFormState((prev) => {
           // 直接入力→期から計算への切り替え
           if (!newUseDirectInput) {
-            // 現在の設定から適切なperiodStartMonthとcurrentPeriodを推定
-            // (この例では単純に既存の月を使用し、期は1を設定)
             return {
               ...prev,
               useDirectInput: newUseDirectInput,
@@ -108,77 +103,83 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
       // オブジェクト型フィールドの処理
       if (typeof field === "object" && field.parent === "firstPeriodStart") {
-        const fieldName = field.field as keyof typeof inputParsers.firstPeriodStart
-        const parser = inputParsers.firstPeriodStart[fieldName]
-
-        if (!parser) return // 不明なフィールドは無視
+        const fieldName = field.field as keyof YearMonth
 
         // zodの変換機能を使用して値を適切な型に変換
-        const parsedValue = parser.parse(value)
+        try {
+          const schema = fieldName === "year" ? yearMonthSchema.shape.year : yearMonthSchema.shape.month
 
-        // NaNだった場合はスキップ
-        if (typeof parsedValue === "number" && Number.isNaN(parsedValue)) return
+          const parsedValue = schema.parse(value)
 
-        setFormState((prev) => ({
-          ...prev,
-          firstPeriodStart: {
-            ...prev.firstPeriodStart,
-            [field.field]: parsedValue,
-          },
-        }))
+          if (parsedValue === undefined) return // 変換に失敗した場合
+
+          setFormState((prev) => ({
+            ...prev,
+            firstPeriodStart: {
+              ...prev.firstPeriodStart,
+              [fieldName]: parsedValue,
+            },
+          }))
+        } catch (error) {
+          console.error(`変換エラー: ${error}`)
+        }
         return
       }
 
       // 期から計算モード関連フィールドの処理
       if (field === "periodStartMonth" || field === "currentPeriod") {
         const fieldName = field as keyof FormState
-        const parser = inputParsers[fieldName]
 
-        if (!parser) return
-        const parsedValue = parser.parse(value)
+        try {
+          const schema = formStateSchema.shape[fieldName]
+          const parsedValue = schema.parse(value)
 
-        if (typeof parsedValue === "number" && Number.isNaN(parsedValue)) return
+          if (parsedValue === undefined) return // 変換に失敗した場合
 
-        setFormState((prev) => {
-          const newState = {
-            ...prev,
-            [fieldName]: parsedValue,
-          }
-
-          // 期から計算モードが有効な場合、firstPeriodStartも更新
-          if (!prev.useDirectInput) {
-            const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-            // periodStartMonthかcurrentPeriodどちらかが更新された場合
-            const periodStartMonth = field === "periodStartMonth" ? (parsedValue as number) : prev.periodStartMonth
-            const currentPeriod = field === "currentPeriod" ? (parsedValue as number) : prev.currentPeriod
-
-            const firstPeriodStart = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
-
-            if (firstPeriodStart) {
-              newState.firstPeriodStart = firstPeriodStart
+          setFormState((prev) => {
+            const newState = {
+              ...prev,
+              [fieldName]: parsedValue,
             }
-          }
 
-          return newState
-        })
+            // 期から計算モードが有効な場合、firstPeriodStartも更新
+            if (!prev.useDirectInput) {
+              const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+              const periodStartMonth = field === "periodStartMonth" ? (parsedValue as number) : prev.periodStartMonth
+              const currentPeriod = field === "currentPeriod" ? (parsedValue as number) : prev.currentPeriod
+
+              const firstPeriodStart = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
+
+              if (firstPeriodStart) {
+                newState.firstPeriodStart = firstPeriodStart
+              }
+            }
+
+            return newState
+          })
+        } catch (error) {
+          console.error(`変換エラー: ${error}`)
+        }
         return
       }
 
       // その他の一般的なフィールド処理
       const fieldName = field as keyof FormState
-      const parser = inputParsers[fieldName]
 
-      if (!parser) return // 不明なフィールドは無視
+      try {
+        const schema = formStateSchema.shape[fieldName]
+        if (!schema) return // 不明なフィールドは無視
 
-      // zodの変換機能を使用して値を適切な型に変換
-      const parsedValue = parser.parse(value)
+        const parsedValue = schema.parse(value)
 
-      setFormState((prev) => ({
-        ...prev,
-        [fieldName]: parsedValue,
-      }))
+        setFormState((prev) => ({
+          ...prev,
+          [fieldName]: parsedValue,
+        }))
+      } catch (error) {
+        console.error(`変換エラー: ${error}`)
+      }
     } catch (error) {
-      // 変換エラーが発生した場合は何もしない（UIのバリデーションはonSubmitで行う）
       console.error(`入力値の変換エラー: ${error}`)
     }
   }
