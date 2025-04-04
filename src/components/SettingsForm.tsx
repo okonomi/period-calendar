@@ -170,16 +170,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <p className="text-calendar-text mt-1 text-xs">
               例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
             </p>
-            {inputMode === "calculate" && (
-              <div className="mt-2 text-sm">
-                <span className="font-medium">計算結果：</span>
-                {(() => {
-                  const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
-                  const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
-                  return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
-                })()}
-              </div>
-            )}
+            <div className="mt-2 text-sm">
+              <span className="font-medium">計算結果：</span>
+              {(() => {
+                const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+                const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
+                return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
+              })()}
+            </div>
           </>
         )}
       </div>
