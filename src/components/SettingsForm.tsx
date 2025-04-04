@@ -27,6 +27,19 @@ const formStateSchema = z.object({
   periodSplitMode: z.enum(["split", "single"]),
 })
 
+// 入力値変換用のスキーマ定義
+const inputParsers = {
+  useDirectInput: z.boolean(),
+  firstPeriodStart: {
+    year: z.coerce.number().int().catch(Number.NaN),
+    month: z.coerce.number().int().catch(Number.NaN),
+  },
+  periodStartMonth: z.coerce.number().int().catch(Number.NaN),
+  currentPeriod: z.coerce.number().int().catch(Number.NaN),
+  monthLayoutMode: z.enum(["monthly", "continuous"]),
+  periodSplitMode: z.enum(["split", "single"]),
+}
+
 // フォーム状態の型をzodスキーマから導出
 type FormState = z.infer<typeof formStateSchema>
 
@@ -47,46 +60,61 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     periodSplitMode: settings.periodSplitMode,
   })
 
-  // フォーム状態を更新する関数
-  const updateFormState = <K extends keyof FormState>(key: K, value: FormState[K]) => {
-    setFormState((prev) => ({ ...prev, [key]: value }))
-  }
+  // フォームの入力値を一元処理するハンドラ関数
+  const handleChange = (
+    field: keyof FormState | { parent: "firstPeriodStart"; field: keyof FormState["firstPeriodStart"] },
+    value: string | number | boolean
+  ) => {
+    try {
+      // オブジェクト型フィールドの処理
+      if (typeof field === "object" && field.parent === "firstPeriodStart") {
+        const fieldName = field.field as keyof typeof inputParsers.firstPeriodStart
+        const parser = inputParsers.firstPeriodStart[fieldName]
 
-  // 年の入力を更新するヘルパー関数
-  const updateYear = (yearStr: string) => {
-    const year = Number.parseInt(yearStr, 10)
-    if (!Number.isNaN(year)) {
-      updateFormState("firstPeriodStart", {
-        year: year,
-        month: formState.firstPeriodStart.month,
-      })
-    }
-  }
+        if (!parser) return // 不明なフィールドは無視
 
-  // 月の入力を更新するヘルパー関数
-  const updateMonth = (monthStr: string) => {
-    const month = Number.parseInt(monthStr, 10)
-    if (!Number.isNaN(month) && month >= 1 && month <= 12) {
-      updateFormState("firstPeriodStart", {
-        year: formState.firstPeriodStart.year,
-        month: month,
-      })
-    }
-  }
+        // zodの変換機能を使用して値を適切な型に変換
+        const parsedValue = parser.parse(value)
 
-  // periodStartMonthを更新するヘルパー関数
-  const updatePeriodStartMonth = (monthStr: string) => {
-    const month = Number.parseInt(monthStr, 10)
-    if (!Number.isNaN(month)) {
-      updateFormState("periodStartMonth", month)
-    }
-  }
+        // NaNだった場合はスキップ
+        if (typeof parsedValue === "number" && Number.isNaN(parsedValue)) return
 
-  // currentPeriodを更新するヘルパー関数
-  const updateCurrentPeriod = (periodStr: string) => {
-    const period = Number.parseInt(periodStr, 10)
-    if (!Number.isNaN(period)) {
-      updateFormState("currentPeriod", period)
+        setFormState((prev) => ({
+          ...prev,
+          firstPeriodStart: {
+            ...prev.firstPeriodStart,
+            [field.field]: parsedValue,
+          },
+        }))
+        return
+      }
+
+      // 単純なフィールドの処理
+      const fieldName = field as keyof FormState
+      const parser = inputParsers[fieldName]
+
+      if (!parser) return // 不明なフィールドは無視
+
+      // zodの変換機能を使用して値を適切な型に変換
+      const parsedValue = parser.parse(value)
+
+      // 数値型で変換に失敗した場合はスキップ
+      if (
+        (fieldName === "periodStartMonth" || fieldName === "currentPeriod") &&
+        typeof parsedValue === "number" &&
+        Number.
+        isNaN(parsedValue)
+      ) {
+        return
+      }
+
+      setFormState((prev) => ({
+        ...prev,
+        [fieldName]: parsedValue,
+      }))
+    } catch (error) {
+      // 変換エラーが発生した場合は何もしない（UIのバリデーションはonSubmitで行う）
+      console.error(`入力値の変換エラー: ${error}`)
     }
   }
 
@@ -207,7 +235,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               type="radio"
               name="inputMode"
               checked={formState.useDirectInput}
-              onChange={() => updateFormState("useDirectInput", true)}
+              onChange={() => handleChange("useDirectInput", true)}
               className="h-4 w-4"
             />
             <span className="text-sm">直接入力</span>
@@ -217,7 +245,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               type="radio"
               name="inputMode"
               checked={!formState.useDirectInput}
-              onChange={() => updateFormState("useDirectInput", false)}
+              onChange={() => handleChange("useDirectInput", false)}
               className="h-4 w-4"
             />
             <span className="text-sm">期から計算</span>
@@ -235,7 +263,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="firstPeriodYear"
                   value={formState.firstPeriodStart.year}
-                  onChange={(e) => updateYear(e.target.value)}
+                  onChange={(e) => handleChange({ parent: "firstPeriodStart", field: "year" }, e.target.value)}
                   min="1900"
                   max="2100"
                   className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
@@ -249,7 +277,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="firstPeriodMonth"
                   value={formState.firstPeriodStart.month}
-                  onChange={(e) => updateMonth(e.target.value)}
+                  onChange={(e) => handleChange({ parent: "firstPeriodStart", field: "month" }, e.target.value)}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
@@ -269,7 +297,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="periodStartMonth"
                   value={formState.periodStartMonth}
-                  onChange={(e) => updatePeriodStartMonth(e.target.value)}
+                  onChange={(e) => handleChange("periodStartMonth", e.target.value)}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
@@ -283,7 +311,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="number"
                   id="currentPeriod"
                   value={formState.currentPeriod}
-                  onChange={(e) => updateCurrentPeriod(e.target.value)}
+                  onChange={(e) => handleChange("currentPeriod", e.target.value)}
                   min="1"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
@@ -321,7 +349,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   name="periodSplitMode"
                   value="split"
                   checked={formState.periodSplitMode === "split"}
-                  onChange={() => updateFormState("periodSplitMode", "split")}
+                  onChange={() => handleChange("periodSplitMode", "split")}
                   className="h-4 w-4"
                 />
                 <span className="text-sm">2つに分けて表示</span>
@@ -332,7 +360,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   name="periodSplitMode"
                   value="single"
                   checked={formState.periodSplitMode === "single"}
-                  onChange={() => updateFormState("periodSplitMode", "single")}
+                  onChange={() => handleChange("periodSplitMode", "single")}
                   className="h-4 w-4"
                 />
                 <span className="text-sm">1つにまとめて表示</span>
@@ -362,7 +390,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   name="monthLayoutMode"
                   value="monthly"
                   checked={formState.monthLayoutMode === "monthly"}
-                  onChange={() => updateFormState("monthLayoutMode", "monthly")}
+                  onChange={() => handleChange("monthLayoutMode", "monthly")}
                   className="h-4 w-4"
                 />
                 <span className="text-sm">月ごとに区切る</span>
@@ -373,7 +401,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   name="monthLayoutMode"
                   value="continuous"
                   checked={formState.monthLayoutMode === "continuous"}
-                  onChange={() => updateFormState("monthLayoutMode", "continuous")}
+                  onChange={() => handleChange("monthLayoutMode", "continuous")}
                   className="h-4 w-4"
                 />
                 <span className="text-sm">区切らず連続</span>
