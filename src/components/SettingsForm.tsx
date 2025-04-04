@@ -15,20 +15,16 @@ type SettingsFormProps = {
 
 // YearMonth型のzodスキーマ（変換と検証を一体化）
 const yearMonthSchema = z.object({
-  year: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().int().min(1900).max(2100)),
-  month: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().int().min(1).max(12)),
+  year: z.coerce.number().int().min(1900).max(2100),
+  month: z.coerce.number().int().min(1).max(12),
 })
 
 // フォーム状態のzodスキーマ（変換と検証を一体化）
 const formStateSchema = z.object({
-  useDirectInput: z.preprocess(
-    // "true" や "false" の文字列をbooleanに変換
-    (val) => val === "true" || val === true,
-    z.boolean()
-  ),
+  inputMode: z.enum(["direct", "calculate"]),
   firstPeriodStart: yearMonthSchema,
-  periodStartMonth: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().int().min(1).max(12)),
-  currentPeriod: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().int().min(1)),
+  periodStartMonth: z.coerce.number().int().min(1).max(12),
+  currentPeriod: z.coerce.number().int().min(1),
   monthLayoutMode: z.enum(["monthly", "continuous"]),
   periodSplitMode: z.enum(["split", "single"]),
 })
@@ -48,7 +44,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   } = useForm<FormState>({
     resolver: zodResolver(formStateSchema),
     defaultValues: {
-      useDirectInput: true,
+      inputMode: "direct",
       firstPeriodStart: settings.firstPeriodStart,
       periodStartMonth: settings.firstPeriodStart.month,
       currentPeriod: calculatePeriodFromDate(getToday(), settings.firstPeriodStart),
@@ -58,13 +54,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   })
 
   // 入力モードと関連する値の監視
-  const useDirectInput = watch("useDirectInput")
+  const inputMode = watch("inputMode")
   const periodStartMonth = watch("periodStartMonth")
   const currentPeriod = watch("currentPeriod")
   const currentYearMonth = { ...settings.firstPeriodStart }
 
   useEffect(() => {
-    if (!useDirectInput) {
+    if (inputMode === "calculate") {
       const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
       const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
       if (result) {
@@ -72,7 +68,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
         setValue("firstPeriodStart.month", result.month)
       }
     }
-  }, [useDirectInput, periodStartMonth, currentPeriod, currentYearMonth, setValue])
+  }, [inputMode, periodStartMonth, currentPeriod, currentYearMonth, setValue])
 
   // フォーム送信処理
   const onSubmitForm = (data: FormState) => {
@@ -92,16 +88,16 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
         <div className="mb-3 flex items-center gap-3">
           <label className="flex items-center gap-1">
-            <input type="radio" value="true" {...register("useDirectInput")} defaultChecked className="h-4 w-4" />
+            <input type="radio" value="direct" {...register("inputMode")} defaultChecked className="h-4 w-4" />
             <span className="text-sm">直接入力</span>
           </label>
           <label className="flex items-center gap-1">
-            <input type="radio" value="false" {...register("useDirectInput")} className="h-4 w-4" />
+            <input type="radio" value="calculate" {...register("inputMode")} className="h-4 w-4" />
             <span className="text-sm">期から計算</span>
           </label>
         </div>
 
-        {useDirectInput ? (
+        {inputMode === "direct" ? (
           <>
             <div className="flex flex-wrap items-center gap-3">
               <div>
@@ -199,7 +195,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <p className="text-calendar-text mt-1 text-xs">
               例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
             </p>
-            {!useDirectInput && (
+            {inputMode === "calculate" && (
               <div className="mt-2 text-sm">
                 <span className="font-medium">計算結果：</span>
                 {(() => {
