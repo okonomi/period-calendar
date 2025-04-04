@@ -47,10 +47,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // フォーム状態を単一のstateオブジェクトで管理
   const [formState, setFormState] = useState<FormState>({
     useDirectInput: true,
-    firstPeriodStart: {
-      year: settings.firstPeriodStart.year,
-      month: settings.firstPeriodStart.month,
-    },
+    firstPeriodStart: settings.firstPeriodStart,
     periodStartMonth: settings.firstPeriodStart.month,
     currentPeriod: 1,
     monthLayoutMode: settings.monthLayoutMode,
