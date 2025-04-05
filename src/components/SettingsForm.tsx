@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createCalendarDate, getToday } from "../domain/CalendarDate"
@@ -33,6 +32,8 @@ const formStateSchema = z.object({
 type FormState = z.infer<typeof formStateSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
+  const today = getToday()
+
   // react-hook-formの設定
   const {
     register,
@@ -46,7 +47,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       inputMode: "direct",
       firstPeriodStart: settings.firstPeriodStart,
       periodStartMonth: settings.firstPeriodStart.month,
-      currentPeriod: calculatePeriodFromDate(getToday(), settings.firstPeriodStart),
+      currentPeriod: calculatePeriodFromDate(today, settings.firstPeriodStart),
       monthLayoutMode: settings.monthLayoutMode,
       periodSplitMode: settings.periodSplitMode,
     },
@@ -54,20 +55,30 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
   // 入力モードと関連する値の監視
   const inputMode = watch("inputMode")
+  const firstPeriodStart = watch("firstPeriodStart")
   const periodStartMonth = watch("periodStartMonth")
   const currentPeriod = watch("currentPeriod")
-  const currentYearMonth = { ...settings.firstPeriodStart }
 
-  useEffect(() => {
+  // 直接入力の年月変更時の処理
+  const handleDirectInputChange = () => {
+    if (inputMode === "direct") {
+      setValue("periodStartMonth", firstPeriodStart.month)
+      const calculatedPeriod = calculatePeriodFromDate(today, firstPeriodStart)
+      setValue("currentPeriod", calculatedPeriod)
+    }
+  }
+
+  // 期から計算の値変更時の処理
+  const handleCalculateInputChange = () => {
     if (inputMode === "calculate") {
-      const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+      const calendarDate = createCalendarDate(today.year, today.month, today.day)
       const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
       if (result) {
         setValue("firstPeriodStart.year", result.year)
         setValue("firstPeriodStart.month", result.month)
       }
     }
-  }, [inputMode, periodStartMonth, currentPeriod, currentYearMonth, setValue])
+  }
 
   // フォーム送信処理
   const onSubmitForm = (data: FormState) => {
@@ -87,7 +98,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
         <div className="mb-3 flex items-center gap-3">
           <label className="flex items-center gap-1">
-            <input type="radio" value="direct" {...register("inputMode")} defaultChecked className="h-4 w-4" />
+            <input type="radio" value="direct" {...register("inputMode")} className="h-4 w-4" />
             <span className="text-sm">直接入力</span>
           </label>
           <label className="flex items-center gap-1">
@@ -106,7 +117,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="firstPeriodYear"
-                  {...register("firstPeriodStart.year")}
+                  {...register("firstPeriodStart.year", {
+                    onChange: handleDirectInputChange,
+                  })}
                   min="1900"
                   max="2100"
                   className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
@@ -122,7 +135,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="firstPeriodMonth"
-                  {...register("firstPeriodStart.month")}
+                  {...register("firstPeriodStart.month", {
+                    onChange: handleDirectInputChange,
+                  })}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
@@ -144,7 +159,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="periodStartMonth"
-                  {...register("periodStartMonth")}
+                  {...register("periodStartMonth", {
+                    onChange: handleCalculateInputChange,
+                  })}
                   min="1"
                   max="12"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
@@ -160,7 +177,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 <input
                   type="number"
                   id="currentPeriod"
-                  {...register("currentPeriod")}
+                  {...register("currentPeriod", {
+                    onChange: handleCalculateInputChange,
+                  })}
                   min="1"
                   className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
                 />
@@ -173,7 +192,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <div className="mt-2 text-sm">
               <span className="font-medium">計算結果：</span>
               {(() => {
-                const calendarDate = createCalendarDate(currentYearMonth.year, currentYearMonth.month, 1)
+                const calendarDate = createCalendarDate(today.year, today.month, today.day)
                 const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
                 return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
               })()}
@@ -181,6 +200,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           </>
         )}
       </div>
+
       <div className="mb-5">
         <h3 className="text-calendar-text mb-2 text-sm font-medium sm:mb-3 sm:text-base">カレンダー表示設定</h3>
         <div className="flex flex-col gap-4 sm:gap-6">
