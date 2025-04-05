@@ -56,30 +56,25 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // フォーム全体の値を監視
   const formValues = watch()
 
-  // 入力モードと関連する値の監視
-  const inputMode = watch("inputMode")
-  const firstPeriodStart = watch("firstPeriodStart")
-  const periodStartMonth = watch("periodStartMonth")
-  const currentPeriod = watch("currentPeriod")
+  // 入力モード変更時の値連動処理
+  const handleInputModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newInputMode = event.target.value as "direct" | "calculate"
 
-  // 直接入力の年月変更時の処理
-  const handleDirectInputChange = () => {
-    if (inputMode === "direct") {
-      setValue("periodStartMonth", firstPeriodStart.month)
-      const calculatedPeriod = calculatePeriodFromDate(today, firstPeriodStart)
-      setValue("currentPeriod", calculatedPeriod)
-    }
-  }
-
-  // 期から計算の値変更時の処理
-  const handleCalculateInputChange = () => {
-    if (inputMode === "calculate") {
+    if (newInputMode === "direct") {
+      // 直接入力モードに切り替わった時
+      // 期から計算の値から直接入力の値を算出してセット
       const calendarDate = createCalendarDate(today.year, today.month, today.day)
-      const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
+      const result = calculateFirstPeriodStartYearMonth(watch("periodStartMonth"), watch("currentPeriod"), calendarDate)
       if (result) {
         setValue("firstPeriodStart.year", result.year)
         setValue("firstPeriodStart.month", result.month)
       }
+    } else if (newInputMode === "calculate") {
+      // 期から計算モードに切り替わった時
+      // 直接入力の値を期から計算の値に合わせる
+      setValue("periodStartMonth", watch("firstPeriodStart").month)
+      const calculatedPeriod = calculatePeriodFromDate(today, watch("firstPeriodStart"))
+      setValue("currentPeriod", calculatedPeriod)
     }
   }
 
@@ -101,107 +96,120 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
 
         <div className="mb-3 flex items-center gap-3">
           <label className="flex items-center gap-1">
-            <input type="radio" value="direct" {...register("inputMode")} className="h-4 w-4" />
+            <input
+              type="radio"
+              value="direct"
+              {...register("inputMode", { onChange: handleInputModeChange })}
+              className="h-4 w-4"
+            />
             <span className="text-sm">直接入力</span>
           </label>
           <label className="flex items-center gap-1">
-            <input type="radio" value="calculate" {...register("inputMode")} className="h-4 w-4" />
+            <input
+              type="radio"
+              value="calculate"
+              {...register("inputMode", { onChange: handleInputModeChange })}
+              className="h-4 w-4"
+            />
             <span className="text-sm">期から計算</span>
           </label>
         </div>
 
-        {inputMode === "direct" ? (
-          <>
-            <div className="flex flex-wrap items-center gap-3">
-              <div>
-                <label htmlFor="firstPeriodYear" className="text-calendar-text mb-1 block text-xs font-medium">
-                  年
-                </label>
-                <input
-                  type="number"
-                  id="firstPeriodYear"
-                  {...register("firstPeriodStart.year", {
-                    onChange: handleDirectInputChange,
-                  })}
-                  min="1900"
-                  max="2100"
-                  className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
-                />
-                {errors.firstPeriodStart?.year && (
-                  <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.year.message}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="firstPeriodMonth" className="text-calendar-text mb-1 block text-xs font-medium">
-                  月
-                </label>
-                <input
-                  type="number"
-                  id="firstPeriodMonth"
-                  {...register("firstPeriodStart.month", {
-                    onChange: handleDirectInputChange,
-                  })}
-                  min="1"
-                  max="12"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                />
-                {errors.firstPeriodStart?.month && (
-                  <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.month.message}</p>
-                )}
-              </div>
+        {/* 直接入力フォーム (常に表示) */}
+        <div className="mb-4 rounded-md bg-gray-50 p-3">
+          <h4 className="text-calendar-text mb-2 text-xs font-medium">直接入力</h4>
+          <div className="flex flex-wrap items-center gap-3">
+            <div>
+              <label htmlFor="firstPeriodYear" className="text-calendar-text mb-1 block text-xs font-medium">
+                年
+              </label>
+              <input
+                type="number"
+                id="firstPeriodYear"
+                {...register("firstPeriodStart.year")}
+                min="1900"
+                max="2100"
+                className="text-calendar-text w-20 rounded-md border border-gray-300 px-2 py-1 text-sm sm:w-24"
+              />
+              {errors.firstPeriodStart?.year && (
+                <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.year.message}</p>
+              )}
             </div>
-            <p className="text-calendar-text mt-1 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
-          </>
-        ) : (
-          <>
-            <div className="flex flex-wrap items-center gap-3">
-              <div>
-                <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
-                  期の開始月
-                </label>
-                <input
-                  type="number"
-                  id="periodStartMonth"
-                  {...register("periodStartMonth", {
-                    onChange: handleCalculateInputChange,
-                  })}
-                  min="1"
-                  max="12"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                />
-                {errors.periodStartMonth && (
-                  <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
-                  現在何期目
-                </label>
-                <input
-                  type="number"
-                  id="currentPeriod"
-                  {...register("currentPeriod", {
-                    onChange: handleCalculateInputChange,
-                  })}
-                  min="1"
-                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-                />
-                {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
-              </div>
+            <div>
+              <label htmlFor="firstPeriodMonth" className="text-calendar-text mb-1 block text-xs font-medium">
+                月
+              </label>
+              <input
+                type="number"
+                id="firstPeriodMonth"
+                {...register("firstPeriodStart.month")}
+                min="1"
+                max="12"
+                className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+              />
+              {errors.firstPeriodStart?.month && (
+                <p className="mt-1 text-xs text-red-500">{errors.firstPeriodStart.month.message}</p>
+              )}
             </div>
-            <p className="text-calendar-text mt-1 text-xs">
-              例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
-            </p>
-            <div className="mt-2 text-sm">
-              <span className="font-medium">計算結果：</span>
-              {(() => {
-                const calendarDate = createCalendarDate(today.year, today.month, today.day)
-                const result = calculateFirstPeriodStartYearMonth(periodStartMonth, currentPeriod, calendarDate)
-                return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
-              })()}
+          </div>
+          <p className="text-calendar-text mt-1 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+        </div>
+
+        {/* 期から計算フォーム (常に表示) */}
+        <div className="mb-4 rounded-md bg-gray-50 p-3">
+          <h4 className="text-calendar-text mb-2 text-xs font-medium">期から計算</h4>
+          <div className="flex flex-wrap items-center gap-3">
+            <div>
+              <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
+                期の開始月
+              </label>
+              <input
+                type="number"
+                id="periodStartMonth"
+                {...register("periodStartMonth")}
+                min="1"
+                max="12"
+                className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+              />
+              {errors.periodStartMonth && (
+                <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
+              )}
             </div>
-          </>
-        )}
+            <div>
+              <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
+                現在何期目
+              </label>
+              <input
+                type="number"
+                id="currentPeriod"
+                {...register("currentPeriod")}
+                min="1"
+                className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+              />
+              {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
+            </div>
+          </div>
+          <p className="text-calendar-text mt-1 text-xs">
+            例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
+          </p>
+          <div className="mt-2 text-sm">
+            <span className="font-medium">計算結果：</span>
+            {(() => {
+              const calendarDate = createCalendarDate(today.year, today.month, today.day)
+              const result = calculateFirstPeriodStartYearMonth(
+                watch("periodStartMonth"),
+                watch("currentPeriod"),
+                calendarDate
+              )
+              return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
+            })()}
+          </div>
+        </div>
+
+        <div className="mb-1 text-xs text-gray-500">
+          <span className="font-medium">{watch("inputMode") === "direct" ? "直接入力モード" : "期から計算モード"}</span>
+          で値が反映されます
+        </div>
       </div>
 
       <div className="mb-5">
