@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { createCalendarDate, getToday } from "../domain/CalendarDate"
@@ -33,6 +34,8 @@ type FormState = z.infer<typeof formStateSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const today = getToday()
+  // 期から計算セクションの表示/非表示状態
+  const [showCalculator, setShowCalculator] = useState(false)
 
   // react-hook-formの設定
   const {
@@ -44,7 +47,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   } = useForm<FormState>({
     resolver: zodResolver(formStateSchema),
     defaultValues: {
-      inputMode: "direct",
+      inputMode: "direct", // デフォルトは直接入力
       firstPeriodStart: settings.firstPeriodStart,
       periodStartMonth: settings.firstPeriodStart.month,
       currentPeriod: calculatePeriodFromDate(today, settings.firstPeriodStart),
@@ -56,25 +59,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // フォーム全体の値を監視
   const formValues = watch()
 
-  // 入力モード変更時の値連動処理
-  const handleInputModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newInputMode = event.target.value as "direct" | "calculate"
-
-    if (newInputMode === "direct") {
-      // 直接入力モードに切り替わった時
-      // 期から計算の値から直接入力の値を算出してセット
-      const calendarDate = createCalendarDate(today.year, today.month, today.day)
-      const result = calculateFirstPeriodStartYearMonth(watch("periodStartMonth"), watch("currentPeriod"), calendarDate)
-      if (result) {
-        setValue("firstPeriodStart.year", result.year)
-        setValue("firstPeriodStart.month", result.month)
-      }
-    } else if (newInputMode === "calculate") {
-      // 期から計算モードに切り替わった時
-      // 直接入力の値を期から計算の値に合わせる
-      setValue("periodStartMonth", watch("firstPeriodStart").month)
-      const calculatedPeriod = calculatePeriodFromDate(today, watch("firstPeriodStart"))
-      setValue("currentPeriod", calculatedPeriod)
+  // 期から計算して直接入力フィールドに反映する
+  const applyCalculatedValue = () => {
+    const calendarDate = createCalendarDate(today.year, today.month, today.day)
+    const result = calculateFirstPeriodStartYearMonth(watch("periodStartMonth"), watch("currentPeriod"), calendarDate)
+    if (result) {
+      setValue("firstPeriodStart.year", result.year)
+      setValue("firstPeriodStart.month", result.month)
     }
   }
 
@@ -94,28 +85,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       <div className="mb-5">
         <h3 className="text-calendar-text mb-2 text-sm font-medium sm:mb-3 sm:text-base">1期目の開始年月</h3>
 
-        <div className="mb-3 flex items-center gap-3">
-          <label className="flex items-center gap-1">
-            <input
-              type="radio"
-              value="direct"
-              {...register("inputMode", { onChange: handleInputModeChange })}
-              className="h-4 w-4"
-            />
-            <span className="text-sm">直接入力</span>
-          </label>
-          <label className="flex items-center gap-1">
-            <input
-              type="radio"
-              value="calculate"
-              {...register("inputMode", { onChange: handleInputModeChange })}
-              className="h-4 w-4"
-            />
-            <span className="text-sm">期から計算</span>
-          </label>
-        </div>
-
-        {/* 直接入力フォーム (常に表示) */}
+        {/* 直接入力フォーム */}
         <div className="mb-4 rounded-md bg-gray-50 p-3">
           <h4 className="text-calendar-text mb-2 text-xs font-medium">直接入力</h4>
           <div className="flex flex-wrap items-center gap-3">
@@ -153,63 +123,62 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             </div>
           </div>
           <p className="text-calendar-text mt-1 text-xs">例：1期が1999年8月から始まる場合、1999と8を設定</p>
+          <button
+            type="button"
+            onClick={() => setShowCalculator(!showCalculator)}
+            className="mt-2 text-xs text-blue-600 underline hover:text-blue-800"
+          >
+            {showCalculator ? "期から計算を非表示にする" : "期から計算で設定する"}
+          </button>
         </div>
 
-        {/* 期から計算フォーム (常に表示) */}
-        <div className="mb-4 rounded-md bg-gray-50 p-3">
-          <h4 className="text-calendar-text mb-2 text-xs font-medium">期から計算</h4>
-          <div className="flex flex-wrap items-center gap-3">
-            <div>
-              <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
-                期の開始月
-              </label>
-              <input
-                type="number"
-                id="periodStartMonth"
-                {...register("periodStartMonth")}
-                min="1"
-                max="12"
-                className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-              />
-              {errors.periodStartMonth && (
-                <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
-              )}
+        {/* 期から計算フォーム - showCalculatorがtrueの時だけ表示 */}
+        {showCalculator && (
+          <div className="mb-4 rounded-md bg-gray-50 p-3">
+            <h4 className="text-calendar-text mb-2 text-xs font-medium">期から計算</h4>
+            <div className="flex flex-wrap items-center gap-3">
+              <div>
+                <label htmlFor="periodStartMonth" className="text-calendar-text mb-1 block text-xs font-medium">
+                  期の開始月
+                </label>
+                <input
+                  type="number"
+                  id="periodStartMonth"
+                  {...register("periodStartMonth")}
+                  min="1"
+                  max="12"
+                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                />
+                {errors.periodStartMonth && (
+                  <p className="mt-1 text-xs text-red-500">{errors.periodStartMonth.message}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
+                  現在何期目
+                </label>
+                <input
+                  type="number"
+                  id="currentPeriod"
+                  {...register("currentPeriod")}
+                  min="1"
+                  className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
+                />
+                {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
+              </div>
             </div>
-            <div>
-              <label htmlFor="currentPeriod" className="text-calendar-text mb-1 block text-xs font-medium">
-                現在何期目
-              </label>
-              <input
-                type="number"
-                id="currentPeriod"
-                {...register("currentPeriod")}
-                min="1"
-                className="text-calendar-text w-16 rounded-md border border-gray-300 px-2 py-1 text-sm"
-              />
-              {errors.currentPeriod && <p className="mt-1 text-xs text-red-500">{errors.currentPeriod.message}</p>}
-            </div>
+            <p className="text-calendar-text mt-1 text-xs">
+              例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
+            </p>
+            <button
+              type="button"
+              onClick={applyCalculatedValue}
+              className="mt-2 rounded-md bg-blue-500 px-2 py-1 text-xs text-white transition-colors duration-200 hover:bg-blue-600"
+            >
+              計算結果を反映
+            </button>
           </div>
-          <p className="text-calendar-text mt-1 text-xs">
-            例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
-          </p>
-          <div className="mt-2 text-sm">
-            <span className="font-medium">計算結果：</span>
-            {(() => {
-              const calendarDate = createCalendarDate(today.year, today.month, today.day)
-              const result = calculateFirstPeriodStartYearMonth(
-                watch("periodStartMonth"),
-                watch("currentPeriod"),
-                calendarDate
-              )
-              return result ? `1期目は${result.year}年${result.month}月開始` : "値を入力してください"
-            })()}
-          </div>
-        </div>
-
-        <div className="mb-1 text-xs text-gray-500">
-          <span className="font-medium">{watch("inputMode") === "direct" ? "直接入力モード" : "期から計算モード"}</span>
-          で値が反映されます
-        </div>
+        )}
       </div>
 
       <div className="mb-5">
