@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import clsx from "clsx"
 import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -156,11 +157,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 type="button"
                 ref={buttonRef}
                 onClick={() => setShowCalculator(!showCalculator)}
-                className={`flex h-9 items-center gap-1 px-2 py-1 text-sm rounded-md transition-all cursor-pointer ${
-                  showCalculator
-                    ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={clsx(
+                  "flex h-9 items-center gap-1 px-2 py-1 text-sm rounded-md transition-all cursor-pointer",
+                  {
+                    "bg-blue-100 text-blue-700 hover:bg-blue-200": showCalculator,
+                    "bg-gray-100 text-gray-700 hover:bg-gray-200": !showCalculator,
+                  }
+                )}
                 title="期から計算ツール"
               >
                 <CalculatorIcon width={16} height={16} />
