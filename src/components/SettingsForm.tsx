@@ -177,7 +177,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   {/* 上部の三角形（吹き出し用） */}
                   <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-t border-l border-gray-200 transform rotate-45" />
 
-                  <h4 className="text-blue-700 font-medium text-sm mb-3">期から計算ツール</h4>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
                       <div>
