@@ -157,7 +157,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 type="button"
                 ref={buttonRef}
                 onClick={() => setShowCalculator(!showCalculator)}
-                className={`flex h-9 items-center gap-1 px-2 py-1 text-sm rounded-md transition-all ${
+                className={`flex h-9 items-center gap-1 px-2 py-1 text-sm rounded-md transition-all cursor-pointer ${
                   showCalculator
                     ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -229,7 +229,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                       <button
                         type="button"
                         onClick={applyCalculatedValue}
-                        className="bg-blue-600 px-3 py-1.5 text-sm text-white rounded-md shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1"
+                        className="bg-blue-600 px-3 py-1.5 text-sm text-white rounded-md shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1 cursor-pointer"
                       >
                         計算結果を反映
                       </button>
