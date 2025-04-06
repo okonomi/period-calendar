@@ -6,7 +6,6 @@ import { createCalendarDate, getToday } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth, calculatePeriodFromDate } from "../domain/Period"
 import type { Settings } from "../types/Settings"
 import { CalculatorIcon } from "./icon/CalculatorIcon"
-import { PlusIcon } from "./icon/PlusIcon"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
@@ -232,7 +231,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                         onClick={applyCalculatedValue}
                         className="bg-blue-600 px-3 py-1.5 text-sm text-white rounded-md shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1"
                       >
-                        <PlusIcon width={16} height={16} />
                         計算結果を反映
                       </button>
                     </div>
