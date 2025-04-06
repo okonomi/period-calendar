@@ -171,10 +171,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               {showCalculator && (
                 <div
                   ref={popupRef}
-                  className="absolute right-0 top-full mt-1 z-10 w-72 sm:w-80 bg-white rounded-lg shadow-lg border border-gray-200 p-4"
-                  style={{
-                    filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06))",
-                  }}
+                  className="absolute right-0 top-full mt-1 z-10 w-72 sm:w-80 bg-white rounded-lg shadow-lg border border-gray-200 p-4 drop-shadow-sm"
                 >
                   {/* 上部の三角形（吹き出し用） */}
                   <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-t border-l border-gray-200 transform rotate-45" />
