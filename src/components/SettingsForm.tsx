@@ -122,9 +122,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <input
                 type="number"
                 id="firstPeriodYear"
-                {...register("firstPeriodStart.year")}
-                min="1900"
-                max="2100"
+                {...register("firstPeriodStart.year", {
+                  min: 1900,
+                  max: 2100,
+                })}
                 className="text-calendar-text w-24 rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
               {errors.firstPeriodStart?.year && (
@@ -138,9 +139,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               <input
                 type="number"
                 id="firstPeriodMonth"
-                {...register("firstPeriodStart.month")}
-                min="1"
-                max="12"
+                {...register("firstPeriodStart.month", {
+                  min: 1,
+                  max: 12,
+                })}
                 className="text-calendar-text w-20 rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
               {errors.firstPeriodStart?.month && (
@@ -189,9 +191,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                         <input
                           type="number"
                           id="periodStartMonth"
-                          {...register("periodStartMonth")}
-                          min="1"
-                          max="12"
+                          {...register("periodStartMonth", {
+                            min: 1,
+                            max: 12,
+                          })}
                           className="text-calendar-text w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                         />
                         {errors.periodStartMonth && (
@@ -205,8 +208,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                         <input
                           type="number"
                           id="currentPeriod"
-                          {...register("currentPeriod")}
-                          min="1"
+                          {...register("currentPeriod", {
+                            min: 1,
+                          })}
                           className="text-calendar-text w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                         />
                         {errors.currentPeriod && (
