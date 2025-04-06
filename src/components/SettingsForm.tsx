@@ -5,6 +5,8 @@ import { z } from "zod"
 import { createCalendarDate, getToday } from "../domain/CalendarDate"
 import { calculateFirstPeriodStartYearMonth, calculatePeriodFromDate } from "../domain/Period"
 import type { Settings } from "../types/Settings"
+import { CalculatorIcon } from "./icon/CalculatorIcon"
+import { PlusIcon } from "./icon/PlusIcon"
 
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
@@ -163,29 +165,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 }`}
                 title="期から計算ツール"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
-                  <line x1="12" y1="10" x2="12" y2="10"></line>
-                  <line x1="12" y1="14" x2="12" y2="14"></line>
-                  <line x1="12" y1="18" x2="12" y2="18"></line>
-                  <line x1="8" y1="10" x2="8" y2="10"></line>
-                  <line x1="8" y1="14" x2="8" y2="14"></line>
-                  <line x1="8" y1="18" x2="8" y2="18"></line>
-                  <line x1="16" y1="10" x2="16" y2="10"></line>
-                  <line x1="16" y1="14" x2="16" y2="14"></line>
-                  <line x1="16" y1="18" x2="16" y2="18"></line>
-                  <line x1="4" y1="6" x2="20" y2="6"></line>
-                </svg>
+                <CalculatorIcon width={16} height={16} />
                 <span className="hidden sm:inline">期計算</span>
               </button>
 
@@ -199,7 +179,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   }}
                 >
                   {/* 上部の三角形（吹き出し用） */}
-                  <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-t border-l border-gray-200 transform rotate-45"></div>
+                  <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-t border-l border-gray-200 transform rotate-45" />
 
                   <h4 className="text-blue-700 font-medium text-sm mb-3">期から計算ツール</h4>
                   <div className="space-y-4">
@@ -252,20 +232,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                         onClick={applyCalculatedValue}
                         className="bg-blue-600 px-3 py-1.5 text-sm text-white rounded-md shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M5 12h14"></path>
-                          <path d="M12 5v14"></path>
-                        </svg>
+                        <PlusIcon width={16} height={16} />
                         計算結果を反映
                       </button>
                     </div>
