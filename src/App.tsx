@@ -54,10 +54,10 @@ const AppContent: React.FC = () => {
   return (
     <HolidaysProvider period={selectedPeriod}>
       <div className="min-h-screen bg-gray-50">
-        {/* ヘッダ部分を sticky で固定表示 */}
-        <div className="sticky top-0 z-10 bg-gray-50 shadow-sm">
+        {/* ヘッダー部分 - 固定表示 */}
+        <header className="sticky top-0 z-10 bg-gray-50 shadow-sm">
           <div className="mx-auto p-2">
-            <div className="relative mx-auto max-w-5xl">
+            <div className="mx-auto max-w-5xl">
               <div className="flex justify-center">
                 <div className="flex w-full max-w-2xl items-center justify-between px-1 sm:px-2">
                   <div className="flex w-12 place-content-center">
@@ -77,11 +77,11 @@ const AppContent: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </header>
 
-        {/* カレンダーコンテンツ部分 - stickyを使用するのでパディング調整不要 */}
-        <div className="mx-auto p-2">
-          <div className="relative mx-auto max-w-5xl">
+        {/* メインコンテンツ */}
+        <main className="mx-auto p-2">
+          <div className="mx-auto max-w-5xl">
             {settings.periodSplitMode === "split" ? (
               // 分割表示モード（前期・後期を別々に表示）
               <div className="flex flex-col place-content-center gap-4 sm:flex-row sm:gap-8">
@@ -101,7 +101,7 @@ const AppContent: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </HolidaysProvider>
   )

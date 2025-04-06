@@ -1,10 +1,10 @@
-import { clsx } from "clsx"
 import { type PeriodRange, getPeriodRange } from "../domain/Period"
 import { format } from "../domain/YearMonth"
 import { useSettings } from "../hooks/use-settings"
 
 function formatPeriodRange(periodInfo: PeriodRange) {
-  return `${format(periodInfo.start)}～${format(periodInfo.end)}`
+  const { start, end } = periodInfo
+  return `${format(start)}～${format(end)}`
 }
 
 type Props = {
@@ -18,22 +18,13 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
   const firstPeriodYearMonth = settings.firstPeriodStart
   const periodRange = formatPeriodRange(getPeriodRange(period, firstPeriodYearMonth))
 
-  const buttonClasses = clsx(
-    // ベーススタイル
-    "sc-box sc-button",
-    // テキスト・サイズ
-    "text-calendar-text text-sm",
-    // レイアウト
-    "h-9 rounded-md px-3 py-1.5",
-    // インタラクション
-    "cursor-pointer",
-    "hover:scale-105 hover:shadow",
-    "transition-all"
-  )
-
   return (
     <div className="flex w-full items-center justify-between space-x-2">
-      <button type="button" onClick={onPrevPeriod} className={buttonClasses}>
+      <button
+        type="button"
+        onClick={onPrevPeriod}
+        className="sc-box sc-button text-calendar-text h-9 cursor-pointer rounded-md px-3 py-1.5 text-sm transition-all hover:scale-105 hover:shadow"
+      >
         <span className="hidden md:inline">◀ 前期</span>
         <span className="hidden sm:inline md:hidden">◀ 前</span>
         <span className="inline sm:hidden">◀</span>
@@ -42,7 +33,11 @@ export const PeriodSelector: React.FC<Props> = ({ period, onPrevPeriod, onNextPe
         <div className="text-calendar-text text-base font-medium sm:text-lg">{period}期</div>
         <div className="text-xs text-stone-500 sm:text-sm">{periodRange}</div>
       </div>
-      <button type="button" onClick={onNextPeriod} className={buttonClasses}>
+      <button
+        type="button"
+        onClick={onNextPeriod}
+        className="sc-box sc-button text-calendar-text h-9 cursor-pointer rounded-md px-3 py-1.5 text-sm transition-all hover:scale-105 hover:shadow"
+      >
         <span className="hidden md:inline">来期 ▶</span>
         <span className="hidden sm:inline md:hidden">次 ▶</span>
         <span className="inline sm:hidden">▶</span>

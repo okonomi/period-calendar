@@ -5,13 +5,12 @@ import type { MonthLayoutMode } from "../types/Settings"
 import { DateCell } from "./DateCell"
 
 function generateWeekKey(firstValidDate: CalendarDate | null | undefined) {
-  return firstValidDate
-    ? `${firstValidDate.year}-${firstValidDate.month}-${firstValidDate.day}`
-    : `empty-${Math.random()}`
+  if (!firstValidDate) return "empty-week"
+  return `week-${firstValidDate.year}-${firstValidDate.month}-${firstValidDate.day}`
 }
 
 function generateSpacerKey(weekStart: string, dayOfWeek: number) {
-  return `spacer-${weekStart}-day${dayOfWeek}`
+  return `${weekStart}-spacer-${dayOfWeek}`
 }
 
 type Props = {
@@ -23,14 +22,14 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) =>
   const weeklyDates = displayMode === "monthly" ? groupDatesByWeekMonthly(dates) : groupDatesByWeekContinuous(dates)
 
   return (
-    <div className="sc-box calendar-container">
+    <div className="sc-box bg-calendar-bg mx-auto p-4">
       {/* 曜日の行 */}
       <div className="flex">
         <div className="flex-[1.5]" />
         {["月", "火", "水", "木", "金", "土", "日"].map((dayName) => (
           <div key={`weekday-${dayName}`} className="@container aspect-square flex-1">
             <div className="grid size-full place-content-center">
-              <span className="text-[40cqw] leading-none font-medium">{dayName}</span>
+              <span className="text-calendar-text text-[40cqw] leading-none font-medium">{dayName}</span>
             </div>
           </div>
         ))}
@@ -50,7 +49,7 @@ export const Calendar: React.FC<Props> = ({ dates, displayMode = "monthly" }) =>
                 <div className="grid size-full place-content-center">
                   {firstDayOfMonth && (
                     <span
-                      className={clsx("text-[30cqw] leading-none font-medium", {
+                      className={clsx("text-calendar-text text-[30cqw] leading-none font-medium", {
                         "opacity-40": isPastMonth(firstDayOfMonth),
                       })}
                     >

@@ -110,8 +110,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       <h2 className="text-calendar-text mb-4 text-lg font-semibold sm:text-xl">カレンダー設定</h2>
 
       {/* 1期目の開始年月設定セクション */}
-      <div className="mb-6 border border-gray-100 rounded-lg p-4 shadow-sm bg-white">
-        <h3 className="text-calendar-text mb-3 text-sm font-semibold sm:text-base border-b pb-2">1期目の開始年月</h3>
+      <div className="mb-6 rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
+        <h3 className="text-calendar-text mb-3 border-b pb-2 text-sm font-semibold sm:text-base">1期目の開始年月</h3>
 
         {/* 直接入力フォームと計算ボタン */}
         <div className="mb-4">
@@ -158,7 +158,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 ref={buttonRef}
                 onClick={() => setShowCalculator(!showCalculator)}
                 className={clsx(
-                  "flex h-9 items-center gap-1 px-2 py-1 text-sm rounded-md transition-all cursor-pointer",
+                  "flex h-9 cursor-pointer items-center gap-1 rounded-md px-2 py-1 text-sm transition-all",
                   {
                     "bg-blue-100 text-blue-700 hover:bg-blue-200": showCalculator,
                     "bg-gray-100 text-gray-700 hover:bg-gray-200": !showCalculator,
@@ -174,10 +174,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               {showCalculator && (
                 <div
                   ref={popupRef}
-                  className="absolute right-0 top-full mt-1 z-10 w-72 sm:w-80 bg-white rounded-lg shadow-lg border border-gray-200 p-4 drop-shadow-sm"
+                  className="absolute top-full right-0 z-10 mt-1 w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg drop-shadow-sm sm:w-80"
                 >
                   {/* 上部の三角形（吹き出し用） */}
-                  <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-t border-l border-gray-200 transform rotate-45" />
+                  <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 transform border-t border-l border-gray-200 bg-white" />
 
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
@@ -220,7 +220,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                     </div>
 
                     <div>
-                      <p className="text-calendar-text text-xs bg-blue-50 p-2 rounded-md italic">
+                      <p className="text-calendar-text rounded-md bg-blue-50 p-2 text-xs italic">
                         例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
                       </p>
                     </div>
@@ -229,7 +229,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                       <button
                         type="button"
                         onClick={applyCalculatedValue}
-                        className="bg-blue-600 px-3 py-1.5 text-sm text-white rounded-md shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1 cursor-pointer"
+                        className="flex cursor-pointer items-center gap-1 rounded-md bg-blue-600 px-3 py-1.5 text-sm text-white shadow-sm transition-colors hover:bg-blue-700"
                       >
                         計算結果を反映
                       </button>
@@ -239,21 +239,21 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               )}
             </div>
           </div>
-          <p className="text-calendar-text mt-2 text-xs bg-gray-50 p-2 rounded italic">
+          <p className="text-calendar-text mt-2 rounded bg-gray-50 p-2 text-xs italic">
             例：1期が1999年8月から始まる場合、1999と8を設定
           </p>
         </div>
       </div>
 
       {/* カレンダー表示設定セクション */}
-      <div className="mb-6 border border-gray-100 rounded-lg p-4 shadow-sm bg-white">
-        <h3 className="text-calendar-text mb-3 text-sm font-semibold sm:text-base border-b pb-2">カレンダー表示設定</h3>
+      <div className="mb-6 rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
+        <h3 className="text-calendar-text mb-3 border-b pb-2 text-sm font-semibold sm:text-base">カレンダー表示設定</h3>
         <div className="flex flex-col gap-5">
           {/* 前期・後期の表示方法 */}
           <div>
             <h4 className="text-calendar-text mb-3 text-xs font-medium sm:text-sm">前期・後期の表示方法</h4>
             <div className="flex flex-col gap-3 pl-2">
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="radio"
                   value="split"
@@ -262,12 +262,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 />
                 <div>
                   <span className="text-sm">2つに分けて表示</span>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="mt-0.5 text-xs text-gray-500">
                     前期と後期を<span className="font-medium">別々のカレンダー</span>で表示
                   </p>
                 </div>
               </label>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="radio"
                   value="single"
@@ -276,7 +276,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 />
                 <div>
                   <span className="text-sm">1つにまとめて表示</span>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="mt-0.5 text-xs text-gray-500">
                     前期と後期を<span className="font-medium">1つのカレンダー</span>として表示
                   </p>
                 </div>
@@ -288,7 +288,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           <div>
             <h4 className="text-calendar-text mb-3 text-xs font-medium sm:text-sm">月のレイアウト</h4>
             <div className="flex flex-col gap-3 pl-2">
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="radio"
                   value="monthly"
@@ -297,12 +297,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 />
                 <div>
                   <span className="text-sm">月ごとに区切る</span>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="mt-0.5 text-xs text-gray-500">
                     月が変わる時に<span className="font-medium">改行して区切り</span>
                   </p>
                 </div>
               </label>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="radio"
                   value="continuous"
@@ -311,7 +311,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                 />
                 <div>
                   <span className="text-sm">区切らず連続</span>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="mt-0.5 text-xs text-gray-500">
                     月が変わっても<span className="font-medium">改行せず連続</span>して表示
                   </p>
                 </div>
