@@ -61,9 +61,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     },
   })
 
-  // フォーム全体の値を監視
-  const formValues = watch()
-
   // 期から計算して直接入力フィールドに反映する
   const applyCalculatedValue = () => {
     const calendarDate = createCalendarDate(today.year, today.month, today.day)
@@ -337,14 +334,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
           保存
         </button>
       </div>
-
-      {/* デバッグ情報（開発時のみ表示） */}
-      {process.env.NODE_ENV === "development" && (
-        <div className="mt-6 rounded-md bg-gray-100 p-3">
-          <h3 className="text-calendar-text mb-2 text-sm font-medium">デバッグ情報</h3>
-          <pre className="text-xs text-gray-700 overflow-auto max-h-40">{JSON.stringify(formValues, null, 2)}</pre>
-        </div>
-      )}
     </form>
   )
 }
