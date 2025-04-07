@@ -15,16 +15,13 @@ type SettingsFormProps = {
   onCancel: () => void
 }
 
-// YearMonth型のzodスキーマ（変換と検証を一体化）
-const yearMonthSchema = z.object({
-  year: z.coerce.number().int().min(1900).max(2100),
-  month: z.coerce.number().int().min(1).max(12),
-})
-
 // フォーム状態のzodスキーマ（変換と検証を一体化）
-const formStateSchema = z.object({
+const FormStateSchema = z.object({
   inputMode: z.enum(["direct", "calculate"]),
-  firstPeriodStart: yearMonthSchema,
+  firstPeriodStart: z.object({
+    year: z.coerce.number().int().min(1900).max(2100),
+    month: z.coerce.number().int().min(1).max(12),
+  }),
   periodStartMonth: z.coerce.number().int().min(1).max(12),
   currentPeriod: z.coerce.number().int().min(1),
   monthLayoutMode: z.enum(["monthly", "continuous"]),
@@ -32,7 +29,7 @@ const formStateSchema = z.object({
 })
 
 // フォーム状態の型をzodスキーマから導出
-type FormState = z.infer<typeof formStateSchema>
+type FormState = z.infer<typeof FormStateSchema>
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, onCancel }) => {
   const today = getToday()
@@ -51,7 +48,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
     setValue,
     formState: { errors },
   } = useForm<FormState>({
-    resolver: zodResolver(formStateSchema),
+    resolver: zodResolver(FormStateSchema),
     defaultValues: {
       inputMode: "direct", // デフォルトは直接入力
       firstPeriodStart: settings.firstPeriodStart,
