@@ -174,7 +174,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   className="absolute top-full right-0 z-10 mt-1 w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg drop-shadow-sm sm:w-80"
                 >
                   {/* 上部の三角形（吹き出し用） */}
-                  <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 transform border-t border-l border-gray-200 bg-white" />
+                  <div className="absolute -top-2 right-6 size-4 rotate-45 transform border-t border-l border-gray-200 bg-white" />
 
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
@@ -251,12 +251,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
             <h4 className="text-calendar-text mb-3 text-xs font-medium sm:text-sm">前期・後期の表示方法</h4>
             <div className="flex flex-col gap-3 pl-2">
               <label className="flex cursor-pointer items-center gap-2">
-                <input
-                  type="radio"
-                  value="split"
-                  {...register("periodSplitMode")}
-                  className="h-4 w-4 accent-blue-600"
-                />
+                <input type="radio" value="split" {...register("periodSplitMode")} className="size-4 accent-blue-600" />
                 <div>
                   <span className="text-sm">2つに分けて表示</span>
                   <p className="mt-0.5 text-xs text-gray-500">
@@ -269,7 +264,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="radio"
                   value="single"
                   {...register("periodSplitMode")}
-                  className="h-4 w-4 accent-blue-600"
+                  className="size-4 accent-blue-600"
                 />
                 <div>
                   <span className="text-sm">1つにまとめて表示</span>
@@ -290,7 +285,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="radio"
                   value="monthly"
                   {...register("monthLayoutMode")}
-                  className="h-4 w-4 accent-blue-600"
+                  className="size-4 accent-blue-600"
                 />
                 <div>
                   <span className="text-sm">月ごとに区切る</span>
@@ -304,7 +299,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   type="radio"
                   value="continuous"
                   {...register("monthLayoutMode")}
-                  className="h-4 w-4 accent-blue-600"
+                  className="size-4 accent-blue-600"
                 />
                 <div>
                   <span className="text-sm">区切らず連続</span>
