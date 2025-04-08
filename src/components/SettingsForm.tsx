@@ -9,6 +9,31 @@ import type { Settings } from "../types/Settings"
 import { PeriodCalculatorPopup } from "./PeriodCalculatorPopup"
 import { CalculatorIcon } from "./icon/CalculatorIcon"
 
+/**
+ * 要素の外側をクリックした時のイベントを処理するカスタムフック
+ * @param isOpen ポップアップが開いているかどうか
+ * @param onClose ポップアップを閉じる関数
+ * @param refs クリックの対象外にする要素の参照配列
+ */
+const useClickOutside = (isOpen: boolean, onClose: () => void, refs: React.RefObject<HTMLElement>[]) => {
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      // いずれかの要素に含まれているかチェック
+      const isClickInside = refs.some((ref) => ref.current?.contains(event.target as Node))
+
+      // 内側のクリックでなければ閉じる
+      if (!isClickInside) {
+        onClose()
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [isOpen, onClose, refs])
+}
+
 // 設定フォームの本体コンポーネント（入力と検証処理）
 type SettingsFormProps = {
   settings: Settings
@@ -41,6 +66,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
   // ボタンの参照（ポップアップの位置決めに使用）
   const buttonRef = useRef<HTMLButtonElement>(null)
 
+  // カスタムフックを使用してポップアップ外のクリック検知
+  useClickOutside(showCalculator, () => setShowCalculator(false), [popupRef, buttonRef])
+
   // react-hook-formの設定
   const methods = useForm<FormState>({
     resolver: zodResolver(FormStateSchema),
@@ -66,28 +94,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
       setShowCalculator(false) // 計算適用後にポップアップを閉じる
     }
   }
-
-  // ポップアップ外のクリックを検知して閉じる
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setShowCalculator(false)
-      }
-    }
-
-    if (showCalculator) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [showCalculator])
 
   // フォーム送信処理
   const onSubmitForm = (data: FormState) => {
