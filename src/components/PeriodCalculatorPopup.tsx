@@ -48,11 +48,9 @@ export const PeriodCalculatorPopup = ({ onApply }: PeriodCalculatorPopupProps) =
           </div>
         </div>
 
-        <div>
-          <p className="text-calendar-text rounded-md bg-blue-50 p-2 text-xs italic">
-            例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
-          </p>
-        </div>
+        <p className="text-calendar-text rounded-md bg-blue-50 p-2 text-xs italic">
+          例：現在3期目で4月始まりの場合、開始月に4、現在何期目に3を設定
+        </p>
 
         <div className="flex justify-end">
           <button
