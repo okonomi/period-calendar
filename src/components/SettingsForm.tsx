@@ -9,20 +9,14 @@ import type { Settings } from "../types/Settings"
 import { CalculatorIcon } from "./icon/CalculatorIcon"
 
 // 期計算フォームコンポーネント
-const PeriodCalculatorPopup: React.FC<{
-  popupRef: React.RefObject<HTMLDivElement>
-  onApply: () => void
-}> = ({ popupRef, onApply }) => {
+const PeriodCalculatorPopup = ({ onApply }: { onApply: () => void }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext<FormState>()
 
   return (
-    <div
-      ref={popupRef}
-      className="absolute top-full right-0 z-10 mt-1 w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg drop-shadow-sm sm:w-80"
-    >
+    <div className="absolute top-full right-0 z-10 mt-1 w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg drop-shadow-sm sm:w-80">
       <div className="absolute -top-2 right-6 size-4 rotate-45 transform border-t border-l border-gray-200 bg-white" />
 
       <div className="space-y-4">
@@ -216,7 +210,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
               </div>
 
               {/* 期から計算ボタン（コンパクト版） */}
-              <div className="relative ml-2">
+              <div className="relative ml-2" ref={popupRef}>
                 <button
                   type="button"
                   ref={buttonRef}
@@ -234,7 +228,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   <span className="hidden sm:inline">期計算</span>
                 </button>
 
-                {showCalculator && <PeriodCalculatorPopup popupRef={popupRef} onApply={applyCalculatedValue} />}
+                {showCalculator && <PeriodCalculatorPopup onApply={applyCalculatedValue} />}
               </div>
             </div>
             <p className="text-calendar-text mt-2 rounded bg-gray-50 p-2 text-xs italic">
