@@ -15,7 +15,7 @@ import { CalculatorIcon } from "./icon/CalculatorIcon"
  * @param onClose ポップアップを閉じる関数
  * @param refs クリックの対象外にする要素の参照配列
  */
-const useClickOutside = (isOpen: boolean, onClose: () => void, refs: React.RefObject<HTMLElement>[]) => {
+const useClickOutside = (isOpen: boolean, onClose: () => void, refs: Array<React.RefObject<HTMLElement | null>>) => {
   useEffect(() => {
     if (!isOpen) return
 
