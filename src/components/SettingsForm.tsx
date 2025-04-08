@@ -11,9 +11,8 @@ import { CalculatorIcon } from "./icon/CalculatorIcon"
 // 期計算フォームコンポーネント
 const PeriodCalculatorPopup: React.FC<{
   popupRef: React.RefObject<HTMLDivElement>
-  buttonRef: React.RefObject<HTMLButtonElement>
   onApply: () => void
-}> = ({ popupRef, buttonRef, onApply }) => {
+}> = ({ popupRef, onApply }) => {
   const {
     register,
     formState: { errors },
@@ -235,9 +234,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ settings, onSave, on
                   <span className="hidden sm:inline">期計算</span>
                 </button>
 
-                {showCalculator && (
-                  <PeriodCalculatorPopup popupRef={popupRef} buttonRef={buttonRef} onApply={applyCalculatedValue} />
-                )}
+                {showCalculator && <PeriodCalculatorPopup popupRef={popupRef} onApply={applyCalculatedValue} />}
               </div>
             </div>
             <p className="text-calendar-text mt-2 rounded bg-gray-50 p-2 text-xs italic">
