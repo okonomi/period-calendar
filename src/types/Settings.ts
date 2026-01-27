@@ -15,6 +15,8 @@ export interface Settings {
 export type SettingsContextType = {
   settings: Settings
   updateSettings: (newSettings: Partial<Settings>) => void
+  showSetupToast: boolean
+  dismissSetupToast: () => void
 }
 
 // デフォルト設定
