@@ -4,7 +4,16 @@ import { useSettings } from "../hooks/use-settings"
 export const SetupToast: React.FC = () => {
   const { showSetupToast, dismissSetupToast } = useSettings()
   const [visible, setVisible] = useState(true)
+  const [isShown, setIsShown] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+
+  // 少し待ってからフェードイン
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShown(true)
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [])
 
   // 5秒後に自動でフェードアウト
   useEffect(() => {
@@ -33,7 +42,7 @@ export const SetupToast: React.FC = () => {
   return (
     <div
       className={`fixed right-4 bottom-4 z-50 max-w-sm rounded-lg border border-gray-200 bg-white p-4 shadow-lg transition-opacity duration-300 ${
-        isClosing ? "opacity-0" : "opacity-100"
+        isShown && !isClosing ? "opacity-100" : "opacity-0"
       }`}
     >
       <div className="flex items-start justify-between gap-2">
