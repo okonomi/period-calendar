@@ -38,7 +38,7 @@ export const SetupToast: React.FC = () => {
     >
       <div className="flex items-start justify-between gap-2">
         <p className="text-calendar-text text-sm font-medium">1期目の開始年月を設定しましょう</p>
-        <button type="button" onClick={handleClose} className="text-gray-400 hover:text-gray-600" aria-label="閉じる">
+        <button type="button" onClick={handleClose} className="cursor-pointer text-gray-400 hover:text-gray-600" aria-label="閉じる">
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
