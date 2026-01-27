@@ -5,6 +5,8 @@ import { type Settings, defaultSettings } from "../types/Settings"
 const STORAGE_KEY = "calendarSettings"
 
 export const SettingsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const SETUP_TOAST_KEY = "setupToastDismissed"
+
   const [settings, setSettings] = useState<Settings>(() => {
     // ローカルストレージから設定を読み込む
     const savedSettings = localStorage.getItem(STORAGE_KEY)
@@ -39,6 +41,11 @@ export const SettingsProvider: React.FC<React.PropsWithChildren> = ({ children }
     return parsedSettings
   })
 
+  // 初回起動判定（setupToastDismissed が未設定なら初回）
+  const [showSetupToast, setShowSetupToast] = useState<boolean>(() => {
+    return localStorage.getItem(SETUP_TOAST_KEY) !== "true"
+  })
+
   // 設定が変更されたらローカルストレージに保存
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
@@ -52,5 +59,15 @@ export const SettingsProvider: React.FC<React.PropsWithChildren> = ({ children }
     }))
   }
 
-  return <SettingsContext.Provider value={{ settings, updateSettings }}>{children}</SettingsContext.Provider>
+  // セットアップトーストを閉じる（表示済みフラグをセット）
+  const dismissSetupToast = () => {
+    setShowSetupToast(false)
+    localStorage.setItem(SETUP_TOAST_KEY, "true")
+  }
+
+  return (
+    <SettingsContext.Provider value={{ settings, updateSettings, showSetupToast, dismissSetupToast }}>
+      {children}
+    </SettingsContext.Provider>
+  )
 }

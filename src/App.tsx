@@ -3,6 +3,7 @@ import { Calendar } from "./components/Calendar"
 import { PeriodSelector } from "./components/PeriodSelector"
 import { ReloadButton } from "./components/ReloadButton"
 import { SettingsDialog } from "./components/SettingsDialog"
+import { SetupToast } from "./components/SetupToast"
 import { type CalendarDate, getToday } from "./domain/CalendarDate"
 import { generateDates } from "./domain/Dates"
 import type { PeriodRange } from "./domain/Period"
@@ -112,6 +113,7 @@ export const App: React.FC = () => {
   return (
     <SettingsProvider>
       <AppContent />
+      <SetupToast />
     </SettingsProvider>
   )
 }

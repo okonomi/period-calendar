@@ -5,4 +5,6 @@ import { type SettingsContextType, defaultSettings } from "../types/Settings"
 export const SettingsContext = createContext<SettingsContextType>({
   settings: defaultSettings,
   updateSettings: () => {},
+  showSetupToast: false,
+  dismissSetupToast: () => {},
 })
